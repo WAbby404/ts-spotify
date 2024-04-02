@@ -1,10 +1,16 @@
-function Logout() {
+import Avatar from "@mui/material/Avatar";
+import Button from '@mui/material/Button';
+
+type LogoutProps = {
+    username: string
+}
+
+function Logout({username}: LogoutProps) {
     return (
         <div>
-            
-            {/* profile img */}
-            {/* username */}
-            {/* logout btn */}
+            <Avatar/>
+            <h2>{username}</h2>
+            <Button>Logout</Button>     
         </div>
     );
 }
