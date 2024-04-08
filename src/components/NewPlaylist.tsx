@@ -2,6 +2,9 @@ import { Button, Typography } from "@mui/material";
 import TagIcon from "@mui/icons-material/Tag";
 import AccessTimeFilledIcon from "@mui/icons-material/AccessTimeFilled";
 
+// ADD A PLAYLIST TYPE IN A SEPARATE FILE??
+// all playlists will have the same elements or data structure, so why not?
+
 type NewPlaylistProps = {
   newPlaylistDetails: {
     img: string;
@@ -10,11 +13,11 @@ type NewPlaylistProps = {
   };
 };
 
-function NewPlaylist(props: NewPlaylistProps) {
+function NewPlaylist({ newPlaylistDetails }: NewPlaylistProps) {
   return (
     <div>
       <div>
-        <img src={props.newPlaylistDetails.img} alt="replaceme" />
+        <img src={newPlaylistDetails.img} alt="replaceme" />
         <Typography>Playlist Title - (Genre(s) only)</Typography>
       </div>
       <div>
@@ -26,12 +29,12 @@ function NewPlaylist(props: NewPlaylistProps) {
           <AccessTimeFilledIcon />
         </div>
         <div>
-          {props.newPlaylistDetails.songs.map((song, index) => {
+          {newPlaylistDetails.songs.map((song, index) => {
             return (
               <div>
                 <Typography>{index}</Typography>
                 <div>
-                  <img />
+                  <img src="song img link" alt="replaceme" />
                   <div>
                     <Typography>{song}</Typography>
                     <Typography>Subtitle</Typography>
