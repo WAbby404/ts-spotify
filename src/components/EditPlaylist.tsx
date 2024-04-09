@@ -7,10 +7,10 @@ function EditPlaylist() {
   return (
     <div>
       <PlaylistDetails
-        playlistDetails={{ title: "hi heckeroni", img: "some img link" }}
+        playlistDetails={{ title: "song title 1", img: "img link" }}
       />
       <Divider />
-      <SelectGenres genres={["swagrock", "swagrap", "swagjazz"]} />
+      <SelectGenres genres={["rock", "rap", "jazz"]} />
       <NewPlaylist
         newPlaylistDetails={{
           img: "imgLink",

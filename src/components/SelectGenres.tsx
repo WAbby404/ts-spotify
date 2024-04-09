@@ -10,8 +10,8 @@ function SelectGenres({ genres }: SelectGenresProps) {
         Select a genre to make a new playlist from (or multiple)
       </Typography>
       <div>
-        {genres.map((genre) => {
-          return <Button>{genre}</Button>;
+        {genres.map((genre, index) => {
+          return <Button key={index}>{genre}</Button>;
         })}
       </div>
     </div>

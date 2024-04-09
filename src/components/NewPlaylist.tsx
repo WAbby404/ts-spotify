@@ -28,10 +28,10 @@ function NewPlaylist({ newPlaylistDetails }: NewPlaylistProps) {
           <Typography>GENRE</Typography>
           <AccessTimeFilledIcon />
         </div>
-        <div>
+        <ul>
           {newPlaylistDetails.songs.map((song, index) => {
             return (
-              <div>
+              <li key={index}>
                 <Typography>{index}</Typography>
                 <div>
                   <img src="song img link" alt="replaceme" />
@@ -43,10 +43,10 @@ function NewPlaylist({ newPlaylistDetails }: NewPlaylistProps) {
                 <Typography>Album Name</Typography>
                 <Typography>Genre</Typography>
                 <Typography>Time</Typography>
-              </div>
+              </li>
             );
           })}
-        </div>
+        </ul>
       </div>
       <Button>Make new Playlist</Button>
     </div>

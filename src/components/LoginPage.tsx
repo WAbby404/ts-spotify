@@ -1,19 +1,17 @@
 import Button from "@mui/material/Button";
-import TextField from "@mui/material/TextField";
 
 function LoginPage() {
+  const client_id = "c72f57285fb44f519e7fb11dad73ed97";
+  const auth_endpoint = "https://accounts.spotify.com/authorize";
+  const redirect_uri = "http://localhost:3000";
+
   return (
     <div className="border-solid border-2 border-sky-500">
-      <div>
-        <Button>Login with Google</Button>
-        <Button>Login with Apple</Button>
-        <Button>Login with Facebook</Button>
-      </div>
-      <div>
-        <TextField />
-        <TextField />
-        <Button>Login</Button>
-      </div>
+      <Button
+        href={`${auth_endpoint}?client_id=${client_id}&redirect_uri=${redirect_uri}&response_type=token`}
+      >
+        Login
+      </Button>
     </div>
   );
 }

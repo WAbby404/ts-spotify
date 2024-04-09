@@ -17,7 +17,7 @@ function SelectPlaylist({ playlists }: SelectPlaylistProps) {
         return (
           // on hover, change background color
           // when selected change background color
-          <div>
+          <div key={index}>
             <Avatar />
             <Typography variant="subtitle1">{playlist}</Typography>
           </div>
