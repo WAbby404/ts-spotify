@@ -45,12 +45,11 @@ function App() {
       fetch("https://api.spotify.com/v1/me", profileParams)
         .then((result) => result.json())
         .then((data) => {
-          console.log(data);
+          // console.log(data);
           const userObj = {
             name: data.display_name,
             img: data.images[0].url,
           };
-          console.log(userObj);
           setUserData(userObj);
         });
     }
