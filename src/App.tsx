@@ -20,8 +20,7 @@ function App() {
 
   useEffect(() => {
     const hash = window.location.hash;
-    let token: string | string[] | null | undefined =
-      window.localStorage.getItem("token");
+    let token: string | string[] | null | undefined = null;
 
     if (!token && hash) {
       token = hash
@@ -29,9 +28,6 @@ function App() {
         .split("&")
         .find((element) => element.startsWith("access_token"))
         ?.split("=")[1];
-      if (token !== undefined) {
-        window.localStorage.setItem("token", token);
-      }
       setToken(token);
       window.location.hash = "";
 
@@ -52,12 +48,12 @@ function App() {
           };
           setUserData(userObj);
         });
+      // need a catch here
     }
   }, []);
 
-  async function LogoutAccount() {
+  function LogoutAccount() {
     setToken("");
-    window.localStorage.removeItem("token");
   }
 
   return (
