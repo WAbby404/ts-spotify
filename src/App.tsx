@@ -5,18 +5,12 @@ import Logout from "./components/Logout";
 import EditPlaylist from "./components/EditPlaylist";
 import Recommended from "./components/Recommended";
 import { Container, Grid } from "@mui/material";
+import { PlaylistData } from "./components/types";
 
 type UserData = {
   name: string;
   img: string;
 };
-
-type PlaylistData = {
-  title: string;
-  img: string;
-  playlistId: string;
-};
-// import this rather than duplicating code (if everything goes right)
 
 type SpotifyPlaylistData = {
   collaborative: boolean;
@@ -100,21 +94,19 @@ function App() {
         })
         .catch((error) => console.log(error));
       // need an error popup?
+
+      // Getting users playlists
       fetch(
         `https://api.spotify.com/v1/users/${profileId}/playlists`,
         playlistParams
       )
         .then((result) => {
           if (!result.ok) {
-            // change this into an error popup?
             throw new Error("Network response was not ok");
           }
           return result.json();
         })
         .then((data) => {
-          // console.log(data);
-          // console.log("Data.items: ");
-          // console.log(data.items);
           const dataArray: PlaylistData[] = data.items.map(
             (playlist: SpotifyPlaylistData) => {
               return {
@@ -124,11 +116,11 @@ function App() {
               };
             }
           );
-          console.log("DataArray: ");
-          console.log(dataArray);
           setPlaylistData(dataArray);
         })
         .catch((error) => console.log(error));
+
+      // maybe do a popup for an error
 
       // Promise.all([
       //   fetch("https://api.spotify.com/v1/me", profileParams),

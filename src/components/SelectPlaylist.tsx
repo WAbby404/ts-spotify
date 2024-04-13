@@ -1,11 +1,6 @@
 import { Avatar, Stack, Typography } from "@mui/material";
 import PlaylistAddIcon from "@mui/icons-material/PlaylistAdd";
-
-type PlaylistData = {
-  title: string;
-  img: string;
-  playlistId: string;
-};
+import { PlaylistData } from "./types";
 
 type PlaylistProps = {
   someFN: () => void;
