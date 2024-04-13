@@ -1,11 +1,20 @@
 import { Avatar, Stack, Typography } from "@mui/material";
 import PlaylistAddIcon from "@mui/icons-material/PlaylistAdd";
 
-type SelectPlaylistProps = {
-  playlists: string[];
+type PlaylistData = {
+  title: string;
+  img: string;
+  playlistId: string;
 };
 
-function SelectPlaylist({ playlists }: SelectPlaylistProps) {
+type PlaylistProps = {
+  someFN: () => void;
+  playlists: PlaylistData[];
+};
+
+// import this rather than duplicating code (if everything goes right)
+
+function SelectPlaylist(playlistProps: PlaylistProps) {
   return (
     <Stack className="border-solid border-2 border-sky-500">
       <div className="flex">
@@ -13,13 +22,15 @@ function SelectPlaylist({ playlists }: SelectPlaylistProps) {
         <h1>Select your playlist</h1>
       </div>
 
-      {playlists.map((playlist, index) => {
+      {playlistProps.playlists.map((playlist, index) => {
         return (
           // on hover, change background color
           // when selected change background color
+
+          // onclick to set currentPlaylist to playlists ID
           <div key={index}>
-            <Avatar />
-            <Typography variant="subtitle1">{playlist}</Typography>
+            <Avatar src={playlist.img} />
+            <Typography variant="subtitle1">{playlist.title}</Typography>
           </div>
         );
       })}
