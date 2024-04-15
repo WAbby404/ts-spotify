@@ -116,6 +116,7 @@ function App() {
         })
         .then((data) => {
           // and from here
+
           const dataArray: PlaylistData[] = data.items.map((playlist: any) => {
             return {
               title: playlist.name,
@@ -124,6 +125,7 @@ function App() {
               totalSongs: playlist.tracks.total,
             };
           });
+
           setPlaylistData(dataArray);
         })
         .catch((error) => console.log(error));
@@ -181,6 +183,10 @@ function App() {
   }, []);
 
   const updateCurrentPlaylist = (playlistId: string) => {
+    let artistIdsCorrectStructure: string = "ids=";
+
+    // need to move below to a getGenres fn
+
     const playlistDetailsParam = {
       method: "GET",
       headers: {
@@ -199,10 +205,52 @@ function App() {
         return result.json();
       })
       .then((data) => {
-        console.log(data);
+        // console.log(data);
+        const artistIds = new Set<string>([]);
+        data.items.forEach((song: any) => {
+          // console.log(song);
+          if (song.track.artists.length === 1 && artistIds.size < 100) {
+            // unless if artistIds = 100
+            artistIds.add(song.track.artists[0].id);
+          } else if (artistIds.size < 100) {
+            song.track.artists.forEach((artist: any) => {
+              artistIds.add(artist.id);
+            });
+          }
+        });
+        // get an array of artist ids (for genres in playlist)
+
+        artistIds.forEach((value) => {
+          artistIdsCorrectStructure += `${value}, `;
+        });
+
+        console.log(artistIdsCorrectStructure);
+
+        // make multiple artist call to spotify
       })
       .catch((error) => console.log(error));
 
+    const artistParams = {
+      method: "GET",
+      headers: {
+        Authorization: "Bearer " + token,
+      },
+    };
+
+    fetch(
+      `https://api.spotify.com/v1/artists?${artistIdsCorrectStructure}`,
+      artistParams
+    )
+      .then((result) => {
+        if (!result.ok) {
+          throw new Error("Network response was not ok");
+        }
+        return result.json();
+      })
+      .then((data) => {
+        console.log(data);
+      });
+    // a fetch call to to recieve data on artists based on
     // have to get artsists too
     // https://developer.spotify.com/documentation/web-api/reference/get-multiple-artists
   };
