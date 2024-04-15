@@ -6,35 +6,31 @@ import EditPlaylist from "./components/EditPlaylist";
 import Recommended from "./components/Recommended";
 import { Container, Grid } from "@mui/material";
 import { PlaylistData } from "./components/types";
+import { UserData } from "./components/types";
 
-type UserData = {
-  name: string;
-  img: string;
-};
-
-type SpotifyPlaylistData = {
-  collaborative: boolean;
-  description: string;
-  external_urls: { spotify: string };
-  href: string;
-  id: string;
-  images: [{ height: null; url: string; width: null }];
-  name: string;
-  owner: {
-    display_name: string;
-    external_urls: { spotify: string };
-    href: string;
-    id: string;
-    type: string;
-    uri: string;
-  };
-  primary_color: string;
-  public: boolean;
-  snapshot_id: string;
-  tracks: { href: string; total: number };
-  type: string;
-  uri: string;
-};
+// type SpotifyPlaylistData = {
+//   collaborative: boolean;
+//   description: string;
+//   external_urls: { spotify: string };
+//   href: string;
+//   id: string;
+//   images: [{ height: null; url: string; width: null }];
+//   name: string;
+//   owner: {
+//     display_name: string;
+//     external_urls: { spotify: string };
+//     href: string;
+//     id: string;
+//     type: string;
+//     uri: string;
+//   };
+//   primary_color: string;
+//   public: boolean;
+//   snapshot_id: string;
+//   tracks: { href: string; total: number };
+//   type: string;
+//   uri: string;
+// };
 
 function App() {
   const [token, setToken] = useState<string | undefined>("");
@@ -42,9 +38,21 @@ function App() {
     name: "",
     img: "",
   });
+
+  // originally has to come from here tho. lets fix that first
+  // need to share all info like picture, title, time etc.
   const [playlistData, setPlaylistData] = useState<PlaylistData[]>([
-    { title: "", img: "", playlistId: "" },
+    { title: "", img: "", playlistId: "", totalSongs: 0 },
   ]);
+
+  // need to make this an obj, with all the values to update current playlist for editPlaylist
+  // need to share all info like picture, title, time etc.
+  const [currentPlaylist, setCurrentPlaylist] = useState<PlaylistData>({
+    title: "",
+    img: "",
+    playlistId: "",
+    totalSongs: 0,
+  });
 
   useEffect(() => {
     const hash = window.location.hash;
@@ -107,18 +115,43 @@ function App() {
           return result.json();
         })
         .then((data) => {
-          const dataArray: PlaylistData[] = data.items.map(
-            (playlist: SpotifyPlaylistData) => {
-              return {
-                title: playlist.name,
-                img: playlist.images[0].url,
-                playlistId: playlist.id,
-              };
-            }
-          );
+          // and from here
+          const dataArray: PlaylistData[] = data.items.map((playlist: any) => {
+            return {
+              title: playlist.name,
+              img: playlist.images[0].url,
+              playlistId: playlist.id,
+              totalSongs: playlist.tracks.total,
+            };
+          });
           setPlaylistData(dataArray);
         })
         .catch((error) => console.log(error));
+
+      // Getting users playlists
+      // fetch(
+      //   `https://api.spotify.com/v1/users/${profileId}/playlists`,
+      //   playlistParams
+      // )
+      //   .then((result) => {
+      //     if (!result.ok) {
+      //       throw new Error("Network response was not ok");
+      //     }
+      //     return result.json();
+      //   })
+      //   .then((data) => {
+      //     const dataArray: PlaylistData[] = data.items.map(
+      //       (playlist: SpotifyPlaylistData) => {
+      //         return {
+      //           title: playlist.name,
+      //           img: playlist.images[0].url,
+      //           playlistId: playlist.id,
+      //         };
+      //       }
+      //     );
+      //     setPlaylistData(dataArray);
+      //   })
+      //   .catch((error) => console.log(error));
 
       // maybe do a popup for an error
 
@@ -147,17 +180,47 @@ function App() {
     }
   }, []);
 
+  const updateCurrentPlaylist = (playlistId: string) => {
+    const playlistDetailsParam = {
+      method: "GET",
+      headers: {
+        Authorization: "Bearer " + token,
+      },
+    };
+
+    fetch(
+      `https://api.spotify.com/v1/playlists/${playlistId}/tracks`,
+      playlistDetailsParam
+    )
+      .then((result) => {
+        if (!result.ok) {
+          throw new Error("Network response was not ok");
+        }
+        return result.json();
+      })
+      .then((data) => {
+        console.log(data);
+      })
+      .catch((error) => console.log(error));
+
+    // have to get artsists too
+    // https://developer.spotify.com/documentation/web-api/reference/get-multiple-artists
+  };
+
   return (
     <div className="">
       <Container>
         {token ? (
           <Grid>
             <SelectPlaylist
-              someFN={() => console.log("yippy")}
+              updateCurrentPlaylist={updateCurrentPlaylist}
               playlists={playlistData}
             />
             <Logout setToken={setToken} userData={userData} />
-            <EditPlaylist />
+            <EditPlaylist
+              currentPlaylist={currentPlaylist}
+              userData={userData}
+            />
             <Recommended
               recommendedSongs={["rock jazz song1", "smooth jazz 2"]}
             />

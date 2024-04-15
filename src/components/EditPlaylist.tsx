@@ -2,12 +2,19 @@ import { Divider } from "@mui/material";
 import PlaylistDetails from "./PlaylistDetails";
 import SelectGenres from "./SelectGenres";
 import NewPlaylist from "./NewPlaylist";
+import { PlaylistData, UserData } from "./types";
 
-function EditPlaylist() {
+type EditPlaylistProps = {
+  currentPlaylist: PlaylistData;
+  userData: UserData;
+};
+
+function EditPlaylist(props: EditPlaylistProps) {
   return (
     <div>
       <PlaylistDetails
-        playlistDetails={{ title: "song title 1", img: "img link" }}
+        userData={props.userData}
+        currentPlaylist={props.currentPlaylist}
       />
       <Divider />
       <SelectGenres genres={["rock", "rap", "jazz"]} />
