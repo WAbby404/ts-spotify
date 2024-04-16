@@ -9,3 +9,10 @@ export type UserData = {
   name: string;
   img: string;
 };
+
+export type SpotifyParams = {
+  method: string;
+  headers: {
+    Authorization: string;
+  };
+};

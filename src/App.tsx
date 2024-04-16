@@ -5,8 +5,8 @@ import Logout from "./components/Logout";
 import EditPlaylist from "./components/EditPlaylist";
 import Recommended from "./components/Recommended";
 import { Container, Grid } from "@mui/material";
-import { PlaylistData } from "./components/types";
-import { UserData } from "./components/types";
+import { PlaylistData, UserData, SpotifyParams } from "./components/types";
+import { SpotifyAPI } from "./components/SpotifyWrapper";
 
 // type SpotifyPlaylistData = {
 //   collaborative: boolean;
@@ -67,14 +67,23 @@ function App() {
       setToken(token);
       window.location.hash = "";
 
-      const profileParams = {
+      // Getting User Data from Spotify
+      const profileParams: SpotifyParams = {
         method: "GET",
         headers: {
           Authorization: "Bearer " + token,
         },
       };
 
-      const playlistParams = {
+      let profileId = "";
+
+      SpotifyAPI.fetchUserData(profileParams, profileId).then((data) => {
+        console.log(data);
+        setUserData(data);
+      });
+
+      // Getting Playlist Data from Spotify
+      const playlistParams: SpotifyParams = {
         method: "GET",
         headers: {
           Authorization: "Bearer " + token,
@@ -82,25 +91,25 @@ function App() {
       };
 
       // console.log(token);
-      let profileId = "";
-      fetch("https://api.spotify.com/v1/me", profileParams)
-        .then((result) => {
-          if (!result.ok) {
-            // change this into an error popup?
-            throw new Error("Network response was not ok");
-          }
-          return result.json();
-        })
-        .then((data) => {
-          const userObj = {
-            name: data.display_name,
-            img: data.images[0].url,
-          };
-          profileId = data.id;
 
-          setUserData(userObj);
-        })
-        .catch((error) => console.log(error));
+      // fetch("https://api.spotify.com/v1/me", profileParams)
+      //   .then((result) => {
+      //     if (!result.ok) {
+      //       // change this into an error popup?
+      //       throw new Error("Network response was not ok");
+      //     }
+      //     return result.json();
+      //   })
+      //   .then((data) => {
+      //     const userObj = {
+      //       name: data.display_name,
+      //       img: data.images[0].url,
+      //     };
+      //     profileId = data.id;
+
+      //     setUserData(userObj);
+      //   })
+      //   .catch((error) => console.log(error));
       // need an error popup?
 
       // Getting users playlists
