@@ -8,30 +8,6 @@ import { Container, Grid } from "@mui/material";
 import { PlaylistData, UserData, SpotifyParams } from "./components/types";
 import { SpotifyAPI } from "./components/SpotifyWrapper";
 
-// type SpotifyPlaylistData = {
-//   collaborative: boolean;
-//   description: string;
-//   external_urls: { spotify: string };
-//   href: string;
-//   id: string;
-//   images: [{ height: null; url: string; width: null }];
-//   name: string;
-//   owner: {
-//     display_name: string;
-//     external_urls: { spotify: string };
-//     href: string;
-//     id: string;
-//     type: string;
-//     uri: string;
-//   };
-//   primary_color: string;
-//   public: boolean;
-//   snapshot_id: string;
-//   tracks: { href: string; total: number };
-//   type: string;
-//   uri: string;
-// };
-
 function App() {
   const [token, setToken] = useState<string | undefined>("");
   const [userData, setUserData] = useState<UserData>({
@@ -78,7 +54,7 @@ function App() {
       let profileId = "";
 
       SpotifyAPI.fetchUserData(profileParams, profileId).then((data) => {
-        console.log(data);
+        // console.log(data);
         setUserData(data);
       });
 
@@ -90,79 +66,13 @@ function App() {
         },
       };
 
-      // console.log(token);
-
-      // fetch("https://api.spotify.com/v1/me", profileParams)
-      //   .then((result) => {
-      //     if (!result.ok) {
-      //       // change this into an error popup?
-      //       throw new Error("Network response was not ok");
-      //     }
-      //     return result.json();
-      //   })
-      //   .then((data) => {
-      //     const userObj = {
-      //       name: data.display_name,
-      //       img: data.images[0].url,
-      //     };
-      //     profileId = data.id;
-
-      //     setUserData(userObj);
-      //   })
-      //   .catch((error) => console.log(error));
-      // need an error popup?
-
-      // Getting users playlists
-      fetch(
-        `https://api.spotify.com/v1/users/${profileId}/playlists`,
-        playlistParams
-      )
-        .then((result) => {
-          if (!result.ok) {
-            throw new Error("Network response was not ok");
+      SpotifyAPI.fetchPlaylistData(playlistParams, profileId).then(
+        (dataArray) => {
+          if (dataArray != null) {
+            setPlaylistData(dataArray);
           }
-          return result.json();
-        })
-        .then((data) => {
-          // and from here
-
-          const dataArray: PlaylistData[] = data.items.map((playlist: any) => {
-            return {
-              title: playlist.name,
-              img: playlist.images[0].url,
-              playlistId: playlist.id,
-              totalSongs: playlist.tracks.total,
-            };
-          });
-
-          setPlaylistData(dataArray);
-        })
-        .catch((error) => console.log(error));
-
-      // Getting users playlists
-      // fetch(
-      //   `https://api.spotify.com/v1/users/${profileId}/playlists`,
-      //   playlistParams
-      // )
-      //   .then((result) => {
-      //     if (!result.ok) {
-      //       throw new Error("Network response was not ok");
-      //     }
-      //     return result.json();
-      //   })
-      //   .then((data) => {
-      //     const dataArray: PlaylistData[] = data.items.map(
-      //       (playlist: SpotifyPlaylistData) => {
-      //         return {
-      //           title: playlist.name,
-      //           img: playlist.images[0].url,
-      //           playlistId: playlist.id,
-      //         };
-      //       }
-      //     );
-      //     setPlaylistData(dataArray);
-      //   })
-      //   .catch((error) => console.log(error));
+        }
+      );
 
       // maybe do a popup for an error
 
@@ -228,9 +138,9 @@ function App() {
           }
         });
         // get an array of artist ids (for genres in playlist)
-
+        console.log(artistIds.size);
         artistIds.forEach((value) => {
-          artistIdsCorrectStructure += `${value}, `;
+          artistIdsCorrectStructure += `${value},`;
         });
 
         console.log(artistIdsCorrectStructure);
@@ -252,6 +162,7 @@ function App() {
     )
       .then((result) => {
         if (!result.ok) {
+          console.log(result);
           throw new Error("Network response was not ok");
         }
         return result.json();
@@ -259,6 +170,7 @@ function App() {
       .then((data) => {
         console.log(data);
       });
+
     // a fetch call to to recieve data on artists based on
     // have to get artsists too
     // https://developer.spotify.com/documentation/web-api/reference/get-multiple-artists
