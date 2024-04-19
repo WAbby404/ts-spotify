@@ -73,39 +73,10 @@ function App() {
           }
         }
       );
-
-      // maybe do a popup for an error
-
-      // Promise.all([
-      //   fetch("https://api.spotify.com/v1/me", profileParams),
-      //   fetch(
-      //     "https://api.spotify.com/v1/users/22luq27bmpzmb3x3fdk6ze6sq/playlists",
-      //     playlistParams
-      //   ),
-      // ])
-      //   .then((links) => {
-      //     const response1 = links[0];
-      //     const response2 = links[1];
-      //     console.log(response1);
-      //     console.log(response2);
-      //     console.log(response1.json());
-      //     console.log(response2.json());
-      //     if (!response1.ok || !response2.ok) {
-      //       throw new Error("Network response was not ok");
-      //     }
-      //     return;
-      //   })
-      //   .then((data) => {
-      //     console.log(data);
-      //   });
     }
   }, []);
 
   const updateCurrentPlaylist = (playlistId: string) => {
-    let artistIdsCorrectStructure: string = "ids=";
-
-    // need to move below to a getGenres fn
-
     const playlistDetailsParam = {
       method: "GET",
       headers: {
@@ -113,63 +84,33 @@ function App() {
       },
     };
 
-    fetch(
-      `https://api.spotify.com/v1/playlists/${playlistId}/tracks`,
-      playlistDetailsParam
-    )
-      .then((result) => {
-        if (!result.ok) {
-          throw new Error("Network response was not ok");
-        }
-        return result.json();
-      })
-      .then((data) => {
-        // console.log(data);
-        const artistIds = new Set<string>([]);
-        data.items.forEach((song: any) => {
-          // console.log(song);
-          if (song.track.artists.length === 1 && artistIds.size < 100) {
-            // unless if artistIds = 100
-            artistIds.add(song.track.artists[0].id);
-          } else if (artistIds.size < 100) {
-            song.track.artists.forEach((artist: any) => {
-              artistIds.add(artist.id);
-            });
-          }
-        });
-        // get an array of artist ids (for genres in playlist)
-        console.log(artistIds.size);
-        artistIds.forEach((value) => {
-          artistIdsCorrectStructure += `${value},`;
-        });
-
-        console.log(artistIdsCorrectStructure);
-
-        // make multiple artist call to spotify
-      })
-      .catch((error) => console.log(error));
-
-    const artistParams = {
-      method: "GET",
-      headers: {
-        Authorization: "Bearer " + token,
-      },
-    };
-
-    fetch(
-      `https://api.spotify.com/v1/artists?${artistIdsCorrectStructure}`,
-      artistParams
-    )
-      .then((result) => {
-        if (!result.ok) {
-          console.log(result);
-          throw new Error("Network response was not ok");
-        }
-        return result.json();
-      })
-      .then((data) => {
+    SpotifyAPI.fetchPlaylistTracks(playlistDetailsParam, playlistId).then(
+      (data) => {
         console.log(data);
-      });
+      }
+    );
+
+    // const artistParams = {
+    //   method: "GET",
+    //   headers: {
+    //     Authorization: "Bearer " + token,
+    //   },
+    // };
+
+    // fetch(
+    //   `https://api.spotify.com/v1/artists?${artistIdsCorrectStructure}`,
+    //   artistParams
+    // )
+    //   .then((result) => {
+    //     if (!result.ok) {
+    //       console.log(result);
+    //       throw new Error("Network response was not ok");
+    //     }
+    //     return result.json();
+    //   })
+    //   .then((data) => {
+    //     console.log(data);
+    //   });
 
     // a fetch call to to recieve data on artists based on
     // have to get artsists too
