@@ -5,7 +5,7 @@ import NewPlaylist from "./NewPlaylist";
 import { PlaylistData, UserData } from "./types";
 
 type EditPlaylistProps = {
-  currentPlaylist: PlaylistData;
+  selectedPlaylist: PlaylistData;
   userData: UserData;
 };
 
@@ -14,7 +14,7 @@ function EditPlaylist(props: EditPlaylistProps) {
     <div>
       <PlaylistDetails
         userData={props.userData}
-        currentPlaylist={props.currentPlaylist}
+        currentPlaylist={props.selectedPlaylist}
       />
       <Divider />
       <SelectGenres genres={["rock", "rap", "jazz"]} />

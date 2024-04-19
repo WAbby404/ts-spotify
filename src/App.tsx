@@ -21,14 +21,15 @@ function App() {
     { title: "", img: "", playlistId: "", totalSongs: 0 },
   ]);
 
-  // need to make this an obj, with all the values to update current playlist for editPlaylist
-  // need to share all info like picture, title, time etc.
-  const [currentPlaylist, setCurrentPlaylist] = useState<PlaylistData>({
+  const [selectedPlaylist, setSelectedPlaylist] = useState<PlaylistData>({
     title: "",
     img: "",
     playlistId: "",
     totalSongs: 0,
   });
+  // need to make this an obj, with all the values to update current playlist for editPlaylist
+  // need to share all info like picture, title, time etc.
+  const [artistIds, setArtistIds] = useState<string>("");
 
   useEffect(() => {
     const hash = window.location.hash;
@@ -76,7 +77,14 @@ function App() {
     }
   }, []);
 
-  const updateCurrentPlaylist = (playlistId: string) => {
+  const updateCurrentPlaylist = (
+    playlistId: string,
+    playlist: PlaylistData
+  ) => {
+    // updates state to current playlists details
+    // and grabs that playlists details for later on
+    setSelectedPlaylist(playlist);
+
     const playlistDetailsParam = {
       method: "GET",
       headers: {
@@ -87,15 +95,21 @@ function App() {
     SpotifyAPI.fetchPlaylistTracks(playlistDetailsParam, playlistId).then(
       (data) => {
         console.log(data);
+        // need artist IDs from here
+        setArtistIds(data);
       }
     );
 
-    // const artistParams = {
-    //   method: "GET",
-    //   headers: {
-    //     Authorization: "Bearer " + token,
-    //   },
-    // };
+    const artistParams = {
+      method: "GET",
+      headers: {
+        Authorization: "Bearer " + token,
+      },
+    };
+
+    // SpotifyAPI.fetchArtistDetails(artistParams, artistIds).then((data) => {
+    //   console.log(data);
+    // });
 
     // fetch(
     //   `https://api.spotify.com/v1/artists?${artistIdsCorrectStructure}`,
@@ -128,8 +142,8 @@ function App() {
             />
             <Logout setToken={setToken} userData={userData} />
             <EditPlaylist
-              currentPlaylist={currentPlaylist}
               userData={userData}
+              selectedPlaylist={selectedPlaylist}
             />
             <Recommended
               recommendedSongs={["rock jazz song1", "smooth jazz 2"]}

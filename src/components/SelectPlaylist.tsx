@@ -4,7 +4,7 @@ import { PlaylistData } from "./types";
 import { useState } from "react";
 
 type PlaylistProps = {
-  updateCurrentPlaylist: (playlistId: string) => void;
+  updateCurrentPlaylist: (playlistId: string, playlist: PlaylistData) => void;
   playlists: PlaylistData[];
 };
 
@@ -29,7 +29,13 @@ function SelectPlaylist(playlistProps: PlaylistProps) {
             onClick={() => {
               // maybe all this data has to come from playlistProps, playlist?
               // console.log(playlist);
-              playlistProps.updateCurrentPlaylist(playlist.playlistId);
+
+              // CLICKING THIS BUTTON
+              // sets a currentPlaylist state to this playlists data
+              playlistProps.updateCurrentPlaylist(
+                playlist.playlistId,
+                playlist
+              );
               setHighlighted(index);
             }}
             variant={highlighted === index ? "contained" : "outlined"}
