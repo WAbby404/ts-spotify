@@ -14,6 +14,7 @@ export const SpotifyAPI = {
     let userObj: UserData = {
       name: "",
       img: "",
+      id: "",
     };
     await fetch("https://api.spotify.com/v1/me", profileParams)
       .then((result) => {
@@ -28,11 +29,13 @@ export const SpotifyAPI = {
           userObj = {
             name: data.display_name,
             img: data.images[0].url,
+            id: data.id,
           };
         }
         //else give them a temporary name & image?
         profileId = data.id;
-        console.log(userObj);
+        console.log(data);
+        // console.log(userObj);
         return userObj;
       })
       .catch((error) => {
@@ -107,7 +110,7 @@ export const SpotifyAPI = {
           }
         });
         // get an array of artist ids (for genres in playlist)
-        console.log(artistIds.size);
+        // console.log(artistIds.size);
         let counter = 0;
         artistIds.forEach((value, key) => {
           if (counter + 1 === artistIds.size) {
@@ -120,6 +123,7 @@ export const SpotifyAPI = {
         counter = 0;
 
         console.log(artistIdsForFetch);
+        return artistIdsForFetch;
       })
       .catch((error) => console.log(error));
     return artistIdsForFetch;
@@ -133,13 +137,16 @@ export const SpotifyAPI = {
       .then((result) => {
         if (!result.ok) {
           console.log(result);
+          // console.log("bad result ids: " + artistIds);
           throw new Error("Network response was not ok");
         }
         return result.json();
       })
       .then((data) => {
         console.log(data);
-      });
-    return "string!";
+        return data;
+      })
+      .catch((error) => console.log(error));
+    return "string";
   },
 };

@@ -8,6 +8,7 @@ export type PlaylistData = {
 export type UserData = {
   name: string;
   img: string;
+  id: string;
 };
 
 export type SpotifyParams = {

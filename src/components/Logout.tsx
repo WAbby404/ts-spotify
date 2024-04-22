@@ -2,19 +2,19 @@ import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 
 type LogoutProps = {
-  setToken: (emptyString: string) => void;
+  handleLogout: () => void;
   userData: {
     name: string;
     img: string;
   };
 };
 
-function Logout({ userData, setToken }: LogoutProps) {
+function Logout({ handleLogout, userData }: LogoutProps) {
   return (
     <div>
       <Avatar src={userData.img} />
       <h2>{userData.name}</h2>
-      <Button onClick={() => setToken("")}>Logout</Button>
+      <Button onClick={() => handleLogout()}>Logout</Button>
     </div>
   );
 }

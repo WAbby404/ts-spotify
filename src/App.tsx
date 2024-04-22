@@ -7,12 +7,17 @@ import Recommended from "./components/Recommended";
 import { Container, Grid } from "@mui/material";
 import { PlaylistData, UserData, SpotifyParams } from "./components/types";
 import { SpotifyAPI } from "./components/SpotifyWrapper";
+import Login from "./components/Login";
 
 function App() {
   const [token, setToken] = useState<string | undefined>("");
+  const [currentTimeout, setCurrentTimeout] = useState<null | NodeJS.Timeout>(
+    null
+  );
   const [userData, setUserData] = useState<UserData>({
     name: "",
     img: "",
+    id: "",
   });
 
   // originally has to come from here tho. lets fix that first
@@ -36,6 +41,7 @@ function App() {
     let token: string | null | undefined = null;
 
     if (!token && hash) {
+      // console.log(hash);
       token = hash
         .substring(1)
         .split("&")
@@ -43,6 +49,65 @@ function App() {
         ?.split("=")[1];
       setToken(token);
       window.location.hash = "";
+
+      // after just before an hour, a new token will be grabbed & another setTimeout will be ran
+
+      // on logout, cancel setTimeout
+
+      // will need to set this to state so we can clear its reference when we log out
+      // so
+
+      const hourlyResetToken = async () => {
+        // call to refresh token
+        // const payload: any = {
+        // need to save user id in userData state
+        // };
+
+        // const body = await fetch("https://accounts.spotify.com/api/token", {
+        //   method: "POST",
+        //   body: JSON.stringify({
+        //     grant_type: "refresh_token",
+        //     refresh_token: token,
+        //     client_id: userData.id,
+        //   }),
+        //   headers: {
+        //     "Content-Type": "application/x-www-form-urlencoded",
+        //     Authorization: "Bearer " + token,
+        //   },
+        // });
+        // application/json; charset=UTF-8
+        // const response = await body.json();
+
+        // redirect to log back in
+
+        // const client_id = "c72f57285fb44f519e7fb11dad73ed97";
+        // const auth_endpoint = "https://accounts.spotify.com/authorize";
+        // const redirect_uri = "http://localhost:3000";
+
+        // return (
+        //   <div className="border-solid border-2 border-sky-500">
+        //     <Button
+        //       href={`${auth_endpoint}?client_id=${client_id}&redirect_uri=${redirect_uri}&response_type=token`
+
+        // console.log(response);
+
+        window.location.href = Login();
+
+        console.log("refresh called");
+        console.log("new token grabbed");
+        // updates token
+        // clears timer, starts a new one (put this in a FN to not duplicate code & replace code below this with that fn)
+        const timeoutReference = setTimeout(hourlyResetToken, 3600000);
+        setCurrentTimeout(timeoutReference);
+
+        // set token to expired
+        // have a setTimeout for after an hour the token is null
+      };
+
+      // run this right before a new token is needed
+      // change number to a little significantly close to an hour
+      const timeoutReference = setTimeout(hourlyResetToken, 3600000);
+      setCurrentTimeout(timeoutReference);
 
       // Getting User Data from Spotify
       const profileParams: SpotifyParams = {
@@ -77,7 +142,16 @@ function App() {
     }
   }, []);
 
-  const updateCurrentPlaylist = (
+  const handleLogout = () => {
+    console.log(currentTimeout);
+    setToken("");
+    if (currentTimeout !== null) {
+      clearTimeout(currentTimeout);
+      setCurrentTimeout(null);
+    }
+  };
+
+  const updateCurrentPlaylist = async (
     playlistId: string,
     playlist: PlaylistData
   ) => {
@@ -94,9 +168,14 @@ function App() {
 
     SpotifyAPI.fetchPlaylistTracks(playlistDetailsParam, playlistId).then(
       (data) => {
-        console.log(data);
+        console.log("data in first fetch:" + data);
         // need artist IDs from here
-        setArtistIds(data);
+        // setArtistIds(data);
+        SpotifyAPI.fetchArtistDetails(artistParams, data)
+          .then((data) => {
+            console.log(data);
+          })
+          .catch((error) => console.log(error));
       }
     );
 
@@ -107,9 +186,12 @@ function App() {
       },
     };
 
-    // SpotifyAPI.fetchArtistDetails(artistParams, artistIds).then((data) => {
-    //   console.log(data);
-    // });
+    // SpotifyAPI.fetchArtistDetails(artistParams, artistIds)
+    //   .then((data) => {
+    //     console.log(data);
+    //     console.log(artistIds);
+    //   })
+    //   .catch((error) => console.log(error));
 
     // fetch(
     //   `https://api.spotify.com/v1/artists?${artistIdsCorrectStructure}`,
@@ -140,7 +222,7 @@ function App() {
               updateCurrentPlaylist={updateCurrentPlaylist}
               playlists={playlistData}
             />
-            <Logout setToken={setToken} userData={userData} />
+            <Logout handleLogout={handleLogout} userData={userData} />
             <EditPlaylist
               userData={userData}
               selectedPlaylist={selectedPlaylist}
