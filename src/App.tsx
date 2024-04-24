@@ -5,9 +5,15 @@ import Logout from "./components/Logout";
 import EditPlaylist from "./components/EditPlaylist";
 import Recommended from "./components/Recommended";
 import { Container, Grid } from "@mui/material";
-import { PlaylistData, UserData, SpotifyParams } from "./components/types";
+import {
+  PlaylistData,
+  UserData,
+  SpotifyParams,
+  PopupData,
+} from "./components/types";
 import { SpotifyAPI } from "./components/SpotifyWrapper";
 import Login from "./components/Login";
+import ErrorPopup from "./components/ErrorPopup";
 
 function App() {
   const [token, setToken] = useState<string | undefined>("");
@@ -20,8 +26,12 @@ function App() {
     id: "",
   });
 
-  // originally has to come from here tho. lets fix that first
-  // need to share all info like picture, title, time etc.
+  const [popupData, setPopupData] = useState<PopupData>({
+    popup: false,
+    title: "",
+    text: "",
+  });
+
   const [playlistData, setPlaylistData] = useState<PlaylistData[]>([
     { title: "", img: "", playlistId: "", totalSongs: 0 },
   ]);
@@ -32,11 +42,24 @@ function App() {
     playlistId: "",
     totalSongs: 0,
   });
-  // need to make this an obj, with all the values to update current playlist for editPlaylist
-  // need to share all info like picture, title, time etc.
+
   const [artistIds, setArtistIds] = useState<string>("");
 
+  const handlePopupExit = () => {
+    setPopupData({
+      popup: false,
+      title: "",
+      text: "",
+    });
+    window.location.href = Login();
+  };
+
   useEffect(() => {
+    setPopupData({
+      popup: false,
+      title: "",
+      text: "",
+    });
     const hash = window.location.hash;
     let token: string | null | undefined = null;
 
@@ -50,62 +73,18 @@ function App() {
       setToken(token);
       window.location.hash = "";
 
-      // after just before an hour, a new token will be grabbed & another setTimeout will be ran
-
-      // on logout, cancel setTimeout
-
-      // will need to set this to state so we can clear its reference when we log out
-      // so
+      // 3600000
 
       const hourlyResetToken = async () => {
-        // call to refresh token
-        // const payload: any = {
-        // need to save user id in userData state
-        // };
-
-        // const body = await fetch("https://accounts.spotify.com/api/token", {
-        //   method: "POST",
-        //   body: JSON.stringify({
-        //     grant_type: "refresh_token",
-        //     refresh_token: token,
-        //     client_id: userData.id,
-        //   }),
-        //   headers: {
-        //     "Content-Type": "application/x-www-form-urlencoded",
-        //     Authorization: "Bearer " + token,
-        //   },
-        // });
-        // application/json; charset=UTF-8
-        // const response = await body.json();
-
-        // redirect to log back in
-
-        // const client_id = "c72f57285fb44f519e7fb11dad73ed97";
-        // const auth_endpoint = "https://accounts.spotify.com/authorize";
-        // const redirect_uri = "http://localhost:3000";
-
-        // return (
-        //   <div className="border-solid border-2 border-sky-500">
-        //     <Button
-        //       href={`${auth_endpoint}?client_id=${client_id}&redirect_uri=${redirect_uri}&response_type=token`
-
-        // console.log(response);
-
-        window.location.href = Login();
-
-        console.log("refresh called");
-        console.log("new token grabbed");
-        // updates token
-        // clears timer, starts a new one (put this in a FN to not duplicate code & replace code below this with that fn)
         const timeoutReference = setTimeout(hourlyResetToken, 3600000);
         setCurrentTimeout(timeoutReference);
-
-        // set token to expired
-        // have a setTimeout for after an hour the token is null
+        setPopupData({
+          popup: true,
+          title: "Your access token has expired",
+          text: "Login to get a new access token",
+        });
       };
 
-      // run this right before a new token is needed
-      // change number to a little significantly close to an hour
       const timeoutReference = setTimeout(hourlyResetToken, 3600000);
       setCurrentTimeout(timeoutReference);
 
@@ -143,7 +122,7 @@ function App() {
   }, []);
 
   const handleLogout = () => {
-    console.log(currentTimeout);
+    // console.log(currentTimeout);
     setToken("");
     if (currentTimeout !== null) {
       clearTimeout(currentTimeout);
@@ -218,6 +197,10 @@ function App() {
       <Container>
         {token ? (
           <Grid>
+            <ErrorPopup
+              popupData={popupData}
+              handlePopupExit={handlePopupExit}
+            />
             <SelectPlaylist
               updateCurrentPlaylist={updateCurrentPlaylist}
               playlists={playlistData}

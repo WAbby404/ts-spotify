@@ -18,6 +18,12 @@ export type SpotifyParams = {
   };
 };
 
+export type PopupData = {
+  popup: boolean;
+  title: string;
+  text: string;
+};
+
 // Spotify API Types
 
 // Typing API get user reponse
