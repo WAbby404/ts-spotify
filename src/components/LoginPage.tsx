@@ -4,7 +4,7 @@ import Login from "./Login";
 function LoginPage() {
   return (
     <div className="border-solid border-2 border-sky-500">
-      <Button href={Login()}>Login</Button>
+      <Button onClick={() => Login()}>Login</Button>
     </div>
   );
 }

@@ -51,7 +51,7 @@ function App() {
       title: "",
       text: "",
     });
-    window.location.href = Login();
+    Login();
   };
 
   useEffect(() => {
@@ -64,13 +64,15 @@ function App() {
     let token: string | null | undefined = null;
 
     if (!token && hash) {
-      // console.log(hash);
       token = hash
         .substring(1)
         .split("&")
         .find((element) => element.startsWith("access_token"))
         ?.split("=")[1];
       setToken(token);
+      // When this ^ happens, start an hour timer
+      // After timer finishes set expired state to true
+      // On API calls, check if res
       window.location.hash = "";
 
       // 3600000
@@ -145,51 +147,28 @@ function App() {
       },
     };
 
-    SpotifyAPI.fetchPlaylistTracks(playlistDetailsParam, playlistId).then(
-      (data) => {
-        console.log("data in first fetch:" + data);
-        // need artist IDs from here
-        // setArtistIds(data);
-        SpotifyAPI.fetchArtistDetails(artistParams, data)
-          .then((data) => {
-            console.log(data);
-          })
-          .catch((error) => console.log(error));
+    async function waitForPlaylists() {
+      let artistIDS = await SpotifyAPI.fetchPlaylistTracks(
+        playlistDetailsParam,
+        playlistId
+      );
+      console.log("waitForPlaylists call " + artistIDS);
+      const artistParams = {
+        method: "GET",
+        headers: {
+          Authorization: "Bearer " + token,
+        },
+      };
+      if (artistIDS !== null) {
+        let responseArtists = await SpotifyAPI.fetchArtistDetails(
+          artistParams,
+          artistIDS
+        );
+        console.log("artist response: " + responseArtists);
+        console.log(responseArtists);
       }
-    );
-
-    const artistParams = {
-      method: "GET",
-      headers: {
-        Authorization: "Bearer " + token,
-      },
-    };
-
-    // SpotifyAPI.fetchArtistDetails(artistParams, artistIds)
-    //   .then((data) => {
-    //     console.log(data);
-    //     console.log(artistIds);
-    //   })
-    //   .catch((error) => console.log(error));
-
-    // fetch(
-    //   `https://api.spotify.com/v1/artists?${artistIdsCorrectStructure}`,
-    //   artistParams
-    // )
-    //   .then((result) => {
-    //     if (!result.ok) {
-    //       console.log(result);
-    //       throw new Error("Network response was not ok");
-    //     }
-    //     return result.json();
-    //   })
-    //   .then((data) => {
-    //     console.log(data);
-    //   });
-
-    // a fetch call to to recieve data on artists based on
-    // have to get artsists too
-    // https://developer.spotify.com/documentation/web-api/reference/get-multiple-artists
+    }
+    waitForPlaylists();
   };
 
   return (
