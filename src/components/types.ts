@@ -1,3 +1,5 @@
+// ryancavanagh in node_modules for spotify types
+
 export type PlaylistData = {
   title: string;
   img: string;
@@ -84,6 +86,28 @@ type PlaylistBaseObject = {
   owner: UserObjectPublic;
   public: boolean;
   snapshot_id: string;
+  type: string;
+  uri: string;
+};
+
+// Typing API get users artists response
+
+export type MultipleArtistsResponse = {
+  artists: ArtistObjectFull[];
+};
+
+export type ArtistObjectFull = ArtistObjectSimplified & {
+  followers: FollowersObject;
+  genres: string[];
+  images: ImageObject[];
+  popularity: number;
+};
+
+type ArtistObjectSimplified = {
+  external_urls: ExternalUrlObject;
+  href: string;
+  id: string;
+  name: string;
   type: string;
   uri: string;
 };

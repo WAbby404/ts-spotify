@@ -10,11 +10,13 @@ import {
   UserData,
   SpotifyParams,
   PopupData,
+  ArtistObjectFull,
 } from "./components/types";
 import { SpotifyAPI } from "./components/SpotifyWrapper";
 import Login from "./components/Login";
 import ErrorPopup from "./components/ErrorPopup";
 
+// NEED AN ISLOADING STATE
 function App() {
   const [token, setToken] = useState<string | undefined>("");
   const [currentTimeout, setCurrentTimeout] = useState<null | NodeJS.Timeout>(
@@ -43,7 +45,7 @@ function App() {
     totalSongs: 0,
   });
 
-  const [artistIds, setArtistIds] = useState<string>("");
+  // setGenres
 
   const handlePopupExit = () => {
     setPopupData({
@@ -138,37 +140,48 @@ function App() {
   ) => {
     // updates state to current playlists details
     // and grabs that playlists details for later on
+    console.log(playlist);
     setSelectedPlaylist(playlist);
 
-    const playlistDetailsParam = {
-      method: "GET",
-      headers: {
-        Authorization: "Bearer " + token,
-      },
-    };
+    // const playlistDetailsParam = {
+    //   method: "GET",
+    //   headers: {
+    //     Authorization: "Bearer " + token,
+    //   },
+    // };
 
-    async function waitForPlaylists() {
-      let artistIDS = await SpotifyAPI.fetchPlaylistTracks(
-        playlistDetailsParam,
-        playlistId
-      );
-      console.log("waitForPlaylists call " + artistIDS);
-      const artistParams = {
-        method: "GET",
-        headers: {
-          Authorization: "Bearer " + token,
-        },
-      };
-      if (artistIDS !== null) {
-        let responseArtists = await SpotifyAPI.fetchArtistDetails(
-          artistParams,
-          artistIDS
-        );
-        console.log("artist response: " + responseArtists);
-        console.log(responseArtists);
-      }
-    }
-    waitForPlaylists();
+    // async function waitForPlaylists() {
+    //   let artistIDS = await SpotifyAPI.fetchPlaylistTracks(
+    //     playlistDetailsParam,
+    //     playlistId
+    //   );
+    //   console.log("waitForPlaylists call " + artistIDS);
+    //   const artistParams = {
+    //     method: "GET",
+    //     headers: {
+    //       Authorization: "Bearer " + token,
+    //     },
+    //   };
+    //   if (artistIDS !== null) {
+    //     let responseArtists = await SpotifyAPI.fetchArtistDetails(
+    //       artistParams,
+    //       artistIDS
+    //     );
+    //     console.log("artist response: " + responseArtists);
+    //     console.log(responseArtists);
+    //     if (responseArtists !== null) {
+    //       let genres = new Set<string>([]);
+    //       responseArtists.artists.forEach((artist: ArtistObjectFull) => {
+    //         let genreArray = artist.genres;
+    //         genreArray.forEach((genre) => {
+    //           genres.add(genre);
+    //         });
+    //       });
+    //       console.log(genres);
+    //     }
+    //   }
+    // }
+    // waitForPlaylists();
   };
 
   return (

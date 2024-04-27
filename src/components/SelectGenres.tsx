@@ -4,6 +4,20 @@ type SelectGenresProps = {
 };
 
 function SelectGenres({ genres }: SelectGenresProps) {
+  // I should just have an array of common genres here & map to buttons and return its text back to App
+  const commonGenres = [
+    "pop",
+    "rock",
+    "hip hop",
+    "R&B",
+    "EDM",
+    "country",
+    "jazz",
+    "reggae",
+    "latin",
+    "classical-",
+  ];
+
   return (
     <div className="border-solid border-2 border-sky-500">
       <Typography>

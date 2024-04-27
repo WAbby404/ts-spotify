@@ -4,6 +4,7 @@ import {
   UserObjectPublic,
   PlaylistData,
   ListOfUsersPlaylistsResponse,
+  MultipleArtistsResponse,
 } from "./types";
 
 export const SpotifyAPI = {
@@ -131,15 +132,11 @@ export const SpotifyAPI = {
       // THIS IS THE ERROR! fix this tomorrow! the several artists call only supports 50 artists, not 100
       let counter = 0;
       artistIds.forEach((value, key) => {
+        // FIX THE CALL TO BE 50! or less
         if (counter < artistIds.size - 43) {
           artistIdsForFetch += `${value},`;
         }
 
-        // if (counter + 1 === artistIds.size - 50) {
-        //   artistIdsForFetch += `${value}`;
-        // } else {
-        //   artistIdsForFetch += `${value},`;
-        // }
         counter++;
       });
       console.log(counter);
@@ -151,55 +148,12 @@ export const SpotifyAPI = {
       console.log(error);
       return null; // or handle the error in some way
     }
-
-    // fetch(
-    //   `https://api.spotify.com/v1/playlists/${playlistId}/tracks`,
-    //   playlistDetailsParam
-    // )
-    //   .then((result) => {
-    //     if (!result.ok) {
-    //       throw new Error("Network response was not ok");
-    //     }
-    //     return result.json();
-    //   })
-    //   .then((data) => {
-    //     // need the spotify type here
-    //     // comment on whats happening here
-    //     const artistIds = new Set<string>([]);
-    //     data.items.forEach((song: any) => {
-    //       // console.log(song);
-    //       if (song.track.artists.length === 1 && artistIds.size < 100) {
-    //         // unless if artistIds = 100
-    //         artistIds.add(song.track.artists[0].id);
-    //       } else if (artistIds.size < 100) {
-    //         song.track.artists.forEach((artist: any) => {
-    //           artistIds.add(artist.id);
-    //         });
-    //       }
-    //     });
-    //     // get an array of artist ids (for genres in playlist)
-    //     // console.log(artistIds.size);
-    //     let counter = 0;
-    //     artistIds.forEach((value, key) => {
-    //       if (counter + 1 === artistIds.size) {
-    //         artistIdsForFetch += `${value}`;
-    //       } else {
-    //         artistIdsForFetch += `${value},`;
-    //       }
-    //       counter++;
-    //     });
-    //     counter = 0;
-
-    //     console.log("artistIds thing " + artistIdsForFetch);
-    //     return artistIdsForFetch;
-    //   })
-    //   .catch((error) => console.log(error));
   },
 
   fetchArtistDetails: async function (
     artistParams: SpotifyParams,
     artistIds: string
-  ): Promise<string | null> {
+  ): Promise<MultipleArtistsResponse | null> {
     try {
       const response = await fetch(
         `https://api.spotify.com/v1/artists?${artistIds}`,

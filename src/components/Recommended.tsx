@@ -3,6 +3,7 @@ type RecommendedProps = {
 };
 
 function Recommended({ recommendedSongs }: RecommendedProps) {
+  // MAYBE can do recommended playlists based on selected genres?
   return (
     <div>
       {/* when useEffect updates, change recommended to whatever songs are recommended in that genre */}
