@@ -66,6 +66,7 @@ function App() {
     let token: string | null | undefined = null;
 
     if (!token && hash) {
+      console.log(hash);
       token = hash
         .substring(1)
         .split("&")

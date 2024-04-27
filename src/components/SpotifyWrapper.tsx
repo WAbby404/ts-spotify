@@ -8,26 +8,27 @@ import {
 } from "./types";
 
 export const SpotifyAPI = {
-  fetchToken: async function (url: any, tokenPayload: any): Promise<string> {
-    let token = "";
-    await fetch(url, tokenPayload)
-      .then((result) => {
-        if (!result.ok) {
-          // error popup?
-          throw new Error("Network response was not ok");
-        }
-        return result.json();
-      })
-      .then((data) => {
-        token = data.access_token;
-        return data.access_token;
-      })
-      .catch((error) => {
-        // error popup?
-        console.log(error);
-      });
-    return token;
-  },
+  // fetchToken: async function (url: any, tokenPayload: any): Promise<string> {
+  //   let token = "";
+  //   await fetch(url, tokenPayload)
+  //     .then((result) => {
+  //       if (!result.ok) {
+  //         // error popup?
+  //         throw new Error("Network response was not ok");
+  //       }
+  //       return result.json();
+  //     })
+  //     .then((data) => {
+  //       console.log(data);
+  //       token = data.access_token;
+  //       return data.access_token;
+  //     })
+  //     .catch((error) => {
+  //       // error popup?
+  //       console.log(error);
+  //     });
+  //   return token;
+  // },
   fetchUserData: async function (
     profileParams: SpotifyParams,
     profileId: string

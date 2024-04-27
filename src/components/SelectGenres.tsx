@@ -9,14 +9,18 @@ function SelectGenres({ genres }: SelectGenresProps) {
     "pop",
     "rock",
     "hip hop",
-    "R&B",
-    "EDM",
     "country",
     "jazz",
-    "reggae",
-    "latin",
-    "classical-",
+    "house",
+    "folk",
+    "rap",
+    "funk",
+    "classic",
+    "metal",
+    "indie",
+    "alternative",
   ];
+  // add a genre? maybe visit this later
 
   return (
     <div className="border-solid border-2 border-sky-500">
@@ -24,7 +28,7 @@ function SelectGenres({ genres }: SelectGenresProps) {
         Select a genre to make a new playlist from (or multiple)
       </Typography>
       <div>
-        {genres.map((genre, index) => {
+        {commonGenres.map((genre, index) => {
           return <Button key={index}>{genre}</Button>;
         })}
       </div>
