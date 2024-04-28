@@ -7,6 +7,8 @@ import { PlaylistData, UserData } from "./types";
 type EditPlaylistProps = {
   selectedPlaylist: PlaylistData;
   userData: UserData;
+  genres: string[];
+  handleGenreChange: (input: string[]) => void;
 };
 
 function EditPlaylist(props: EditPlaylistProps) {
@@ -19,7 +21,10 @@ function EditPlaylist(props: EditPlaylistProps) {
             currentPlaylist={props.selectedPlaylist}
           />
           <Divider />
-          <SelectGenres genres={["rock", "rap", "jazz"]} />
+          <SelectGenres
+            genres={props.genres}
+            handleGenreChange={props.handleGenreChange}
+          />
           <NewPlaylist
             newPlaylistDetails={{
               img: "imgLink",

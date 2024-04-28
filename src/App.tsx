@@ -45,7 +45,7 @@ function App() {
     totalSongs: 0,
   });
 
-  // setGenres
+  const [genres, setGenres] = useState<string[]>([]);
 
   const handlePopupExit = () => {
     setPopupData({
@@ -185,6 +185,10 @@ function App() {
     // waitForPlaylists();
   };
 
+  const handleGenreChange = (input: string[]) => {
+    setGenres(input);
+  };
+
   return (
     <div className="">
       <Container>
@@ -202,6 +206,8 @@ function App() {
             <EditPlaylist
               userData={userData}
               selectedPlaylist={selectedPlaylist}
+              genres={genres}
+              handleGenreChange={handleGenreChange}
             />
             <Recommended
               recommendedSongs={["rock jazz song1", "smooth jazz 2"]}
