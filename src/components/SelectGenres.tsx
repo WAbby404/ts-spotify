@@ -2,9 +2,10 @@ import { Button, Typography } from "@mui/material";
 import { useState } from "react";
 type SelectGenresProps = {
   genres: string[];
-  handleGenreChange: (input: string[]) => void;
+  setGenres: React.Dispatch<React.SetStateAction<any>>;
 };
 
+// what file is it called in?
 function SelectGenres(props: SelectGenresProps) {
   const [count, setCount] = useState(0);
   // I should just have an array of common genres here & map to buttons and return its text back to App
@@ -28,25 +29,14 @@ function SelectGenres(props: SelectGenresProps) {
   const handleGenre = (index: number) => {
     // redo array as a set?
     if (props.genres.includes(commonGenres[index])) {
-      // find index and splice
-      console.log(props.genres.indexOf(commonGenres[index]));
-      let oldState = props.genres.splice(
-        props.genres.indexOf(commonGenres[index]),
-        1
-      );
-      // props.genres.indexOf(commonGenres[index]);
-      props.handleGenreChange(oldState);
+      props.genres.splice(props.genres.indexOf(commonGenres[index]), 1);
     } else {
       let oldState = props.genres;
       oldState.push(commonGenres[index]);
-      props.handleGenreChange(oldState);
+      props.setGenres(oldState);
     }
-    console.log(index);
-    console.log(commonGenres[index]);
-    // get old genres, add current genre to end of array
-    console.log(props.genres);
     setCount(count + 1);
-    // change not triggering
+    console.log(props.genres);
   };
 
   return (

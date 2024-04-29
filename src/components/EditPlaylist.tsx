@@ -8,7 +8,7 @@ type EditPlaylistProps = {
   selectedPlaylist: PlaylistData;
   userData: UserData;
   genres: string[];
-  handleGenreChange: (input: string[]) => void;
+  setGenres: React.Dispatch<React.SetStateAction<any>>;
 };
 
 function EditPlaylist(props: EditPlaylistProps) {
@@ -21,10 +21,7 @@ function EditPlaylist(props: EditPlaylistProps) {
             currentPlaylist={props.selectedPlaylist}
           />
           <Divider />
-          <SelectGenres
-            genres={props.genres}
-            handleGenreChange={props.handleGenreChange}
-          />
+          <SelectGenres genres={props.genres} setGenres={props.setGenres} />
           <NewPlaylist
             newPlaylistDetails={{
               img: "imgLink",

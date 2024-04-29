@@ -207,7 +207,7 @@ function App() {
               userData={userData}
               selectedPlaylist={selectedPlaylist}
               genres={genres}
-              handleGenreChange={handleGenreChange}
+              setGenres={setGenres}
             />
             <Recommended
               recommendedSongs={["rock jazz song1", "smooth jazz 2"]}
