@@ -8,6 +8,9 @@ type EditPlaylistProps = {
   selectedPlaylist: PlaylistData;
   userData: UserData;
   genres: string[];
+  count: number;
+  setCount: React.Dispatch<React.SetStateAction<any>>;
+  setNewPlaylist: React.Dispatch<React.SetStateAction<any>>;
   setGenres: React.Dispatch<React.SetStateAction<any>>;
 };
 
@@ -21,12 +24,21 @@ function EditPlaylist(props: EditPlaylistProps) {
             currentPlaylist={props.selectedPlaylist}
           />
           <Divider />
-          <SelectGenres genres={props.genres} setGenres={props.setGenres} />
+          <SelectGenres
+            genres={props.genres}
+            setGenres={props.setGenres}
+            count={props.count}
+            setCount={props.setCount}
+          />
           <NewPlaylist
+            setNewPlaylist={props.setNewPlaylist}
+            genres={props.genres}
+            count={props.count}
+            setCount={props.setCount}
             newPlaylistDetails={{
               img: "imgLink",
               title: "some title",
-              songs: ["song1", "song2"],
+              songs: ["song1"],
             }}
           />
         </div>

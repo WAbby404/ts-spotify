@@ -11,9 +11,19 @@ type NewPlaylistProps = {
     title: string;
     songs: string[];
   };
+  genres: string[];
+  count: number;
+  setCount: React.Dispatch<React.SetStateAction<any>>;
+  setNewPlaylist: React.Dispatch<React.SetStateAction<any>>;
 };
 
-function NewPlaylist({ newPlaylistDetails }: NewPlaylistProps) {
+function NewPlaylist({
+  newPlaylistDetails,
+  setNewPlaylist,
+  genres,
+  count,
+  setCount,
+}: NewPlaylistProps) {
   return (
     <div>
       <div>
@@ -21,7 +31,7 @@ function NewPlaylist({ newPlaylistDetails }: NewPlaylistProps) {
         <Typography>Playlist Title - (Genre(s) only)</Typography>
       </div>
       <div>
-        <div>
+        <div className="flex">
           <TagIcon />
           <Typography>TITLE</Typography>
           <Typography>ALBUM</Typography>
@@ -31,7 +41,7 @@ function NewPlaylist({ newPlaylistDetails }: NewPlaylistProps) {
         <ul>
           {newPlaylistDetails.songs.map((song, index) => {
             return (
-              <li key={index}>
+              <li key={index} className="flex">
                 <Typography>{index}</Typography>
                 <div>
                   <img src="song img link" alt="replaceme" />
@@ -48,7 +58,13 @@ function NewPlaylist({ newPlaylistDetails }: NewPlaylistProps) {
           })}
         </ul>
       </div>
-      <Button>Make new Playlist</Button>
+      <Button
+        onClick={setNewPlaylist}
+        disabled={genres.length === 0}
+        variant="contained"
+      >
+        Make new Playlist
+      </Button>
     </div>
   );
 }

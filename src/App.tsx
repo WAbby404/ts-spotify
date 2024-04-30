@@ -18,6 +18,7 @@ import ErrorPopup from "./components/ErrorPopup";
 
 // NEED AN ISLOADING STATE
 function App() {
+  const [count, setCount] = useState(0);
   const [token, setToken] = useState<string | undefined>("");
   const [currentTimeout, setCurrentTimeout] = useState<null | NodeJS.Timeout>(
     null
@@ -46,6 +47,8 @@ function App() {
   });
 
   const [genres, setGenres] = useState<string[]>([]);
+
+  const [newPlaylist, setNewPlaylist] = useState();
 
   const handlePopupExit = () => {
     setPopupData({
@@ -185,10 +188,6 @@ function App() {
     // waitForPlaylists();
   };
 
-  const handleGenreChange = (input: string[]) => {
-    setGenres(input);
-  };
-
   return (
     <div className="">
       <Container>
@@ -204,10 +203,13 @@ function App() {
             />
             <Logout handleLogout={handleLogout} userData={userData} />
             <EditPlaylist
+              count={count}
+              setCount={setCount}
               userData={userData}
               selectedPlaylist={selectedPlaylist}
               genres={genres}
               setGenres={setGenres}
+              setNewPlaylist={setNewPlaylist}
             />
             <Recommended
               recommendedSongs={["rock jazz song1", "smooth jazz 2"]}

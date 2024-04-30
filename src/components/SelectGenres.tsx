@@ -2,12 +2,13 @@ import { Button, Typography } from "@mui/material";
 import { useState } from "react";
 type SelectGenresProps = {
   genres: string[];
+  count: number;
+  setCount: React.Dispatch<React.SetStateAction<any>>;
   setGenres: React.Dispatch<React.SetStateAction<any>>;
 };
 
 // what file is it called in?
 function SelectGenres(props: SelectGenresProps) {
-  const [count, setCount] = useState(0);
   // I should just have an array of common genres here & map to buttons and return its text back to App
   const commonGenres = [
     "pop",
@@ -35,7 +36,7 @@ function SelectGenres(props: SelectGenresProps) {
       oldState.push(commonGenres[index]);
       props.setGenres(oldState);
     }
-    setCount(count + 1);
+    props.setCount(props.count + 1);
     console.log(props.genres);
   };
 
