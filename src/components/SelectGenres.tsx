@@ -1,5 +1,6 @@
 import { Button, Typography } from "@mui/material";
 import { useState } from "react";
+import TextBoxPopup from "./TextBoxPopup";
 type SelectGenresProps = {
   genres: string[];
   count: number;
@@ -10,7 +11,7 @@ type SelectGenresProps = {
 // what file is it called in?
 function SelectGenres(props: SelectGenresProps) {
   // I should just have an array of common genres here & map to buttons and return its text back to App
-  const commonGenres = [
+  const [commonGenres, setCommonGenres] = useState<string[]>([
     "pop",
     "rock",
     "hip hop",
@@ -24,7 +25,11 @@ function SelectGenres(props: SelectGenresProps) {
     "metal",
     "indie",
     "alternative",
-  ];
+    "+",
+  ]);
+
+  const [openGenrePopup, setOpenGenrePopup] = useState(false);
+  const [textboxPopupAnswer, setTextboxPopupAnswer] = useState("");
   // add a genre? maybe visit this later
 
   const handleGenre = (index: number) => {
@@ -40,17 +45,36 @@ function SelectGenres(props: SelectGenresProps) {
     console.log(props.genres);
   };
 
+  const addGenre = (inputGenre: string) => {
+    console.log(inputGenre);
+    let oldGenres = commonGenres;
+    oldGenres.push(inputGenre);
+    setCommonGenres(oldGenres);
+  };
+
   return (
     <div className="border-solid border-2 border-sky-500">
-      <Typography>
-        Select a genre to make a new playlist from (or multiple)
-      </Typography>
+      <TextBoxPopup
+        openGenrePopup={openGenrePopup}
+        setOpenGenrePopup={setOpenGenrePopup}
+        addGenre={addGenre}
+        commonGenres={commonGenres}
+      />
+      <Typography>Select genre(s) to make a new playlist from</Typography>
       <div>
         {commonGenres.map((genre, index) => {
           return (
             <Button
               key={index}
-              onClick={() => handleGenre(index)}
+              onClick={() => {
+                if (genre === "+") {
+                  setOpenGenrePopup(true);
+                  // need a textbox (popup?)
+                  // run different function
+                } else {
+                  handleGenre(index);
+                }
+              }}
               variant={props.genres.includes(genre) ? "contained" : "outlined"}
             >
               {genre}
