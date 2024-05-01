@@ -48,7 +48,7 @@ function App() {
 
   const [genres, setGenres] = useState<string[]>([]);
 
-  const [newPlaylist, setNewPlaylist] = useState();
+  const [newPlaylist, setNewPlaylist] = useState<string[]>([]);
 
   const handlePopupExit = () => {
     setPopupData({
@@ -146,79 +146,89 @@ function App() {
     // and grabs that playlists details for later on
     console.log(playlist);
     setSelectedPlaylist(playlist);
+  };
 
-    // const playlistDetailsParam = {
-    //   method: "GET",
-    //   headers: {
-    //     Authorization: "Bearer " + token,
-    //   },
-    // };
+  const generateNewPlaylist = () => {
+    console.log("making a new playlist brrring brrrring,, bing bing brrring");
+    // get songs, get artists - if artist has a genre that inside our genre list, add song to new
+    // setNewPlaylist(["Grenade - Bruno Mars", "Tabo Bell Bell Sound Gong"]);
+    async function waitForPlaylists() {
+      console.log(playlistData);
+      const playlistDetailsParam = {
+        method: "GET",
+        headers: {
+          Authorization: "Bearer " + token,
+        },
+      };
+      let artistIDS = await SpotifyAPI.fetchPlaylistTracks(
+        playlistDetailsParam,
+        selectedPlaylist.playlistId
+      );
+      console.log("waitForPlaylists call " + artistIDS);
+      const artistParams = {
+        method: "GET",
+        headers: {
+          Authorization: "Bearer " + token,
+        },
+      };
+      if (artistIDS !== null) {
+        let responseArtists = await SpotifyAPI.fetchArtistDetails(
+          artistParams,
+          artistIDS
+        );
+        console.log("artist response: " + responseArtists);
+        console.log(responseArtists);
 
-    // async function waitForPlaylists() {
-    //   let artistIDS = await SpotifyAPI.fetchPlaylistTracks(
-    //     playlistDetailsParam,
-    //     playlistId
-    //   );
-    //   console.log("waitForPlaylists call " + artistIDS);
-    //   const artistParams = {
-    //     method: "GET",
-    //     headers: {
-    //       Authorization: "Bearer " + token,
-    //     },
-    //   };
-    //   if (artistIDS !== null) {
-    //     let responseArtists = await SpotifyAPI.fetchArtistDetails(
-    //       artistParams,
-    //       artistIDS
-    //     );
-    //     console.log("artist response: " + responseArtists);
-    //     console.log(responseArtists);
-    //     if (responseArtists !== null) {
-    //       let genres = new Set<string>([]);
-    //       responseArtists.artists.forEach((artist: ArtistObjectFull) => {
-    //         let genreArray = artist.genres;
-    //         genreArray.forEach((genre) => {
-    //           genres.add(genre);
-    //         });
-    //       });
-    //       console.log(genres);
-    //     }
-    //   }
-    // }
-    // waitForPlaylists();
+        // const getSongWithSelectedGenres = () => {
+        //   let artistsWithGenres = [];
+        //   if (responseArtists !== null) {
+        //     responseArtists.artists.forEach((artist) =>
+        //       genres.forEach((genre) => {
+        //         if (artist.genres.includes(genre)) {
+        //           artistsWithGenres.push(artist);
+        //         }
+        //       })
+        //     );
+        //   }
+        // };
+        // getArtistsWithSelectedGenres();
+      }
+    }
+    waitForPlaylists();
+    // we do all the calculations to make the new playlist & now we set it to newplaylist state
   };
 
   return (
-    <div className="">
-      <Container>
-        {token ? (
-          <Grid>
-            <ErrorPopup
-              popupData={popupData}
-              handlePopupExit={handlePopupExit}
-            />
+    <div className="w-screen h-screen border-2 border-rose-500">
+      {token ? (
+        <div className="flex">
+          <ErrorPopup popupData={popupData} handlePopupExit={handlePopupExit} />
+          <div className="border-2 border-gray-700">
             <SelectPlaylist
               updateCurrentPlaylist={updateCurrentPlaylist}
               playlists={playlistData}
             />
             <Logout handleLogout={handleLogout} userData={userData} />
+          </div>
+          <div className="border-4 border-indigo-500">
             <EditPlaylist
               count={count}
               setCount={setCount}
               userData={userData}
               selectedPlaylist={selectedPlaylist}
+              newPlaylist={newPlaylist}
               genres={genres}
               setGenres={setGenres}
-              setNewPlaylist={setNewPlaylist}
+              generateNewPlaylist={generateNewPlaylist}
             />
             <Recommended
               recommendedSongs={["rock jazz song1", "smooth jazz 2"]}
             />
-          </Grid>
-        ) : (
-          <LoginPage />
-        )}
-      </Container>
+          </div>
+        </div>
+      ) : (
+        <LoginPage />
+      )}
     </div>
   );
 }

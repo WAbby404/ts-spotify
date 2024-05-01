@@ -5,15 +5,33 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
+import { useState } from "react";
 
 type TextBoxPopupProps = {
   openGenrePopup: boolean;
   commonGenres: string[];
   addGenre: (value: string) => void;
+  selectGenre: (genre: string) => void;
   setOpenGenrePopup: React.Dispatch<React.SetStateAction<any>>;
 };
 
 function TextBoxPopup(props: TextBoxPopupProps) {
+  const [errors, setErrors] = useState<string[]>([]);
+  const validateGenre = (genre: string) => {
+    let errors = [];
+    const regex = /^[a-zA-Z]+$/;
+    // console.log(regex.test(genre));
+    if (props.commonGenres.includes(genre)) {
+      errors.push("Genre must be unique");
+    } else if (!regex.test(genre)) {
+      // tests that it only contains letters
+      // must also removes leading and following spaces
+      errors.push("Genre must contain only letters");
+    }
+    setErrors(errors);
+    return errors;
+  };
+
   return (
     <div>
       <Dialog
@@ -24,18 +42,14 @@ function TextBoxPopup(props: TextBoxPopupProps) {
             event.preventDefault();
             const formData = new FormData(event.currentTarget);
             const formJson = Object.fromEntries((formData as any).entries());
-            const genre = formJson.genre;
-            // need to validate here
-            // validate genre first (like only letters, no duplicates)
-            //
-            if (!props.commonGenres.includes(genre)) {
-              // add genre
-              props.addGenre(genre);
-            } else {
-              // show error
+            const genre: string = formJson.genre;
+            // if no errors, add it
+            if (validateGenre(genre).length === 0) {
+              props.addGenre(genre.toLowerCase());
+              props.selectGenre(genre);
+              setErrors([]);
+              props.setOpenGenrePopup(false);
             }
-
-            props.setOpenGenrePopup(false);
           },
         }}
       >
@@ -55,8 +69,18 @@ function TextBoxPopup(props: TextBoxPopupProps) {
             variant="standard"
           />
         </DialogContent>
+        {errors.map((error, key) => {
+          return <DialogContentText key={key}>{error}</DialogContentText>;
+        })}
         <DialogActions>
-          <Button onClick={() => props.setOpenGenrePopup(false)}>Cancel</Button>
+          <Button
+            onClick={() => {
+              props.setOpenGenrePopup(false);
+              setErrors([]);
+            }}
+          >
+            Cancel
+          </Button>
           <Button type="submit">Add</Button>
         </DialogActions>
       </Dialog>

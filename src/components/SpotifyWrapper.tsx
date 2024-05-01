@@ -8,27 +8,6 @@ import {
 } from "./types";
 
 export const SpotifyAPI = {
-  // fetchToken: async function (url: any, tokenPayload: any): Promise<string> {
-  //   let token = "";
-  //   await fetch(url, tokenPayload)
-  //     .then((result) => {
-  //       if (!result.ok) {
-  //         // error popup?
-  //         throw new Error("Network response was not ok");
-  //       }
-  //       return result.json();
-  //     })
-  //     .then((data) => {
-  //       console.log(data);
-  //       token = data.access_token;
-  //       return data.access_token;
-  //     })
-  //     .catch((error) => {
-  //       // error popup?
-  //       console.log(error);
-  //     });
-  //   return token;
-  // },
   fetchUserData: async function (
     profileParams: SpotifyParams,
     profileId: string
@@ -119,6 +98,7 @@ export const SpotifyAPI = {
 
       const data = await response.json();
       const artistIds = new Set<string>([]);
+      console.log(data);
       data.items.forEach((song: any) => {
         // lower this to 49?
         if (song.track.artists.length === 1 && artistIds.size < 100) {
@@ -160,7 +140,7 @@ export const SpotifyAPI = {
         `https://api.spotify.com/v1/artists?${artistIds}`,
         artistParams
       );
-
+      console.log(response);
       if (!response.ok) {
         throw new Error("Network response was not ok");
       }
