@@ -86,6 +86,7 @@ export const SpotifyAPI = {
   ): Promise<string | null> {
     let artistIdsForFetch: string = "ids=";
 
+    // need to change limit to call rest of playlist
     try {
       const response = await fetch(
         `https://api.spotify.com/v1/playlists/${playlistId}/tracks`,

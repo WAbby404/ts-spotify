@@ -146,12 +146,14 @@ function App() {
     // and grabs that playlists details for later on
     console.log(playlist);
     setSelectedPlaylist(playlist);
+    setGenres([]);
+    setNewPlaylist([]);
   };
 
   const generateNewPlaylist = () => {
     console.log("making a new playlist brrring brrrring,, bing bing brrring");
     // get songs, get artists - if artist has a genre that inside our genre list, add song to new
-    // setNewPlaylist(["Grenade - Bruno Mars", "Tabo Bell Bell Sound Gong"]);
+    setNewPlaylist(["Grenade - Bruno Mars", "Tabo Bell Bell Sound Gong"]);
     async function waitForPlaylists() {
       console.log(playlistData);
       const playlistDetailsParam = {
