@@ -12,7 +12,8 @@ import {
   PopupData,
   ArtistObjectFull,
 } from "./components/types";
-import { SpotifyAPI } from "./components/SpotifyWrapper";
+import { MusicAPI } from "./components/APIWrapper";
+import { useMusicAPI } from "./components/APIWrapper2";
 import Login from "./components/Login";
 import ErrorPopup from "./components/ErrorPopup";
 
@@ -49,6 +50,13 @@ function App() {
   const [genres, setGenres] = useState<string[]>([]);
 
   const [newPlaylist, setNewPlaylist] = useState<string[]>([]);
+
+  const {
+    fetchUserData,
+    fetchPlaylistData,
+    fetchPlaylistTracks,
+    fetchArtistDetails,
+  } = MusicAPI;
 
   const handlePopupExit = () => {
     setPopupData({
@@ -106,8 +114,8 @@ function App() {
 
       let profileId = "";
 
-      SpotifyAPI.fetchUserData(profileParams, profileId).then((data) => {
-        // console.log(data);
+      // HERE API calls
+      fetchUserData(profileParams, profileId).then((data) => {
         setUserData(data);
       });
 
@@ -119,13 +127,11 @@ function App() {
         },
       };
 
-      SpotifyAPI.fetchPlaylistData(playlistParams, profileId).then(
-        (dataArray) => {
-          if (dataArray != null) {
-            setPlaylistData(dataArray);
-          }
+      fetchPlaylistData(playlistParams, profileId).then((dataArray) => {
+        if (dataArray != null) {
+          setPlaylistData(dataArray);
         }
-      );
+      });
     }
   }, []);
 
@@ -162,7 +168,7 @@ function App() {
           Authorization: "Bearer " + token,
         },
       };
-      let artistIDS = await SpotifyAPI.fetchPlaylistTracks(
+      let artistIDS = await fetchPlaylistTracks(
         playlistDetailsParam,
         selectedPlaylist.playlistId
       );
@@ -174,10 +180,7 @@ function App() {
         },
       };
       if (artistIDS !== null) {
-        let responseArtists = await SpotifyAPI.fetchArtistDetails(
-          artistParams,
-          artistIDS
-        );
+        let responseArtists = await fetchArtistDetails(artistParams, artistIDS);
         console.log("artist response: " + responseArtists);
         console.log(responseArtists);
 

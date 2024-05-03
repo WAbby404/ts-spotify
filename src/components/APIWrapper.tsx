@@ -7,7 +7,7 @@ import {
   MultipleArtistsResponse,
 } from "./types";
 
-export const SpotifyAPI = {
+export const MusicAPI = {
   fetchUserData: async function (
     profileParams: SpotifyParams,
     profileId: string
