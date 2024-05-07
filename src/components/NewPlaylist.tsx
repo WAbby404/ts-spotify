@@ -1,6 +1,7 @@
 import { Button, Typography } from "@mui/material";
 import TagIcon from "@mui/icons-material/Tag";
 import AccessTimeFilledIcon from "@mui/icons-material/AccessTimeFilled";
+import { useState } from "react";
 
 // ADD A PLAYLIST TYPE IN A SEPARATE FILE??
 // all playlists will have the same elements or data structure, so why not?
@@ -18,6 +19,8 @@ type NewPlaylistProps = {
 };
 
 function NewPlaylist(props: NewPlaylistProps) {
+  const [isLoading, setIsLoading] = useState(false);
+
   const genresStringTitle = () => {
     let initialValue = "";
     return props.genres.reduce(
@@ -28,6 +31,7 @@ function NewPlaylist(props: NewPlaylistProps) {
 
   return (
     <div>
+      {/* change this to if loading do this */}
       {props.newPlaylist.length > 0 ? (
         <div className="w-[90%] m-auto">
           <div>

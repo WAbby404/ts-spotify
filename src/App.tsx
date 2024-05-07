@@ -157,47 +157,52 @@ function App() {
   };
 
   const generateNewPlaylist = () => {
-    console.log("making a new playlist brrring brrrring,, bing bing brrring");
+    // need to turn a loading state ON here
+    // console.log("making a new playlist brrring brrrring,, bing bing brrring");
     // get songs, get artists - if artist has a genre that inside our genre list, add song to new
     setNewPlaylist(["Grenade - Bruno Mars", "Tabo Bell Bell Sound Gong"]);
     async function waitForPlaylists() {
-      console.log(playlistData);
+      // need to get back an array of songs
       const playlistDetailsParam = {
         method: "GET",
         headers: {
           Authorization: "Bearer " + token,
         },
       };
-      let artistIDS = await fetchPlaylistTracks(
+      let allSongs = await fetchPlaylistTracks(
         playlistDetailsParam,
-        selectedPlaylist.playlistId
+        selectedPlaylist.playlistId,
+        selectedPlaylist.totalSongs
       );
-      console.log("waitForPlaylists call " + artistIDS);
+      console.log(allSongs);
+      // keep all songs in a state
+
+      // make a set of all artist ids
+      let artistIds = new Set();
+      allSongs.forEach((song: any) => {
+        song.track.artists.forEach((artist: any) => {
+          // each id add it to set
+          artistIds.add(artist.id);
+        });
+      });
+      console.log(artistIds);
+      let artistIdsArray = Array.from(artistIds);
+      // needed for the genres call
+
+      //songs have ID
+      // what do we compare?
+
       const artistParams = {
         method: "GET",
         headers: {
           Authorization: "Bearer " + token,
         },
       };
-      if (artistIDS !== null) {
-        let responseArtists = await fetchArtistDetails(artistParams, artistIDS);
-        console.log("artist response: " + responseArtists);
-        console.log(responseArtists);
 
-        // const getSongWithSelectedGenres = () => {
-        //   let artistsWithGenres = [];
-        //   if (responseArtists !== null) {
-        //     responseArtists.artists.forEach((artist) =>
-        //       genres.forEach((genre) => {
-        //         if (artist.genres.includes(genre)) {
-        //           artistsWithGenres.push(artist);
-        //         }
-        //       })
-        //     );
-        //   }
-        // };
-        // getArtistsWithSelectedGenres();
-      }
+      let responseArtists = await fetchArtistDetails(
+        artistParams,
+        artistIdsArray
+      );
     }
     waitForPlaylists();
     // we do all the calculations to make the new playlist & now we set it to newplaylist state

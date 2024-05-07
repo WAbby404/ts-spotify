@@ -30,7 +30,7 @@ function SelectGenres(props: SelectGenresProps) {
   ]);
 
   const [openGenrePopup, setOpenGenrePopup] = useState(false);
-  const [textboxPopupAnswer, setTextboxPopupAnswer] = useState("");
+  // const [textboxPopupAnswer, setTextboxPopupAnswer] = useState("");
   // add a genre? maybe visit this later
 
   // rename to selectGenre?
