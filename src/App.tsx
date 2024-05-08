@@ -21,6 +21,7 @@ import ErrorPopup from "./components/ErrorPopup";
 function App() {
   const [count, setCount] = useState(0);
   const [token, setToken] = useState<string | undefined>("");
+  const [isLoading, setIsLoading] = useState<boolean | null>(null);
   const [currentTimeout, setCurrentTimeout] = useState<null | NodeJS.Timeout>(
     null
   );
@@ -49,7 +50,9 @@ function App() {
 
   const [genres, setGenres] = useState<string[]>([]);
 
-  const [newPlaylist, setNewPlaylist] = useState<string[]>([]);
+  const [newPlaylist, setNewPlaylist] = useState<any[]>([]);
+
+  const [repeatID, setRepeatID] = useState("");
 
   const {
     fetchUserData,
@@ -154,14 +157,29 @@ function App() {
     setSelectedPlaylist(playlist);
     setGenres([]);
     setNewPlaylist([]);
+    setIsLoading(null);
   };
 
   const generateNewPlaylist = () => {
+    setIsLoading(true);
     // need to turn a loading state ON here
     // console.log("making a new playlist brrring brrrring,, bing bing brrring");
     // get songs, get artists - if artist has a genre that inside our genre list, add song to new
-    setNewPlaylist(["Grenade - Bruno Mars", "Tabo Bell Bell Sound Gong"]);
+
     async function waitForPlaylists() {
+      if (repeatID === "" || repeatID !== selectedPlaylist.playlistId) {
+        console.log("will run without API calls now, so itll be much faster");
+        //
+      } else {
+        console.log(
+          "will run with current artists and songs because this already ran before so its more efficient"
+        );
+        // run with current artists
+      }
+      //! if same playlist as last time, use same artists and songs, so no more calls
+      // playlist id
+      // repeatID state?
+
       // need to get back an array of songs
       const playlistDetailsParam = {
         method: "GET",
@@ -183,6 +201,7 @@ function App() {
       fullPlaylist.forEach((song: any) => {
         song.track.artists.forEach((artist: any) => {
           // each id add it to set
+          // artist.track.artists[0].id
           uniqueArtistIDs.add(artist.id);
         });
       });
@@ -202,9 +221,50 @@ function App() {
         artistParams,
         uniqueArtistIDsArray
       );
+
+      console.log("responseArtists: ");
+      console.log(responseArtists);
+
+      let artistsWithGenre: any = [];
+
+      responseArtists.forEach((artist: any) => {
+        let hasGenre = false;
+        genres.forEach((genre) => {
+          artist.genres.forEach((genre2: any) => {
+            if (genre2.includes(genre)) {
+              hasGenre = true;
+            }
+          });
+        });
+        if (hasGenre) {
+          artistsWithGenre.push(artist.id);
+        }
+
+        // if any selected genre is in the 'genres' list, add any song with that id to the newPlaylist
+      });
+      console.log("artistsWithGenres: ");
+      console.log(artistsWithGenre);
+      // now we have a list of artists with our selected genres. NOW we look thru whole playlist,
+      // if a fullPlaylist.song.track.id is not in artistsWithGenres
+
+      // fullPlaylist.artist.track.artists[0].id
+      // 0fYPQBOx0vsRMmjUba9HgF
+      // 0fYPQBOx0vsRMmjUba9HgF
+      // responseArtists.artist.id
+
+      let newPlaylistTEMP: any = [];
+      fullPlaylist.forEach((song: any) => {
+        if (artistsWithGenre.includes(song.track.artists[0].id)) {
+          newPlaylistTEMP.push(song);
+        }
+      });
+      console.log("newPlaylistTEMP: ");
+      console.log(newPlaylistTEMP);
+
+      setNewPlaylist(newPlaylistTEMP);
+      setIsLoading(false);
     }
     waitForPlaylists();
-    // we do all the calculations to make the new playlist & now we set it to newplaylist state
   };
 
   return (
@@ -229,6 +289,7 @@ function App() {
               genres={genres}
               setGenres={setGenres}
               generateNewPlaylist={generateNewPlaylist}
+              isLoading={isLoading}
             />
             <Recommended
               recommendedSongs={["rock jazz song1", "smooth jazz 2"]}

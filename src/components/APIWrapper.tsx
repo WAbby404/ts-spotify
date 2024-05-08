@@ -127,9 +127,9 @@ export const MusicAPI = {
     uniqueArtistIDs: any
   ): Promise<any> {
     let idsLength = uniqueArtistIDs.length;
-
+    let allArtists = [];
     while (idsLength > 0) {
-      console.log(uniqueArtistIDs.length);
+      // console.log(uniqueArtistIDs.length);
       let tempIDs = [];
       for (let i = 0; i < 49; i++) {
         tempIDs.push(uniqueArtistIDs[i]);
@@ -145,7 +145,7 @@ export const MusicAPI = {
           stringIDs += `${id},`;
         }
       });
-      console.log(stringIDs);
+      // console.log(stringIDs);
 
       idsLength -= 49;
 
@@ -161,13 +161,19 @@ export const MusicAPI = {
         const data = await response.json();
         // now we have genres.
         // if any genre is in our array of genres, then add them to songs l
-        console.log(`data number #${uniqueArtistIDs.length}: `);
-        console.log(data);
+        // console.log(`data number #${uniqueArtistIDs.length}: `);
+        // console.log(data);
+        allArtists.push(...data.artists);
       } catch (error) {
         console.log(error);
         return null;
       }
+
+      // need to set each iteration response to a big array
     }
+    // console.log("allArtists: ");
+    // console.log(allArtists);
+    return allArtists;
     // // a loop to take 49 songs off
     // let ids = artistIds;
     // let artists = [];

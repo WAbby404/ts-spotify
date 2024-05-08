@@ -1,10 +1,6 @@
-import { Button, Typography } from "@mui/material";
+import { Button, Skeleton, Typography } from "@mui/material";
 import TagIcon from "@mui/icons-material/Tag";
 import AccessTimeFilledIcon from "@mui/icons-material/AccessTimeFilled";
-import { useState } from "react";
-
-// ADD A PLAYLIST TYPE IN A SEPARATE FILE??
-// all playlists will have the same elements or data structure, so why not?
 
 type NewPlaylistProps = {
   newPlaylistDetails: {
@@ -14,66 +10,79 @@ type NewPlaylistProps = {
   };
   genres: string[];
   count: number;
-  newPlaylist: string[];
+  newPlaylist: any[];
+  isLoading: boolean | null;
   setCount: React.Dispatch<React.SetStateAction<any>>;
 };
 
 function NewPlaylist(props: NewPlaylistProps) {
-  const [isLoading, setIsLoading] = useState(false);
+  // const [isLoading, setIsLoading] = useState(false);
 
-  const genresStringTitle = () => {
-    let initialValue = "";
-    return props.genres.reduce(
-      (accumulator, currentValue) => accumulator + ", " + currentValue,
-      initialValue
-    );
+  const convertFromMs = (millis: any) => {
+    var minutes = Math.floor(millis / 60000);
+    var seconds = ((millis % 60000) / 1000).toFixed(0);
+    return minutes + ":" + (Number(seconds) < 10 ? "0" : "") + seconds;
   };
 
-  return (
-    <div>
-      {/* change this to if loading do this */}
-      {props.newPlaylist.length > 0 ? (
-        <div className="w-[90%] m-auto">
+  const render = () => {
+    switch (props.isLoading) {
+      case true:
+        return (
+          <>
+            <Skeleton variant="circular" width={40} height={40} />
+            <Skeleton variant="rectangular" width={210} height={60} />
+            <Skeleton variant="rounded" width={210} height={60} />
+          </>
+        );
+      case false:
+        return (
           <div>
-            <img src={props.newPlaylistDetails.img} alt="replaceme" />
-            <Typography>
-              Playlist Title - ({genresStringTitle()} only)
-            </Typography>
-          </div>
-          <div>
-            <div className="flex justify-between">
-              <TagIcon />
-              <Typography>TITLE</Typography>
-              <Typography>ALBUM</Typography>
-              <Typography>GENRE</Typography>
-              <AccessTimeFilledIcon />
+            <div className="w-[90%] m-auto">
+              {/* <img src={props.newPlaylistDetails.img} alt={`${}`} /> */}
+              <Typography>Playlist Title</Typography>
             </div>
-            <ul>
-              {props.newPlaylist.map((song, index) => {
-                return (
-                  <li key={index} className="flex">
-                    <Typography>title</Typography>
-                    <div>
-                      <img src="song img link" alt="replaceme" />
-                      <div>
-                        <Typography>{song}</Typography>
-                        <Typography>Subtitle</Typography>
+            <div>
+              <div className="flex justify-between">
+                <TagIcon />
+                <Typography>TITLE</Typography>
+                <Typography>ALBUM</Typography>
+                <AccessTimeFilledIcon />
+              </div>
+              <ul>
+                {props.newPlaylist.map((song, index) => {
+                  return (
+                    <li key={index} className="flex justify-between">
+                      <Typography className="">{index}</Typography>
+                      <div className="flex">
+                        <img
+                          src={song.track.album.images[2].url}
+                          alt="replaceme"
+                        />
+                        <div>
+                          <Typography>{song.track.name}</Typography>
+                          <Typography>
+                            {song.track.album.artists[0].name}
+                          </Typography>
+                        </div>
                       </div>
-                    </div>
-                    <Typography>Album Name</Typography>
-                    <Typography>Genre</Typography>
-                    <Typography>Time</Typography>
-                  </li>
-                );
-              })}
-            </ul>
+                      <Typography>{song.track.album.name}</Typography>
+                      <Typography>
+                        {convertFromMs(song.track.duration_ms)}
+                      </Typography>
+                    </li>
+                  );
+                })}
+              </ul>
+            </div>
           </div>
-        </div>
-      ) : (
-        <></>
-      )}
-    </div>
-  );
+        );
+
+      default:
+        return <></>;
+    }
+  };
+
+  return <div>{render()}</div>;
 }
 
 export default NewPlaylist;

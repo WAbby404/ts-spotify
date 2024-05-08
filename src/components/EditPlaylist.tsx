@@ -9,7 +9,8 @@ type EditPlaylistProps = {
   userData: UserData;
   genres: string[];
   count: number;
-  newPlaylist: string[];
+  newPlaylist: any[];
+  isLoading: boolean | null;
   setCount: React.Dispatch<React.SetStateAction<any>>;
   setGenres: React.Dispatch<React.SetStateAction<any>>;
   generateNewPlaylist: () => void;
@@ -36,6 +37,7 @@ function EditPlaylist(props: EditPlaylistProps) {
           <NewPlaylist
             genres={props.genres}
             count={props.count}
+            isLoading={props.isLoading}
             setCount={props.setCount}
             newPlaylist={props.newPlaylist}
             newPlaylistDetails={{
