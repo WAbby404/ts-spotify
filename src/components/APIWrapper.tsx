@@ -124,53 +124,93 @@ export const MusicAPI = {
 
   fetchArtistDetails: async function (
     artistParams: SpotifyParams,
-    artistIds: any
+    uniqueArtistIDs: any
   ): Promise<any> {
-    console.log(artistIds);
+    let idsLength = uniqueArtistIDs.length;
 
-    // a loop to take 49 songs off
-    let ids = artistIds;
-    let artists = [];
-    while (ids.length) {
-      let tempIds = [];
+    while (idsLength > 0) {
+      console.log(uniqueArtistIDs.length);
+      let tempIDs = [];
       for (let i = 0; i < 49; i++) {
-        tempIds.push(artistIds[i]);
+        tempIDs.push(uniqueArtistIDs[i]);
       }
-      ids.splice(0, 49);
-      console.log("ids: ");
-      console.log(ids);
+      uniqueArtistIDs.splice(0, 49);
 
-      console.log(tempIds);
-      let stringIds = "ids=";
-      tempIds.forEach((id, index) => {
-        if (index === tempIds.length - 1) {
-          stringIds = stringIds + `${id}`;
-        } else {
-          stringIds = stringIds + `${id},`;
+      // put all ids in a string for API call
+      let stringIDs = "ids=";
+      tempIDs.forEach((id, index) => {
+        if (index === tempIDs.length - 1 && id !== undefined) {
+          stringIDs += `${id}`;
+        } else if (id !== undefined) {
+          stringIDs += `${id},`;
         }
       });
-      console.log(stringIds);
+      console.log(stringIDs);
+
+      idsLength -= 49;
+
       try {
         const response = await fetch(
-          `https://api.spotify.com/v1/artists?${stringIds}`,
+          `https://api.spotify.com/v1/artists?${stringIDs}`,
           artistParams
         );
         if (!response.ok) {
           throw new Error("Network response was not ok");
         }
         // will need to add them to artists
-        console.log(response);
         const data = await response.json();
         // now we have genres.
         // if any genre is in our array of genres, then add them to songs l
-        console.log("data: ");
+        console.log(`data number #${uniqueArtistIDs.length}: `);
         console.log(data);
       } catch (error) {
         console.log(error);
         return null;
       }
-      // splice remove first 49
     }
+    // // a loop to take 49 songs off
+    // let ids = artistIds;
+    // let artists = [];
+    // while (ids.length) {
+    //   let tempIds = [];
+    //   for (let i = 0; i < 49; i++) {
+    //     tempIds.push(artistIds[i]);
+    //   }
+    //   ids.splice(0, 49);
+    //   console.log("ids: ");
+    //   console.log(ids);
+
+    //   console.log(tempIds);
+    //   let stringIds = "ids=";
+    //   tempIds.forEach((id, index) => {
+    //     if (index === tempIds.length - 1) {
+    //       stringIds = stringIds + `${id}`;
+    //     } else {
+    //       stringIds = stringIds + `${id},`;
+    //     }
+    //   });
+    //   console.log(stringIds);
+    //   try {
+    //     const response = await fetch(
+    //       `https://api.spotify.com/v1/artists?${stringIds}`,
+    //       artistParams
+    //     );
+    //     if (!response.ok) {
+    //       throw new Error("Network response was not ok");
+    //     }
+    //     // will need to add them to artists
+    //     console.log(response);
+    //     const data = await response.json();
+    //     // now we have genres.
+    //     // if any genre is in our array of genres, then add them to songs l
+    //     console.log("data: ");
+    //     console.log(data);
+    //   } catch (error) {
+    //     console.log(error);
+    //     return null;
+    //   }
+    //   // splice remove first 49
+    // }
 
     // try {
     //   const response = await fetch(

@@ -169,28 +169,27 @@ function App() {
           Authorization: "Bearer " + token,
         },
       };
-      let allSongs = await fetchPlaylistTracks(
+      let fullPlaylist = await fetchPlaylistTracks(
         playlistDetailsParam,
         selectedPlaylist.playlistId,
         selectedPlaylist.totalSongs
       );
-      console.log(allSongs);
+      console.log("fullPlaylist: ");
+      console.log(fullPlaylist);
       // keep all songs in a state
 
       // make a set of all artist ids
-      let artistIds = new Set();
-      allSongs.forEach((song: any) => {
+      let uniqueArtistIDs = new Set();
+      fullPlaylist.forEach((song: any) => {
         song.track.artists.forEach((artist: any) => {
           // each id add it to set
-          artistIds.add(artist.id);
+          uniqueArtistIDs.add(artist.id);
         });
       });
-      console.log(artistIds);
-      let artistIdsArray = Array.from(artistIds);
-      // needed for the genres call
+      console.log("uniqueArtistIDs: ");
+      console.log(uniqueArtistIDs);
 
-      //songs have ID
-      // what do we compare?
+      let uniqueArtistIDsArray = Array.from(uniqueArtistIDs);
 
       const artistParams = {
         method: "GET",
@@ -201,7 +200,7 @@ function App() {
 
       let responseArtists = await fetchArtistDetails(
         artistParams,
-        artistIdsArray
+        uniqueArtistIDsArray
       );
     }
     waitForPlaylists();
