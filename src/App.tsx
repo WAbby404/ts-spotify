@@ -17,7 +17,6 @@ import { useMusicAPI } from "./components/APIWrapper2";
 import Login from "./components/Login";
 import ErrorPopup from "./components/ErrorPopup";
 
-// NEED AN ISLOADING STATE
 function App() {
   const [count, setCount] = useState(0);
   const [token, setToken] = useState<string | undefined>("");
@@ -162,13 +161,10 @@ function App() {
 
   const generateNewPlaylist = () => {
     setIsLoading(true);
-    // need to turn a loading state ON here
-    // console.log("making a new playlist brrring brrrring,, bing bing brrring");
-    // get songs, get artists - if artist has a genre that inside our genre list, add song to new
 
     async function waitForPlaylists() {
       if (repeatID === "" || repeatID !== selectedPlaylist.playlistId) {
-        console.log("will run without API calls now, so itll be much faster");
+        console.log("will run with API calls");
         //
       } else {
         console.log(
@@ -192,8 +188,8 @@ function App() {
         selectedPlaylist.playlistId,
         selectedPlaylist.totalSongs
       );
-      console.log("fullPlaylist: ");
-      console.log(fullPlaylist);
+      // console.log("fullPlaylist: ");
+      // console.log(fullPlaylist);
       // keep all songs in a state
 
       // make a set of all artist ids
@@ -205,8 +201,8 @@ function App() {
           uniqueArtistIDs.add(artist.id);
         });
       });
-      console.log("uniqueArtistIDs: ");
-      console.log(uniqueArtistIDs);
+      // console.log("uniqueArtistIDs: ");
+      // console.log(uniqueArtistIDs);
 
       let uniqueArtistIDsArray = Array.from(uniqueArtistIDs);
 
@@ -222,8 +218,8 @@ function App() {
         uniqueArtistIDsArray
       );
 
-      console.log("responseArtists: ");
-      console.log(responseArtists);
+      // console.log("responseArtists: ");
+      // console.log(responseArtists);
 
       let artistsWithGenre: any = [];
 
@@ -242,15 +238,9 @@ function App() {
 
         // if any selected genre is in the 'genres' list, add any song with that id to the newPlaylist
       });
-      console.log("artistsWithGenres: ");
-      console.log(artistsWithGenre);
+      // console.log("artistsWithGenres: ");
+      // console.log(artistsWithGenre);
       // now we have a list of artists with our selected genres. NOW we look thru whole playlist,
-      // if a fullPlaylist.song.track.id is not in artistsWithGenres
-
-      // fullPlaylist.artist.track.artists[0].id
-      // 0fYPQBOx0vsRMmjUba9HgF
-      // 0fYPQBOx0vsRMmjUba9HgF
-      // responseArtists.artist.id
 
       let newPlaylistTEMP: any = [];
       fullPlaylist.forEach((song: any) => {
@@ -258,10 +248,11 @@ function App() {
           newPlaylistTEMP.push(song);
         }
       });
-      console.log("newPlaylistTEMP: ");
-      console.log(newPlaylistTEMP);
+      // console.log("newPlaylistTEMP: ");
+      // console.log(newPlaylistTEMP);
 
       setNewPlaylist(newPlaylistTEMP);
+      setRepeatID(selectedPlaylist.playlistId);
       setIsLoading(false);
     }
     waitForPlaylists();
