@@ -4,7 +4,6 @@ import SelectPlaylist from "./components/SelectPlaylist";
 import Logout from "./components/Logout";
 import EditPlaylist from "./components/EditPlaylist";
 import Recommended from "./components/Recommended";
-import { Container, Grid } from "@mui/material";
 import {
   PlaylistData,
   UserData,
@@ -259,18 +258,18 @@ function App() {
   };
 
   return (
-    <div className="w-screen h-screen border-2 border-rose-500">
+    <div className="w-screen h-screen bg-zinc-900 p-1.5 m-auto">
       {token ? (
-        <div className="flex">
+        <div className="flex border border-red-500 gap-3">
           <ErrorPopup popupData={popupData} handlePopupExit={handlePopupExit} />
-          <div className="border-2 border-gray-700">
+          <div className="flex gap-2 flex-col border border-blue-500">
             <SelectPlaylist
               updateCurrentPlaylist={updateCurrentPlaylist}
               playlists={playlistData}
             />
             <Logout handleLogout={handleLogout} userData={userData} />
           </div>
-          <div className="border-4 border-indigo-500">
+          <div className="">
             <EditPlaylist
               count={count}
               setCount={setCount}

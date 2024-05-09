@@ -8,7 +8,7 @@ type PlaylistDetailsProps = {
 
 function PlaylistDetails({ currentPlaylist, userData }: PlaylistDetailsProps) {
   return (
-    <div className="border-solid border-2 border-sky-500 flex">
+    <div className="flex text-white">
       <img src={currentPlaylist.img} alt="Album cover INFO (bring this in)" />
       <div className="flex flex-col ">
         <Typography>PLAYLIST</Typography>

@@ -1,5 +1,4 @@
 import { Avatar, Stack, Typography, Button } from "@mui/material";
-import PlaylistAddIcon from "@mui/icons-material/PlaylistAdd";
 import { PlaylistData } from "./types";
 import { useState } from "react";
 
@@ -9,17 +8,18 @@ type PlaylistProps = {
 };
 
 // on hover, change background color
-// when selected change background color
-
-// onclick to set currentPlaylist to playlists ID
 function SelectPlaylist(playlistProps: PlaylistProps) {
   const [highlighted, setHighlighted] = useState(-1);
 
   return (
-    <Stack className="border-solid border-2 border-sky-500">
-      <div className="flex">
-        <PlaylistAddIcon />
-        <h1>Select your playlist</h1>
+    <Stack className="bg-gray-800 p-2">
+      <div className="flex gap-2 justify-center items-center">
+        <img
+          src={require("../images/playlistIcon.png")}
+          alt="Playlist icon"
+          className="w-7"
+        />
+        <h1 className="text-white">Select your playlist</h1>
       </div>
 
       {playlistProps.playlists.map((playlist, index) => {
@@ -27,11 +27,6 @@ function SelectPlaylist(playlistProps: PlaylistProps) {
           <Button
             key={index}
             onClick={() => {
-              // maybe all this data has to come from playlistProps, playlist?
-              // console.log(playlist);
-
-              // CLICKING THIS BUTTON
-              // sets a currentPlaylist state to this playlists data
               playlistProps.updateCurrentPlaylist(
                 playlist.playlistId,
                 playlist
@@ -39,10 +34,11 @@ function SelectPlaylist(playlistProps: PlaylistProps) {
               setHighlighted(index);
             }}
             variant={highlighted === index ? "contained" : "outlined"}
-            // color={highlighted === index ? "secondary" : "primary"}
           >
-            <Avatar src={playlist.img} />
-            <Typography variant="subtitle1">{playlist.title}</Typography>
+            <Avatar src={playlist.img} variant="square" />
+            <Typography variant="subtitle1" className="grow">
+              {playlist.title}
+            </Typography>
           </Button>
         );
       })}
