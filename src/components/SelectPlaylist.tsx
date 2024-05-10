@@ -12,7 +12,7 @@ function SelectPlaylist(playlistProps: PlaylistProps) {
   const [highlighted, setHighlighted] = useState(-1);
 
   return (
-    <Stack className="bg-gray-800 p-2">
+    <Stack className="bg-gray-800 p-2 grow order-1">
       <div className="flex gap-2 justify-center items-center">
         <img
           src={require("../images/playlistIcon.png")}

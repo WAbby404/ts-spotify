@@ -18,7 +18,7 @@ type EditPlaylistProps = {
 
 function EditPlaylist(props: EditPlaylistProps) {
   return (
-    <div>
+    <div className="order-2">
       {props.selectedPlaylist.title ? (
         <div>
           <PlaylistDetails

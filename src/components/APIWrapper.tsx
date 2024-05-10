@@ -84,8 +84,9 @@ export const MusicAPI = {
     playlistDetailsParam: SpotifyParams,
     playlistId: string,
     totalSongs: number
+    // an array of song objects
   ): Promise<any> {
-    // getting the limits for each call
+    // Getting the limits based on length for each call
     let callAmount = totalSongs;
     let calloffets = [0];
     let currentAmount = 0;
@@ -95,12 +96,14 @@ export const MusicAPI = {
       calloffets.push(currentAmount);
     }
 
+    // Making the url endpoints based on the limits
     let urls = calloffets.map((limit, index) => {
       return `https://api.spotify.com/v1/playlists/${playlistId}/tracks${
         index !== 0 ? `?offset=${limit}` : ""
       }`;
     });
 
+    // Retrieving the songs for each 100 songs of my playlist and adding each song to an array
     let allSongs: any = [];
     for (let i = 0; i < urls.length; i++) {
       try {
@@ -108,16 +111,13 @@ export const MusicAPI = {
         if (!response.ok) {
           throw new Error("Network response was not ok");
         }
-        // console.log(response);
         const data = await response.json();
-        // console.log(data.items);
         allSongs.push(...data.items);
       } catch (error) {
         console.log(error);
         return null; // or handle the error in some way
       }
     }
-    // console.log(allSongs);
 
     return allSongs;
   },

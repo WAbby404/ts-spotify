@@ -36,7 +36,7 @@ function NewPlaylist(props: NewPlaylistProps) {
         );
       case false:
         return (
-          <div>
+          <div className="text-white">
             <div className="w-[90%] m-auto">
               {/* <img src={props.newPlaylistDetails.img} alt={`${}`} /> */}
               <Typography>Playlist Title</Typography>

@@ -69,7 +69,7 @@ function SelectGenres(props: SelectGenresProps) {
   };
 
   return (
-    <div className="border-solid border-2 border-sky-500">
+    <div className="text-white">
       <TextBoxPopup
         openGenrePopup={openGenrePopup}
         setOpenGenrePopup={setOpenGenrePopup}

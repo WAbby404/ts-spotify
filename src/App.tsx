@@ -12,7 +12,7 @@ import {
   ArtistObjectFull,
 } from "./components/types";
 import { MusicAPI } from "./components/APIWrapper";
-import { useMusicAPI } from "./components/APIWrapper2";
+// import { useMusicAPI } from "./components/APIWrapper2";
 import Login from "./components/Login";
 import ErrorPopup from "./components/ErrorPopup";
 
@@ -51,6 +51,8 @@ function App() {
   const [newPlaylist, setNewPlaylist] = useState<any[]>([]);
 
   const [repeatID, setRepeatID] = useState("");
+
+  const [expandSection, setExpandSection] = useState(["selectedPlaylist"]);
 
   const {
     fetchUserData,
@@ -258,33 +260,37 @@ function App() {
   };
 
   return (
-    <div className="w-screen h-screen bg-zinc-900 p-1.5 m-auto">
+    <div className="w-screen h-svh bg-zinc-900 p-1.5 m-auto justify-center flex">
       {token ? (
-        <div className="flex border border-red-500 gap-3">
+        //<div className="flex border border-red-500 gap-3 h-[90%]">
+        <div className="flex border flex-col gap-3 w-screen p-3">
           <ErrorPopup popupData={popupData} handlePopupExit={handlePopupExit} />
-          <div className="flex gap-2 flex-col border border-blue-500">
+          <SelectPlaylist
+            updateCurrentPlaylist={updateCurrentPlaylist}
+            playlists={playlistData}
+          />
+          {/* <div className="flex gap-2 flex-col justify-between">
             <SelectPlaylist
               updateCurrentPlaylist={updateCurrentPlaylist}
               playlists={playlistData}
             />
             <Logout handleLogout={handleLogout} userData={userData} />
-          </div>
-          <div className="">
-            <EditPlaylist
-              count={count}
-              setCount={setCount}
-              userData={userData}
-              selectedPlaylist={selectedPlaylist}
-              newPlaylist={newPlaylist}
-              genres={genres}
-              setGenres={setGenres}
-              generateNewPlaylist={generateNewPlaylist}
-              isLoading={isLoading}
-            />
-            <Recommended
-              recommendedSongs={["rock jazz song1", "smooth jazz 2"]}
-            />
-          </div>
+          </div> */}
+          <EditPlaylist
+            count={count}
+            setCount={setCount}
+            userData={userData}
+            selectedPlaylist={selectedPlaylist}
+            newPlaylist={newPlaylist}
+            genres={genres}
+            setGenres={setGenres}
+            generateNewPlaylist={generateNewPlaylist}
+            isLoading={isLoading}
+          />
+          <Recommended
+            recommendedSongs={["rock jazz song1", "smooth jazz 2"]}
+          />
+          <Logout handleLogout={handleLogout} userData={userData} />
         </div>
       ) : (
         <LoginPage />
