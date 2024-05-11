@@ -119,7 +119,9 @@ function App() {
 
       // HERE API calls
       fetchUserData(profileParams, profileId).then((data) => {
-        setUserData(data);
+        if (data !== null) {
+          setUserData(data);
+        }
       });
 
       // Getting Playlist Data from Spotify
