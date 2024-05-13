@@ -31,13 +31,7 @@ function SelectGenres(props: SelectGenresProps) {
   ]);
 
   const [openGenrePopup, setOpenGenrePopup] = useState(false);
-  // const [textboxPopupAnswer, setTextboxPopupAnswer] = useState("");
-  // add a genre? maybe visit this later
-
-  // rename to selectGenre?
   const selectGenre = (genre: string) => {
-    // rewrite with param as genre?
-    // redo array as a set?
     if (props.genres.includes(genre)) {
       props.genres.splice(props.genres.indexOf(genre), 1);
     } else {
@@ -48,19 +42,6 @@ function SelectGenres(props: SelectGenresProps) {
     props.setCount(props.count + 1);
     console.log(props.genres);
   };
-  // const selectGenre = (index: number) => {
-  //   // rewrite with param as genre?
-  //   // redo array as a set?
-  //   if (props.genres.includes(commonGenres[index])) {
-  //     props.genres.splice(props.genres.indexOf(commonGenres[index]), 1);
-  //   } else {
-  //     let oldState = props.genres;
-  //     oldState.push(commonGenres[index]);
-  //     props.setGenres(oldState);
-  //   }
-  //   props.setCount(props.count + 1);
-  //   console.log(props.genres);
-  // };
 
   const addGenre = (inputGenre: string) => {
     console.log(inputGenre);
@@ -68,18 +49,6 @@ function SelectGenres(props: SelectGenresProps) {
     oldGenres.push(inputGenre);
     setCommonGenres(oldGenres);
   };
-
-  // const playlistBtnTheme = createTheme({
-  //   palette: {
-  //     mode: "light",
-  //     primary: {
-  //       main: green[500],
-  //     },
-  //     secondary: {
-  //       main: "#B2D1B7",
-  //     },
-  //   },
-  // });
 
   // if closed and not highlighted, hide | if closed and highlighted, show | if open, show
   const generateButtonDisplay = (genre: string) => {

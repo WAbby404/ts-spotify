@@ -32,7 +32,7 @@ function EditPlaylist(props: EditPlaylistProps) {
             onClick={() => setClosed(!closed)}
           >
             <img
-              src={require("../images/newPlaylistIcon.png")}
+              src={require("../images/playlistGenresIcon.png")}
               alt="Playlist icon"
               className="w-7"
             />

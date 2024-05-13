@@ -32,7 +32,7 @@ function SelectPlaylist(playlistProps: PlaylistProps) {
   });
 
   return (
-    <Stack className="p-2 order-1 gap-2 border-2 border-rose-500">
+    <Stack className="p-2 order-1 gap-2">
       <div
         className="flex gap-2 justify-center items-center"
         onClick={() => setClosed(!closed)}

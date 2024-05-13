@@ -42,7 +42,7 @@ function NewPlaylist(props: NewPlaylistProps) {
       case true:
         return (
           <>
-            <h2>Generating your new playlist</h2>
+            <h2 className="text-white">Generating your new playlist</h2>
             <Skeleton variant="circular" width={40} height={40} />
             <Skeleton variant="rectangular" width={210} height={60} />
             <Skeleton variant="rounded" width={210} height={60} />
@@ -56,7 +56,7 @@ function NewPlaylist(props: NewPlaylistProps) {
               onClick={() => setClosed(!closed)}
             >
               <img
-                src={require("../images/newPlaylistIcon.png")}
+                src={require("../images/editPlaylistIcon.png")}
                 alt="Playlist icon"
                 className="w-7"
               />
@@ -65,18 +65,20 @@ function NewPlaylist(props: NewPlaylistProps) {
                 {closed ? <ExpandMoreIcon /> : <ExpandLessIcon />}
               </button>
             </div>
-            <div className="w-[90%] m-auto">
+            <div className={`w-[90%] m-auto`}>
               {/* <img src={props.newPlaylistDetails.img} alt={`${}`} /> */}
-              <h2 className="">{props.newPlaylistTitle}</h2>
+              <h2 className={` ${closed ? "hidden" : ""}`}>
+                {props.newPlaylistTitle}
+              </h2>
             </div>
-            <div>
-              <div className="flex justify-between">
+            <div className="flex flex-col gap-3">
+              <div className={`flex justify-between ${closed ? "hidden" : ""}`}>
                 {/* <TagIcon className="sm: hidden" /> */}
                 <h3>TITLE</h3>
                 <h3 className="sm: hidden">ALBUM</h3>
                 {/* <AccessTimeFilledIcon className="sm: hidden" /> */}
               </div>
-              <ul className="flex flex-col gap-2">
+              <ul className={`flex flex-col gap-2 ${closed ? "hidden" : ""}`}>
                 {props.newPlaylist.map((song, index) => {
                   return (
                     <li key={index} className="flex justify-between">
@@ -104,6 +106,9 @@ function NewPlaylist(props: NewPlaylistProps) {
                   );
                 })}
               </ul>
+              <div className="">
+                <Button variant="contained">Add Playlist to Spotify</Button>
+              </div>
             </div>
           </div>
         );

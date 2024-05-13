@@ -316,7 +316,7 @@ function App() {
     <ThemeProvider theme={theme}>
       <div className="max-w-full max-h-full justify-center flex bg-gradient-to-b from-[#1b2e19] to-[#0E1C0D]">
         {token ? (
-          <div className="flex flex-col gap-3 w-[96%] p-3">
+          <div className="flex flex-col gap-3 w-[96%] p-3 max-h-full">
             <ErrorPopup
               popupData={popupData}
               handlePopupExit={handlePopupExit}
