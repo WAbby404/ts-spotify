@@ -52,9 +52,9 @@ function App() {
 
   const [newPlaylist, setNewPlaylist] = useState<any[]>([]);
 
-  const [repeatID, setRepeatID] = useState("");
+  const [newPlaylistTitle, setNewPlaylistTitle] = useState<string>("");
 
-  const [expandSection, setExpandSection] = useState(["selectedPlaylist"]);
+  const [repeatID, setRepeatID] = useState("");
 
   const {
     fetchUserData,
@@ -162,11 +162,36 @@ function App() {
     setGenres([]);
     setNewPlaylist([]);
     setIsLoading(null);
+    setNewPlaylistTitle("");
+  };
+
+  const generateTitle = () => {
+    let title = "";
+    title += `${selectedPlaylist.title} but only `;
+    if (typeof genres[0] === "string") {
+      genres.forEach((genre, index) => {
+        if (genres.length === 2) {
+          if (index === genres.length - 1) {
+            title += `${genre}`;
+          } else {
+            title += `${genre} & `;
+          }
+        } else {
+          if (index === genres.length - 1) {
+            title += `${genre}`;
+          } else {
+            title += `${genre}, `;
+          }
+        }
+      });
+    }
+    console.log(title);
+    setNewPlaylistTitle(title);
   };
 
   const generateNewPlaylist = () => {
     setIsLoading(true);
-
+    generateTitle();
     async function waitForPlaylists() {
       if (repeatID === "" || repeatID !== selectedPlaylist.playlistId) {
         console.log("will run with API calls");
@@ -289,9 +314,9 @@ function App() {
 
   return (
     <ThemeProvider theme={theme}>
-      <div className="w-screen h-100% m-auto justify-center flex bg-gradient-to-b from-[#1b2e19] to-[#0E1C0D] ">
+      <div className="max-w-full max-h-full justify-center flex bg-gradient-to-b from-[#1b2e19] to-[#0E1C0D]">
         {token ? (
-          <div className="flex flex-col gap-3 w-screen p-3">
+          <div className="flex flex-col gap-3 w-[96%] p-3">
             <ErrorPopup
               popupData={popupData}
               handlePopupExit={handlePopupExit}
@@ -308,6 +333,7 @@ function App() {
             <Logout handleLogout={handleLogout} userData={userData} />
           </div> */}
             <EditPlaylist
+              newPlaylistTitle={newPlaylistTitle}
               count={count}
               setCount={setCount}
               userData={userData}

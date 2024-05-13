@@ -3,6 +3,9 @@ import PlaylistDetails from "./PlaylistDetails";
 import SelectGenres from "./SelectGenres";
 import NewPlaylist from "./NewPlaylist";
 import { PlaylistData, UserData } from "./types";
+import { useState } from "react";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import ExpandLessIcon from "@mui/icons-material/ExpandLess";
 
 type EditPlaylistProps = {
   selectedPlaylist: PlaylistData;
@@ -11,22 +14,41 @@ type EditPlaylistProps = {
   count: number;
   newPlaylist: any[];
   isLoading: boolean | null;
+  newPlaylistTitle: string;
   setCount: React.Dispatch<React.SetStateAction<any>>;
   setGenres: React.Dispatch<React.SetStateAction<any>>;
   generateNewPlaylist: () => void;
 };
 
 function EditPlaylist(props: EditPlaylistProps) {
+  const [closed, setClosed] = useState<boolean>(false);
+
   return (
     <div className="order-2">
       {props.selectedPlaylist.title ? (
-        <div>
+        <div className="flex flex-col gap-2">
+          <div
+            className="flex gap-2 justify-center items-center"
+            onClick={() => setClosed(!closed)}
+          >
+            <img
+              src={require("../images/newPlaylistIcon.png")}
+              alt="Playlist icon"
+              className="w-7"
+            />
+            <h1 className="text-white">Pick your Genres</h1>
+            <button className={`md:hidden text-white font-bold`}>
+              {closed ? <ExpandMoreIcon /> : <ExpandLessIcon />}
+            </button>
+          </div>
           <PlaylistDetails
+            closed={closed}
             userData={props.userData}
             currentPlaylist={props.selectedPlaylist}
           />
           <Divider />
           <SelectGenres
+            closed={closed}
             genres={props.genres}
             setGenres={props.setGenres}
             count={props.count}
@@ -40,11 +62,13 @@ function EditPlaylist(props: EditPlaylistProps) {
             isLoading={props.isLoading}
             setCount={props.setCount}
             newPlaylist={props.newPlaylist}
+            newPlaylistTitle={props.newPlaylistTitle}
             newPlaylistDetails={{
               img: "imgLink",
               title: "some title",
               songs: ["song1"],
             }}
+            selectedPlaylist={props.selectedPlaylist}
           />
         </div>
       ) : (

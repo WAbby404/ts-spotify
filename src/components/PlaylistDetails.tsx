@@ -4,11 +4,20 @@ import { PlaylistData, UserData } from "./types";
 type PlaylistDetailsProps = {
   currentPlaylist: PlaylistData;
   userData: UserData;
+  closed: boolean;
 };
 
-function PlaylistDetails({ currentPlaylist, userData }: PlaylistDetailsProps) {
+function PlaylistDetails({
+  currentPlaylist,
+  userData,
+  closed,
+}: PlaylistDetailsProps) {
   return (
-    <div className="flex text-white border-2 border-rose-500 gap-2">
+    <div
+      className={`flex text-white border-2 border-rose-500 gap-2 ${
+        closed ? "hidden" : ""
+      }`}
+    >
       <img
         src={currentPlaylist.img}
         alt="Album cover INFO (bring this in)"

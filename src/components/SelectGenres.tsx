@@ -4,6 +4,7 @@ import TextBoxPopup from "./TextBoxPopup";
 type SelectGenresProps = {
   genres: string[];
   count: number;
+  closed: boolean;
   setCount: React.Dispatch<React.SetStateAction<any>>;
   setGenres: React.Dispatch<React.SetStateAction<any>>;
   generateNewPlaylist: () => void;
@@ -80,8 +81,22 @@ function SelectGenres(props: SelectGenresProps) {
   //   },
   // });
 
+  // if closed and not highlighted, hide | if closed and highlighted, show | if open, show
+  const generateButtonDisplay = (genre: string) => {
+    switch (props.closed) {
+      case props.closed === true && props.genres.includes(genre):
+        return "block";
+
+      case props.closed === true && !props.genres.includes(genre):
+        return "hidden";
+
+      default:
+        return "block";
+    }
+  };
+
   return (
-    <div className="text-white pt-2 gap-3 flex flex-col">
+    <div className={`text-white gap-3 flex flex-col`}>
       <TextBoxPopup
         openGenrePopup={openGenrePopup}
         setOpenGenrePopup={setOpenGenrePopup}
@@ -89,29 +104,41 @@ function SelectGenres(props: SelectGenresProps) {
         commonGenres={commonGenres}
         selectGenre={selectGenre}
       />
-      <Typography>Select genre(s) to make a new playlist from</Typography>
+      <h2 className={`${props.closed ? "hidden" : ""}`}>
+        Select genre(s) to make a new playlist from
+      </h2>
+
       <div className="flex flex-wrap gap-2">
         {commonGenres.map((genre, index) => {
           return (
-            <Button
-              key={index}
-              onClick={() => {
-                if (genre === "+") {
-                  setOpenGenrePopup(true);
-                } else {
-                  selectGenre(genre);
+            <div className={generateButtonDisplay(genre)}>
+              <Button
+                key={index}
+                onClick={() => {
+                  if (genre === "+") {
+                    setOpenGenrePopup(true);
+                  } else {
+                    if (!props.closed) {
+                      selectGenre(genre);
+                    }
+                  }
+                }}
+                variant={
+                  props.genres.includes(genre) ? "contained" : "outlined"
                 }
-              }}
-              variant={props.genres.includes(genre) ? "contained" : "outlined"}
-            >
-              {genre}
-            </Button>
+                // disabled={props.closed}
+              >
+                {genre}
+              </Button>
+            </div>
           );
         })}
       </div>
-      <Button onClick={() => props.generateNewPlaylist()} variant="contained">
-        Make Playlist
-      </Button>
+      {!props.closed && (
+        <Button onClick={() => props.generateNewPlaylist()} variant="contained">
+          Make Playlist +
+        </Button>
+      )}
     </div>
   );
 }
