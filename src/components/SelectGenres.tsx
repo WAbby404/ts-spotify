@@ -68,8 +68,20 @@ function SelectGenres(props: SelectGenresProps) {
     setCommonGenres(oldGenres);
   };
 
+  // const playlistBtnTheme = createTheme({
+  //   palette: {
+  //     mode: "light",
+  //     primary: {
+  //       main: green[500],
+  //     },
+  //     secondary: {
+  //       main: "#B2D1B7",
+  //     },
+  //   },
+  // });
+
   return (
-    <div className="text-white">
+    <div className="text-white pt-2 gap-3 flex flex-col">
       <TextBoxPopup
         openGenrePopup={openGenrePopup}
         setOpenGenrePopup={setOpenGenrePopup}
@@ -78,7 +90,7 @@ function SelectGenres(props: SelectGenresProps) {
         selectGenre={selectGenre}
       />
       <Typography>Select genre(s) to make a new playlist from</Typography>
-      <div>
+      <div className="flex flex-wrap gap-2">
         {commonGenres.map((genre, index) => {
           return (
             <Button
@@ -87,7 +99,6 @@ function SelectGenres(props: SelectGenresProps) {
                 if (genre === "+") {
                   setOpenGenrePopup(true);
                 } else {
-                  // selectGenre(index);
                   selectGenre(genre);
                 }
               }}
@@ -98,7 +109,9 @@ function SelectGenres(props: SelectGenresProps) {
           );
         })}
       </div>
-      <Button onClick={() => props.generateNewPlaylist()}>Make Playlist</Button>
+      <Button onClick={() => props.generateNewPlaylist()} variant="contained">
+        Make Playlist
+      </Button>
     </div>
   );
 }

@@ -15,6 +15,8 @@ import { MusicAPI } from "./components/APIWrapper";
 // import { useMusicAPI } from "./components/APIWrapper2";
 import Login from "./components/Login";
 import ErrorPopup from "./components/ErrorPopup";
+import { ThemeProvider, createTheme } from "@mui/material";
+import { green, orange } from "@mui/material/colors";
 
 function App() {
   const [count, setCount] = useState(0);
@@ -261,43 +263,71 @@ function App() {
     waitForPlaylists();
   };
 
+  const theme = createTheme({
+    palette: {
+      mode: "light",
+      primary: {
+        main: green[500],
+      },
+      secondary: {
+        main: "#fff",
+      },
+    },
+  });
+
+  const playlistBtnTheme = createTheme({
+    palette: {
+      mode: "light",
+      primary: {
+        main: green[500],
+      },
+      secondary: {
+        main: "#B2D1B7",
+      },
+    },
+  });
+
   return (
-    <div className="w-screen h-svh bg-zinc-900 p-1.5 m-auto justify-center flex">
-      {token ? (
-        //<div className="flex border border-red-500 gap-3 h-[90%]">
-        <div className="flex border flex-col gap-3 w-screen p-3">
-          <ErrorPopup popupData={popupData} handlePopupExit={handlePopupExit} />
-          <SelectPlaylist
-            updateCurrentPlaylist={updateCurrentPlaylist}
-            playlists={playlistData}
-          />
-          {/* <div className="flex gap-2 flex-col justify-between">
+    <ThemeProvider theme={theme}>
+      <div className="w-screen h-100% m-auto justify-center flex bg-gradient-to-b from-[#1b2e19] to-[#0E1C0D] ">
+        {token ? (
+          <div className="flex flex-col gap-3 w-screen p-3">
+            <ErrorPopup
+              popupData={popupData}
+              handlePopupExit={handlePopupExit}
+            />
+            <SelectPlaylist
+              updateCurrentPlaylist={updateCurrentPlaylist}
+              playlists={playlistData}
+            />
+            {/* <div className="flex gap-2 flex-col justify-between">
             <SelectPlaylist
               updateCurrentPlaylist={updateCurrentPlaylist}
               playlists={playlistData}
             />
             <Logout handleLogout={handleLogout} userData={userData} />
           </div> */}
-          <EditPlaylist
-            count={count}
-            setCount={setCount}
-            userData={userData}
-            selectedPlaylist={selectedPlaylist}
-            newPlaylist={newPlaylist}
-            genres={genres}
-            setGenres={setGenres}
-            generateNewPlaylist={generateNewPlaylist}
-            isLoading={isLoading}
-          />
-          <Recommended
-            recommendedSongs={["rock jazz song1", "smooth jazz 2"]}
-          />
-          <Logout handleLogout={handleLogout} userData={userData} />
-        </div>
-      ) : (
-        <LoginPage />
-      )}
-    </div>
+            <EditPlaylist
+              count={count}
+              setCount={setCount}
+              userData={userData}
+              selectedPlaylist={selectedPlaylist}
+              newPlaylist={newPlaylist}
+              genres={genres}
+              setGenres={setGenres}
+              generateNewPlaylist={generateNewPlaylist}
+              isLoading={isLoading}
+            />
+            <Recommended
+              recommendedSongs={["rock jazz song1", "smooth jazz 2"]}
+            />
+            <Logout handleLogout={handleLogout} userData={userData} />
+          </div>
+        ) : (
+          <LoginPage />
+        )}
+      </div>
+    </ThemeProvider>
   );
 }
 
