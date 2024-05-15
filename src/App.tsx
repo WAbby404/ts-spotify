@@ -314,9 +314,9 @@ function App() {
 
   return (
     <ThemeProvider theme={theme}>
-      <div className="max-w-full max-h-full justify-center flex bg-gradient-to-b from-[#1b2e19] to-[#0E1C0D]">
+      <div className="max-w-full h-screen justify-center flex bg-gradient-to-b from-[#1b2e19] to-[#0E1C0D] border-dashed border-2 border-sky-500">
         {token ? (
-          <div className="flex flex-col gap-3 w-[96%] p-3 max-h-full">
+          <div className="flex flex-col gap-3 w-[96%] p-3 max-h-full grow overflow-y-scroll">
             <ErrorPopup
               popupData={popupData}
               handlePopupExit={handlePopupExit}

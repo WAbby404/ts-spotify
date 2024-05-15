@@ -1,6 +1,8 @@
-import { Button, Typography } from "@mui/material";
+import { Button, ThemeProvider, createTheme } from "@mui/material";
 import { useState } from "react";
 import TextBoxPopup from "./TextBoxPopup";
+import { green } from "@mui/material/colors";
+
 type SelectGenresProps = {
   genres: string[];
   count: number;
@@ -64,6 +66,22 @@ function SelectGenres(props: SelectGenresProps) {
     }
   };
 
+  const disabledGenreTheme = createTheme({
+    palette: {
+      mode: "light",
+      primary: {
+        main: green[500],
+      },
+      secondary: {
+        main: "#B2D1B7",
+      },
+      action: {
+        disabledBackground: "#3A833D",
+        disabled: "set color of text here",
+      },
+    },
+  });
+
   return (
     <div className={`text-white gap-3 flex flex-col`}>
       <TextBoxPopup
@@ -81,24 +99,26 @@ function SelectGenres(props: SelectGenresProps) {
         {commonGenres.map((genre, index) => {
           return (
             <div className={generateButtonDisplay(genre)}>
-              <Button
-                key={index}
-                onClick={() => {
-                  if (genre === "+") {
-                    setOpenGenrePopup(true);
-                  } else {
-                    if (!props.closed) {
-                      selectGenre(genre);
+              <ThemeProvider theme={disabledGenreTheme}>
+                <Button
+                  key={index}
+                  onClick={() => {
+                    if (genre === "+") {
+                      setOpenGenrePopup(true);
+                    } else {
+                      if (!props.closed) {
+                        selectGenre(genre);
+                      }
                     }
+                  }}
+                  variant={
+                    props.genres.includes(genre) ? "contained" : "outlined"
                   }
-                }}
-                variant={
-                  props.genres.includes(genre) ? "contained" : "outlined"
-                }
-                // disabled={props.closed}
-              >
-                {genre}
-              </Button>
+                  disabled={props.closed}
+                >
+                  {genre}
+                </Button>
+              </ThemeProvider>
             </div>
           );
         })}

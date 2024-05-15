@@ -25,22 +25,22 @@ function EditPlaylist(props: EditPlaylistProps) {
 
   return (
     <div className="order-2">
+      <div
+        className="flex gap-2 justify-center items-center"
+        onClick={() => setClosed(!closed)}
+      >
+        <img
+          src={require("../images/playlistGenresIcon.png")}
+          alt="Playlist icon"
+          className="w-7"
+        />
+        <h1 className="text-white">Pick your Genres</h1>
+        <button className={`md:hidden text-white font-bold`}>
+          {closed ? <ExpandMoreIcon /> : <ExpandLessIcon />}
+        </button>
+      </div>
       {props.selectedPlaylist.title ? (
         <div className="flex flex-col gap-2">
-          <div
-            className="flex gap-2 justify-center items-center"
-            onClick={() => setClosed(!closed)}
-          >
-            <img
-              src={require("../images/playlistGenresIcon.png")}
-              alt="Playlist icon"
-              className="w-7"
-            />
-            <h1 className="text-white">Pick your Genres</h1>
-            <button className={`md:hidden text-white font-bold`}>
-              {closed ? <ExpandMoreIcon /> : <ExpandLessIcon />}
-            </button>
-          </div>
           <PlaylistDetails
             closed={closed}
             userData={props.userData}
@@ -72,7 +72,7 @@ function EditPlaylist(props: EditPlaylistProps) {
           />
         </div>
       ) : (
-        <div className="flex gap-2">
+        <div className={`flex gap-2 ${closed === true ? "" : "hidden"}`}>
           <Skeleton variant="rectangular" width={210} height={118} />
           <div className="flex flex-col">
             <Skeleton variant="text" sx={{ fontSize: "1rem" }} width={210} />

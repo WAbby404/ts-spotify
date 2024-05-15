@@ -15,22 +15,6 @@ function SelectPlaylist(playlistProps: PlaylistProps) {
   const [highlighted, setHighlighted] = useState(-1);
   const [closed, setClosed] = useState(false);
 
-  const playlistBtnTheme = createTheme({
-    palette: {
-      mode: "light",
-      primary: {
-        main: "#B2D1B7",
-      },
-      secondary: {
-        main: "#B2D1B7",
-      },
-    },
-    typography: {
-      fontFamily: "Poppins",
-      fontWeightRegular: 700,
-    },
-  });
-
   return (
     <Stack className="p-2 order-1 gap-2">
       <div
