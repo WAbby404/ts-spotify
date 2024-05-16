@@ -60,7 +60,7 @@ function NewPlaylist(props: NewPlaylistProps) {
               </button>
             </div>
 
-            <div className={` ${closed ? "hidden" : ""}`}>
+            <div className={`text-center m-auto ${closed ? "hidden" : ""}`}>
               <h2 className="text-white">Generating your new playlist</h2>
               <Skeleton variant="circular" width={40} height={40} />
               <Skeleton variant="rectangular" width={210} height={60} />
@@ -70,7 +70,7 @@ function NewPlaylist(props: NewPlaylistProps) {
         );
       case false:
         return (
-          <div className="text-white">
+          <div className="text-white bg-[#0B1A0B]/75 rounded-sm p-2">
             <div
               className="flex gap-2 justify-center items-center"
               onClick={() => setClosed(!closed)}

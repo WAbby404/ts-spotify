@@ -25,7 +25,7 @@ function EditPlaylist(props: EditPlaylistProps) {
   const [closed, setClosed] = useState<boolean>(false);
 
   return (
-    <div className="order-2">
+    <div className="order-2 ">
       <div
         className="flex gap-2 justify-center items-center"
         onClick={() => setClosed(!closed)}
