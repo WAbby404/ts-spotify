@@ -312,9 +312,16 @@ function App() {
     },
   });
 
+  const removeSong = (index: number) => {
+    const updatedPlaylist = newPlaylist;
+    updatedPlaylist.splice(index, 1);
+    setNewPlaylist(updatedPlaylist);
+    setCount(count + 1);
+  };
+
   return (
     <ThemeProvider theme={theme}>
-      <div className="max-w-full h-screen justify-center flex bg-gradient-to-b from-[#1b2e19] to-[#0E1C0D] border-dashed border-2 border-sky-500">
+      <div className="max-w-full h-screen justify-center flex bg-gradient-to-b from-[#1b2e19] to-[#0E1C0D]">
         {token ? (
           <div className="flex flex-col gap-3 w-[96%] p-3 max-h-full grow overflow-y-scroll">
             <ErrorPopup
@@ -341,6 +348,7 @@ function App() {
               newPlaylist={newPlaylist}
               genres={genres}
               setGenres={setGenres}
+              removeSong={removeSong}
               generateNewPlaylist={generateNewPlaylist}
               isLoading={isLoading}
             />

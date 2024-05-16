@@ -15,6 +15,7 @@ type EditPlaylistProps = {
   newPlaylist: any[];
   isLoading: boolean | null;
   newPlaylistTitle: string;
+  removeSong: (index: number) => void;
   setCount: React.Dispatch<React.SetStateAction<any>>;
   setGenres: React.Dispatch<React.SetStateAction<any>>;
   generateNewPlaylist: () => void;
@@ -36,7 +37,7 @@ function EditPlaylist(props: EditPlaylistProps) {
         />
         <h1 className="text-white">Pick your Genres</h1>
         <button className={`md:hidden text-white font-bold`}>
-          {closed ? <ExpandMoreIcon /> : <ExpandLessIcon />}
+          {closed ? <ExpandLessIcon /> : <ExpandMoreIcon />}
         </button>
       </div>
       {props.selectedPlaylist.title ? (
@@ -59,6 +60,7 @@ function EditPlaylist(props: EditPlaylistProps) {
           <NewPlaylist
             genres={props.genres}
             count={props.count}
+            removeSong={props.removeSong}
             isLoading={props.isLoading}
             setCount={props.setCount}
             newPlaylist={props.newPlaylist}

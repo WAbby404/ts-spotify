@@ -28,7 +28,7 @@ function SelectPlaylist(playlistProps: PlaylistProps) {
         />
         <h1 className="text-white">Select your playlist</h1>
         <button className={`md:hidden text-white font-bold`}>
-          {closed ? <ExpandMoreIcon /> : <ExpandLessIcon />}
+          {closed ? <ExpandLessIcon /> : <ExpandMoreIcon />}
         </button>
       </div>
 

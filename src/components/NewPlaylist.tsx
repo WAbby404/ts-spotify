@@ -20,6 +20,7 @@ type NewPlaylistProps = {
     songs: string[];
   };
   selectedPlaylist: PlaylistData;
+  removeSong: (index: number) => void;
   genres: string[];
   count: number;
   newPlaylist: any[];
@@ -37,15 +38,34 @@ function NewPlaylist(props: NewPlaylistProps) {
     return minutes + ":" + (Number(seconds) < 10 ? "0" : "") + seconds;
   };
 
+  const removeSong = () => {};
+
   const render = () => {
     switch (props.isLoading) {
       case true:
         return (
           <>
-            <h2 className="text-white">Generating your new playlist</h2>
-            <Skeleton variant="circular" width={40} height={40} />
-            <Skeleton variant="rectangular" width={210} height={60} />
-            <Skeleton variant="rounded" width={210} height={60} />
+            <div
+              className="flex gap-2 justify-center items-center"
+              onClick={() => setClosed(!closed)}
+            >
+              <img
+                src={require("../images/editPlaylistIcon.png")}
+                alt="Playlist icon"
+                className="w-7"
+              />
+              <h1 className="text-white">Edit your new playlist</h1>
+              <button className={`md:hidden text-white font-bold`}>
+                {closed ? <ExpandMoreIcon /> : <ExpandLessIcon />}
+              </button>
+            </div>
+
+            <div className={` ${closed ? "hidden" : ""}`}>
+              <h2 className="text-white">Generating your new playlist</h2>
+              <Skeleton variant="circular" width={40} height={40} />
+              <Skeleton variant="rectangular" width={210} height={60} />
+              <Skeleton variant="rounded" width={210} height={60} />
+            </div>
           </>
         );
       case false:
@@ -62,10 +82,10 @@ function NewPlaylist(props: NewPlaylistProps) {
               />
               <h1 className="text-white">Edit your new playlist</h1>
               <button className={`md:hidden text-white font-bold`}>
-                {closed ? <ExpandMoreIcon /> : <ExpandLessIcon />}
+                {closed ? <ExpandLessIcon /> : <ExpandMoreIcon />}
               </button>
             </div>
-            <div className={`w-[90%] m-auto`}>
+            <div className="w-[90%] m-auto pt-2">
               {/* <img src={props.newPlaylistDetails.img} alt={`${}`} /> */}
               <h2 className={` ${closed ? "hidden" : ""}`}>
                 {props.newPlaylistTitle}
@@ -99,9 +119,12 @@ function NewPlaylist(props: NewPlaylistProps) {
                       <h4 className="sm: hidden">
                         {convertFromMs(song.track.duration_ms)}
                       </h4>
-                      <h4 className="hover:text-red-500">
+                      <button
+                        className="hover:text-red-500"
+                        onClick={() => props.removeSong(index)}
+                      >
                         <CloseIcon />
-                      </h4>
+                      </button>
                     </li>
                   );
                 })}
