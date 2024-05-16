@@ -8,22 +8,18 @@ import TagIcon from "@mui/icons-material/Tag";
 import AccessTimeFilledIcon from "@mui/icons-material/AccessTimeFilled";
 import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
 import CloseIcon from "@mui/icons-material/Close";
-import { PlaylistData } from "./types";
+import { PlaylistData, UserData } from "./types";
 import { useState } from "react";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import ExpandLessIcon from "@mui/icons-material/ExpandLess";
 
 type NewPlaylistProps = {
-  newPlaylistDetails: {
-    img: string;
-    title: string;
-    songs: string[];
-  };
   selectedPlaylist: PlaylistData;
   removeSong: (index: number) => void;
   genres: string[];
   count: number;
   newPlaylist: any[];
+  userData: UserData;
   isLoading: boolean | null;
   newPlaylistTitle: string;
   setCount: React.Dispatch<React.SetStateAction<any>>;
@@ -37,8 +33,6 @@ function NewPlaylist(props: NewPlaylistProps) {
     var seconds = ((millis % 60000) / 1000).toFixed(0);
     return minutes + ":" + (Number(seconds) < 10 ? "0" : "") + seconds;
   };
-
-  const removeSong = () => {};
 
   const render = () => {
     switch (props.isLoading) {
@@ -85,11 +79,30 @@ function NewPlaylist(props: NewPlaylistProps) {
                 {closed ? <ExpandLessIcon /> : <ExpandMoreIcon />}
               </button>
             </div>
-            <div className="w-[90%] m-auto pt-2">
-              {/* <img src={props.newPlaylistDetails.img} alt={`${}`} /> */}
+            <div className="w-[90%] m-auto pt-2 flex flex-col gap-2 items-center justify-center">
+              <img
+                src={props.selectedPlaylist.img}
+                alt={`Old playlists art`}
+                className="w-[5rem]"
+              />
               <h2 className={` ${closed ? "hidden" : ""}`}>
                 {props.newPlaylistTitle}
               </h2>
+              <div>
+                <div className="flex gap-1.5 items-center">
+                  <img
+                    src={props.userData.img}
+                    className="h-8 rounded-full"
+                    alt="User"
+                  />
+                  <Typography>{props.userData.name}</Typography>
+                  <div>
+                    <p className="italic font-thin">
+                      {props.newPlaylist.length} songs
+                    </p>
+                  </div>
+                </div>
+              </div>
             </div>
             <div className="flex flex-col gap-3">
               <div className={`flex justify-between ${closed ? "hidden" : ""}`}>
@@ -129,7 +142,7 @@ function NewPlaylist(props: NewPlaylistProps) {
                   );
                 })}
               </ul>
-              <div className="">
+              <div className="m-auto">
                 <Button variant="contained">Add Playlist to Spotify</Button>
               </div>
             </div>

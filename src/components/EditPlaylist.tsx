@@ -25,7 +25,7 @@ function EditPlaylist(props: EditPlaylistProps) {
   const [closed, setClosed] = useState<boolean>(false);
 
   return (
-    <div className="order-2 ">
+    <div className="bg-[#0B1A0B]/75 rounded-sm p-2">
       <div
         className="flex gap-2 justify-center items-center"
         onClick={() => setClosed(!closed)}
@@ -52,26 +52,12 @@ function EditPlaylist(props: EditPlaylistProps) {
             closed={closed}
             genres={props.genres}
             setGenres={props.setGenres}
+            setClosed={setClosed}
             count={props.count}
             setCount={props.setCount}
             generateNewPlaylist={props.generateNewPlaylist}
           />
           <Divider />
-          <NewPlaylist
-            genres={props.genres}
-            count={props.count}
-            removeSong={props.removeSong}
-            isLoading={props.isLoading}
-            setCount={props.setCount}
-            newPlaylist={props.newPlaylist}
-            newPlaylistTitle={props.newPlaylistTitle}
-            newPlaylistDetails={{
-              img: "imgLink",
-              title: "some title",
-              songs: ["song1"],
-            }}
-            selectedPlaylist={props.selectedPlaylist}
-          />
         </div>
       ) : (
         <div className={`flex gap-2 ${closed === true ? "" : "hidden"}`}>

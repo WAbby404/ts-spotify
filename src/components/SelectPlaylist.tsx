@@ -16,7 +16,7 @@ function SelectPlaylist(playlistProps: PlaylistProps) {
   const [closed, setClosed] = useState(false);
 
   return (
-    <Stack className="p-2 order-1 gap-2">
+    <div className="p-2 flex flex-col gap-2 bg-[#0B1A0B]/75 rounded-sm">
       <div
         className="flex gap-2 justify-center items-center"
         onClick={() => setClosed(!closed)}
@@ -58,7 +58,7 @@ function SelectPlaylist(playlistProps: PlaylistProps) {
           </div>
         );
       })}
-    </Stack>
+    </div>
   );
 }
 

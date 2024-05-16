@@ -7,6 +7,7 @@ type SelectGenresProps = {
   genres: string[];
   count: number;
   closed: boolean;
+  setClosed: React.Dispatch<React.SetStateAction<any>>;
   setCount: React.Dispatch<React.SetStateAction<any>>;
   setGenres: React.Dispatch<React.SetStateAction<any>>;
   generateNewPlaylist: () => void;
@@ -124,7 +125,13 @@ function SelectGenres(props: SelectGenresProps) {
         })}
       </div>
       {!props.closed && (
-        <Button onClick={() => props.generateNewPlaylist()} variant="contained">
+        <Button
+          onClick={() => {
+            props.generateNewPlaylist();
+            props.setClosed(true);
+          }}
+          variant="contained"
+        >
           Make Playlist +
         </Button>
       )}

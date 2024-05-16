@@ -4,6 +4,7 @@ import SelectPlaylist from "./components/SelectPlaylist";
 import Logout from "./components/Logout";
 import EditPlaylist from "./components/EditPlaylist";
 import Recommended from "./components/Recommended";
+import NewPlaylist from "./components/NewPlaylist";
 import {
   PlaylistData,
   UserData,
@@ -351,6 +352,17 @@ function App() {
               removeSong={removeSong}
               generateNewPlaylist={generateNewPlaylist}
               isLoading={isLoading}
+            />
+            <NewPlaylist
+              genres={genres}
+              userData={userData}
+              count={count}
+              removeSong={removeSong}
+              isLoading={isLoading}
+              setCount={setCount}
+              newPlaylist={newPlaylist}
+              newPlaylistTitle={newPlaylistTitle}
+              selectedPlaylist={selectedPlaylist}
             />
             <Recommended
               recommendedSongs={["rock jazz song1", "smooth jazz 2"]}
