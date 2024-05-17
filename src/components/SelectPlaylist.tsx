@@ -16,7 +16,7 @@ function SelectPlaylist(playlistProps: PlaylistProps) {
   const [closed, setClosed] = useState(false);
 
   return (
-    <div className="p-2 flex flex-col gap-2 bg-[#0B1A0B]/75 rounded-sm md:w-[90%] xl:col-span-2 xl:row-span-8 xl:w-full xl:h-full border-4 border-indigo-500/50">
+    <div className="p-2 flex flex-col gap-2 bg-[#0B1A0B]/75 rounded-sm md:w-[90%] xl:w-full xl:h-full border-4 border-indigo-500/50">
       <div
         className="flex gap-2 justify-center items-center"
         onClick={() => setClosed(!closed)}

@@ -3,7 +3,7 @@ import Login from "./Login";
 
 function LoginPage() {
   return (
-    <div className="w-9/12 m-auto flex flex-col text-center gap-2 xl:w-[30%]">
+    <div className="w-9/12 m-auto flex flex-col text-center gap-2 xl:w-96">
       <img
         src={require("../images/tsSpotifyLogo.png")}
         alt="tsSpotify logo"
@@ -12,7 +12,7 @@ function LoginPage() {
       <h1 className="text-white font-extrabold">
         Spotify Genre Playlist Maker
       </h1>
-      <p className="text-white">
+      <p className="text-white font-light xl:pb-5">
         Build playlists of genres from other playlists
       </p>
       <Button onClick={() => Login()} variant="contained">

@@ -54,8 +54,12 @@ function SelectGenres(props: SelectGenresProps) {
   };
 
   // if closed and not highlighted, hide | if closed and highlighted, show | if open, show
+  // if window.innerwidth is bigger than 1280 return block
   const generateButtonDisplay = (genre: string) => {
     switch (props.closed) {
+      case window.innerWidth >= 1280:
+        return "block";
+
       case props.closed === true && props.genres.includes(genre):
         return "block";
 
@@ -92,7 +96,7 @@ function SelectGenres(props: SelectGenresProps) {
         commonGenres={commonGenres}
         selectGenre={selectGenre}
       />
-      <h2 className={`${props.closed ? "hidden" : ""}`}>
+      <h2 className={`${props.closed ? "hidden xl:block" : ""}`}>
         Select genre(s) to make a new playlist from
       </h2>
 

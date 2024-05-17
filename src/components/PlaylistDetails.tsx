@@ -13,13 +13,16 @@ function PlaylistDetails({
   closed,
 }: PlaylistDetailsProps) {
   return (
-    <div className={`flex text-white gap-2 pt-2 ${closed ? "hidden" : ""}`}>
+    <div
+      className={`flex text-white gap-2 pt-2 ${closed ? "hidden xl:flex" : ""}`}
+    >
       <img
         src={currentPlaylist.img}
+        // !
         alt="Album cover INFO (bring this in)"
         className="h-24"
       />
-      <div className="flex flex-col ">
+      <div className="flex flex-col">
         <h2 className="text-sm">PLAYLIST</h2>
         <h3 className="font-bold text-white text-xl grow flex items-center">
           {currentPlaylist.title}

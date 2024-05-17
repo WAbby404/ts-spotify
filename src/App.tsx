@@ -2,9 +2,9 @@ import { useState, useEffect } from "react";
 import LoginPage from "./components/LoginPage";
 import SelectPlaylist from "./components/SelectPlaylist";
 import Logout from "./components/Logout";
-import EditPlaylist from "./components/EditPlaylist";
+import EditGenres from "./components/EditGenres";
 import Recommended from "./components/Recommended";
-import NewPlaylist from "./components/NewPlaylist";
+import EditPlaylist from "./components/EditPlaylist";
 import {
   PlaylistData,
   UserData,
@@ -326,12 +326,12 @@ function App() {
     <ThemeProvider theme={theme}>
       <div className="max-w-full h-screen justify-center flex bg-gradient-to-b from-[#1b2e19] to-[#0E1C0D]">
         {token ? (
-          <div className="flex flex-col gap-3 w-[96%] p-3 max-h-full grow overflow-y-scroll md:items-center xl:grid xl:grid-cols-10 xl:grid-rows-10 xl:gap-4 xl:h-[100vh] xl:p-4 border-4 border-indigo-500/50">
+          <div className="flex flex-col gap-3 w-[96%] p-3 max-h-full grow overflow-y-scroll md:items-center xl:items-stretch xl:grid xl:grid-cols-10 xl:grid-rows-10 xl:gap-4 xl:h-[100vh] xl:p-4 border-4 border-green-500/50">
             <ErrorPopup
               popupData={popupData}
               handlePopupExit={handlePopupExit}
             />
-            <div className="flex flex-col xl:col-span-2 xl:row-span-10">
+            <div className="flex flex-col w-full md:items-center xl:col-span-2 xl:row-span-10 border-4 border-red-500/50">
               <SelectPlaylist
                 updateCurrentPlaylist={updateCurrentPlaylist}
                 playlists={playlistData}
@@ -341,8 +341,8 @@ function App() {
               </div>
             </div>
 
-            <div className="flex flex-col gap-3 xl:col-span-8 xl:row-span-10 xl:order-3 grid-cols-subgrid">
-              <EditPlaylist
+            <div className="flex flex-col gap-3 w-full md:items-center xl:col-span-8 xl:row-span-10 xl:order-3">
+              <EditGenres
                 newPlaylistTitle={newPlaylistTitle}
                 count={count}
                 setCount={setCount}
@@ -355,7 +355,7 @@ function App() {
                 generateNewPlaylist={generateNewPlaylist}
                 isLoading={isLoading}
               />
-              <NewPlaylist
+              <EditPlaylist
                 genres={genres}
                 userData={userData}
                 count={count}
@@ -370,7 +370,7 @@ function App() {
                 recommendedSongs={["rock jazz song1", "smooth jazz 2"]}
               />
             </div>
-            <div className="xl:hidden">
+            <div className="xl:hidden w-full md:flex md:items-center md:w-[90%] border-4 border-indigo-500/50">
               <Logout handleLogout={handleLogout} userData={userData} />
             </div>
           </div>
