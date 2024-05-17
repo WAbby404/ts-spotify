@@ -25,7 +25,7 @@ function EditPlaylist(props: EditPlaylistProps) {
   const [closed, setClosed] = useState<boolean>(false);
 
   return (
-    <div className="bg-[#0B1A0B]/75 rounded-sm p-2 md:w-[90%]">
+    <div className="bg-[#0B1A0B]/75 rounded-sm p-2 md:w-[90%] xl:h-full xl:overflow-y-scroll border-4 border-indigo-500/50">
       <div
         className="flex gap-2 justify-center items-center"
         onClick={() => setClosed(!closed)}

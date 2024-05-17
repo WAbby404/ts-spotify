@@ -326,50 +326,53 @@ function App() {
     <ThemeProvider theme={theme}>
       <div className="max-w-full h-screen justify-center flex bg-gradient-to-b from-[#1b2e19] to-[#0E1C0D]">
         {token ? (
-          <div className="flex flex-col gap-3 w-[96%] p-3 max-h-full grow overflow-y-scroll md:items-center">
+          <div className="flex flex-col gap-3 w-[96%] p-3 max-h-full grow overflow-y-scroll md:items-center xl:grid xl:grid-cols-10 xl:grid-rows-10 xl:gap-4 xl:h-[100vh] xl:p-4 border-4 border-indigo-500/50">
             <ErrorPopup
               popupData={popupData}
               handlePopupExit={handlePopupExit}
             />
-            <SelectPlaylist
-              updateCurrentPlaylist={updateCurrentPlaylist}
-              playlists={playlistData}
-            />
-            {/* <div className="flex gap-2 flex-col justify-between">
-            <SelectPlaylist
-              updateCurrentPlaylist={updateCurrentPlaylist}
-              playlists={playlistData}
-            />
-            <Logout handleLogout={handleLogout} userData={userData} />
-          </div> */}
-            <EditPlaylist
-              newPlaylistTitle={newPlaylistTitle}
-              count={count}
-              setCount={setCount}
-              userData={userData}
-              selectedPlaylist={selectedPlaylist}
-              newPlaylist={newPlaylist}
-              genres={genres}
-              setGenres={setGenres}
-              removeSong={removeSong}
-              generateNewPlaylist={generateNewPlaylist}
-              isLoading={isLoading}
-            />
-            <NewPlaylist
-              genres={genres}
-              userData={userData}
-              count={count}
-              removeSong={removeSong}
-              isLoading={isLoading}
-              setCount={setCount}
-              newPlaylist={newPlaylist}
-              newPlaylistTitle={newPlaylistTitle}
-              selectedPlaylist={selectedPlaylist}
-            />
-            <Recommended
-              recommendedSongs={["rock jazz song1", "smooth jazz 2"]}
-            />
-            <Logout handleLogout={handleLogout} userData={userData} />
+            <div className="flex flex-col xl:col-span-2 xl:row-span-10">
+              <SelectPlaylist
+                updateCurrentPlaylist={updateCurrentPlaylist}
+                playlists={playlistData}
+              />
+              <div className="hidden xl:block">
+                <Logout handleLogout={handleLogout} userData={userData} />
+              </div>
+            </div>
+
+            <div className="flex flex-col gap-3 xl:col-span-8 xl:row-span-10 xl:order-3 grid-cols-subgrid">
+              <EditPlaylist
+                newPlaylistTitle={newPlaylistTitle}
+                count={count}
+                setCount={setCount}
+                userData={userData}
+                selectedPlaylist={selectedPlaylist}
+                newPlaylist={newPlaylist}
+                genres={genres}
+                setGenres={setGenres}
+                removeSong={removeSong}
+                generateNewPlaylist={generateNewPlaylist}
+                isLoading={isLoading}
+              />
+              <NewPlaylist
+                genres={genres}
+                userData={userData}
+                count={count}
+                removeSong={removeSong}
+                isLoading={isLoading}
+                setCount={setCount}
+                newPlaylist={newPlaylist}
+                newPlaylistTitle={newPlaylistTitle}
+                selectedPlaylist={selectedPlaylist}
+              />
+              <Recommended
+                recommendedSongs={["rock jazz song1", "smooth jazz 2"]}
+              />
+            </div>
+            <div className="xl:hidden">
+              <Logout handleLogout={handleLogout} userData={userData} />
+            </div>
           </div>
         ) : (
           <LoginPage />

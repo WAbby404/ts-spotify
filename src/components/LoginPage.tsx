@@ -3,7 +3,7 @@ import Login from "./Login";
 
 function LoginPage() {
   return (
-    <div className="w-9/12 m-auto flex flex-col text-center gap-2 ">
+    <div className="w-9/12 m-auto flex flex-col text-center gap-2 xl:w-[30%]">
       <img
         src={require("../images/tsSpotifyLogo.png")}
         alt="tsSpotify logo"

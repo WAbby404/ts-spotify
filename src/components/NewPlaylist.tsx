@@ -38,7 +38,7 @@ function NewPlaylist(props: NewPlaylistProps) {
     switch (props.isLoading) {
       case true:
         return (
-          <div className=" bg-[#0B1A0B]/75 rounded-sm md: w-[90%]">
+          <div className="bg-[#0B1A0B]/75 rounded-sm md:w-[90%] xl:col-span-6 xl:row-span-6 xl:w-full xl:h-full xl:order-4 border-4 border-indigo-500/50">
             <div
               className="flex gap-2 justify-center items-center "
               onClick={() => setClosed(!closed)}
@@ -68,7 +68,7 @@ function NewPlaylist(props: NewPlaylistProps) {
         );
       case false:
         return (
-          <div className="text-white bg-[#0B1A0B]/75 rounded-sm p-2 flex flex-col gap-2 md:w-[90%]">
+          <div className="text-white bg-[#0B1A0B]/75 rounded-sm p-2 flex flex-col gap-2 md:w-[90%] xl:max-h-64 xl:overflow-y-scroll border-4 border-indigo-500/50">
             <div
               className="flex gap-2 justify-center items-center"
               onClick={() => setClosed(!closed)}
@@ -158,7 +158,7 @@ function NewPlaylist(props: NewPlaylistProps) {
 
       default:
         return (
-          <div className="bg-[#0B1A0B]/75 rounded-sm p-2 md: w-[90%]">
+          <div className="bg-[#0B1A0B]/75 rounded-sm p-2 md:w-[90%] xl:col-span-6 xl:row-span-6 xl:w-full xl:h-full xl:order-4 border-4 border-indigo-500/50">
             <div
               className="flex gap-2 justify-center items-center "
               onClick={() => setClosed(!closed)}
