@@ -16,7 +16,7 @@ function SelectPlaylist(playlistProps: PlaylistProps) {
   const [closed, setClosed] = useState(false);
 
   return (
-    <div className="p-2 flex flex-col gap-2 bg-[#0B1A0B]/75 rounded-sm">
+    <div className="p-2 flex flex-col gap-2 bg-[#0B1A0B]/75 rounded-sm md:w-[90%]">
       <div
         className="flex gap-2 justify-center items-center"
         onClick={() => setClosed(!closed)}
@@ -27,7 +27,7 @@ function SelectPlaylist(playlistProps: PlaylistProps) {
           className="w-7"
         />
         <h1 className="text-white">Select your playlist</h1>
-        <button className={`md:hidden text-white font-bold`}>
+        <button className={`xl:hidden text-white font-bold`}>
           {closed ? <ExpandLessIcon /> : <ExpandMoreIcon />}
         </button>
       </div>
@@ -38,15 +38,17 @@ function SelectPlaylist(playlistProps: PlaylistProps) {
             className={`flex rounded-md justify-center gap-2 items-center bg-[#A7B6A9] overflow-hidden bg-opacity-25 hover:bg-opacity-50
             ${closed && index !== highlighted ? "hidden" : ""} ${
               highlighted === index ? "bg-opacity-50" : ""
-            }`}
+            } md:m-4`}
             key={index}
             onClick={() => {
-              playlistProps.updateCurrentPlaylist(
-                playlist.playlistId,
-                playlist
-              );
-              setClosed(true);
-              setHighlighted(index);
+              if (!closed) {
+                playlistProps.updateCurrentPlaylist(
+                  playlist.playlistId,
+                  playlist
+                );
+                setClosed(true);
+                setHighlighted(index);
+              }
             }}
           >
             <img

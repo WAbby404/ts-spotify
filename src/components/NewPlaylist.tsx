@@ -38,9 +38,9 @@ function NewPlaylist(props: NewPlaylistProps) {
     switch (props.isLoading) {
       case true:
         return (
-          <>
+          <div className=" bg-[#0B1A0B]/75 rounded-sm md: w-[90%]">
             <div
-              className="flex gap-2 justify-center items-center"
+              className="flex gap-2 justify-center items-center "
               onClick={() => setClosed(!closed)}
             >
               <img
@@ -49,22 +49,26 @@ function NewPlaylist(props: NewPlaylistProps) {
                 className="w-7"
               />
               <h1 className="text-white">Edit your new playlist</h1>
-              <button className={`md:hidden text-white font-bold`}>
+              <button className={`lg:hidden text-white font-bold`}>
                 {closed ? <ExpandMoreIcon /> : <ExpandLessIcon />}
               </button>
             </div>
 
             <div className={`text-center m-auto ${closed ? "hidden" : ""}`}>
-              <h2 className="text-white">Generating your new playlist</h2>
-              <Skeleton variant="circular" width={40} height={40} />
-              <Skeleton variant="rectangular" width={210} height={60} />
-              <Skeleton variant="rounded" width={210} height={60} />
+              <h2 className="text-lime-50 p-3">Generating your new playlist</h2>
+              <div className="flex">
+                <Skeleton variant="rectangular" width={210} height={60} />
+                <div className="flex flex-col w-[100%]">
+                  <Skeleton variant="text" sx={{ fontSize: "1rem" }} />
+                  <Skeleton variant="text" sx={{ fontSize: "1rem" }} />
+                </div>
+              </div>
             </div>
-          </>
+          </div>
         );
       case false:
         return (
-          <div className="text-white bg-[#0B1A0B]/75 rounded-sm p-2">
+          <div className="text-white bg-[#0B1A0B]/75 rounded-sm p-2 flex flex-col gap-2 md:w-[90%]">
             <div
               className="flex gap-2 justify-center items-center"
               onClick={() => setClosed(!closed)}
@@ -75,19 +79,17 @@ function NewPlaylist(props: NewPlaylistProps) {
                 className="w-7"
               />
               <h1 className="text-white">Edit your new playlist</h1>
-              <button className={`md:hidden text-white font-bold`}>
+              <button className={`xl:hidden text-white font-bold`}>
                 {closed ? <ExpandLessIcon /> : <ExpandMoreIcon />}
               </button>
             </div>
             <div className="w-[90%] m-auto pt-2 flex flex-col gap-2 items-center justify-center">
               <img
                 src={props.selectedPlaylist.img}
-                alt={`Old playlists art`}
+                alt="Old playlists art"
                 className="w-[5rem]"
               />
-              <h2 className={` ${closed ? "hidden" : ""}`}>
-                {props.newPlaylistTitle}
-              </h2>
+              <h2>{props.newPlaylistTitle}</h2>
               <div>
                 <div className="flex gap-1.5 items-center">
                   <img
@@ -104,7 +106,7 @@ function NewPlaylist(props: NewPlaylistProps) {
                 </div>
               </div>
             </div>
-            <div className="flex flex-col gap-3">
+            <div className="flex flex-col gap-3 md:p-5">
               <div className={`flex justify-between ${closed ? "hidden" : ""}`}>
                 {/* <TagIcon className="sm: hidden" /> */}
                 <h3>TITLE</h3>
@@ -143,18 +145,42 @@ function NewPlaylist(props: NewPlaylistProps) {
                 })}
               </ul>
               <div className="m-auto">
-                <Button variant="contained">Add Playlist to Spotify</Button>
+                <Button
+                  variant="contained"
+                  // onClick={() => props.createPlaylist()}
+                >
+                  Add Playlist to Spotify
+                </Button>
               </div>
             </div>
           </div>
         );
 
       default:
-        return <></>;
+        return (
+          <div className="bg-[#0B1A0B]/75 rounded-sm p-2 md: w-[90%]">
+            <div
+              className="flex gap-2 justify-center items-center "
+              onClick={() => setClosed(!closed)}
+            >
+              <img
+                src={require("../images/editPlaylistIcon.png")}
+                alt="Playlist icon"
+                className="w-7"
+              />
+              <h1 className="text-white">Edit your new playlist</h1>
+              <button className={`xl:hidden text-white font-bold`}>
+                {closed ? <ExpandMoreIcon /> : <ExpandLessIcon />}
+              </button>
+            </div>
+          </div>
+        );
     }
   };
 
-  return <div>{render()}</div>;
+  return (
+    <div className="md:w-[100%] md:flex md:justify-center">{render()}</div>
+  );
 }
 
 export default NewPlaylist;

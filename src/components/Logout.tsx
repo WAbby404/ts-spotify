@@ -11,7 +11,7 @@ type LogoutProps = {
 
 function Logout({ handleLogout, userData }: LogoutProps) {
   return (
-    <div className="bg-slate-800 p-2 order-3">
+    <div className="p-2 order-3 flex justify-center gap-4 bg-[#0B1A0B]/75 rounded-sm md: w-[90%]">
       <div className="flex justify-center items-center gap-2">
         {/* sizes depending on screen size??? */}
         <Avatar src={userData.img} alt={`${userData.name}`} />

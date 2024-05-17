@@ -320,11 +320,13 @@ function App() {
     setCount(count + 1);
   };
 
+  const createPlaylist = () => {};
+
   return (
     <ThemeProvider theme={theme}>
       <div className="max-w-full h-screen justify-center flex bg-gradient-to-b from-[#1b2e19] to-[#0E1C0D]">
         {token ? (
-          <div className="flex flex-col gap-3 w-[96%] p-3 max-h-full grow overflow-y-scroll">
+          <div className="flex flex-col gap-3 w-[96%] p-3 max-h-full grow overflow-y-scroll md:items-center">
             <ErrorPopup
               popupData={popupData}
               handlePopupExit={handlePopupExit}

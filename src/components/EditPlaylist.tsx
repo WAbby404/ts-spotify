@@ -25,7 +25,7 @@ function EditPlaylist(props: EditPlaylistProps) {
   const [closed, setClosed] = useState<boolean>(false);
 
   return (
-    <div className="bg-[#0B1A0B]/75 rounded-sm p-2">
+    <div className="bg-[#0B1A0B]/75 rounded-sm p-2 md:w-[90%]">
       <div
         className="flex gap-2 justify-center items-center"
         onClick={() => setClosed(!closed)}
@@ -36,12 +36,12 @@ function EditPlaylist(props: EditPlaylistProps) {
           className="w-7"
         />
         <h1 className="text-white">Pick your Genres</h1>
-        <button className={`md:hidden text-white font-bold`}>
+        <button className={`xl:hidden text-white font-bold`}>
           {closed ? <ExpandLessIcon /> : <ExpandMoreIcon />}
         </button>
       </div>
       {props.selectedPlaylist.title ? (
-        <div className="flex flex-col gap-2">
+        <div className="flex flex-col gap-2 md:p-5">
           <PlaylistDetails
             closed={closed}
             userData={props.userData}
