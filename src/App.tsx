@@ -341,7 +341,7 @@ function App() {
               </div>
             </div>
 
-            <div className="flex flex-col gap-3 w-full md:items-center xl:col-span-8 xl:row-span-10 xl:order-3">
+            <div className="flex flex-col gap-3 w-full md:items-center xl:col-span-8 xl:row-span-10 xl:order-3 xl:grid border-4 border-indigo-500/50">
               <EditGenres
                 newPlaylistTitle={newPlaylistTitle}
                 count={count}
