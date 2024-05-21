@@ -225,15 +225,15 @@ function App() {
 
       // make a set of all artist ids
       let uniqueArtistIDs = new Set();
-      fullPlaylist.forEach((song: any) => {
-        song.track.artists.forEach((artist: any) => {
-          // each id add it to set
-          // artist.track.artists[0].id
-          uniqueArtistIDs.add(artist.id);
+      if (fullPlaylist !== null) {
+        fullPlaylist.forEach((song: any) => {
+          song.track.artists.forEach((artist: any) => {
+            // each id add it to set
+            // artist.track.artists[0].id
+            uniqueArtistIDs.add(artist.id);
+          });
         });
-      });
-      // console.log("uniqueArtistIDs: ");
-      // console.log(uniqueArtistIDs);
+      }
 
       let uniqueArtistIDsArray = Array.from(uniqueArtistIDs);
 
@@ -274,11 +274,14 @@ function App() {
       // now we have a list of artists with our selected genres. NOW we look thru whole playlist,
 
       let newPlaylistTEMP: any = [];
-      fullPlaylist.forEach((song: any) => {
-        if (artistsWithGenre.includes(song.track.artists[0].id)) {
-          newPlaylistTEMP.push(song);
-        }
-      });
+      if (fullPlaylist !== null) {
+        fullPlaylist.forEach((song: any) => {
+          if (artistsWithGenre.includes(song.track.artists[0].id)) {
+            newPlaylistTEMP.push(song);
+          }
+        });
+      }
+
       // console.log("newPlaylistTEMP: ");
       // console.log(newPlaylistTEMP);
 

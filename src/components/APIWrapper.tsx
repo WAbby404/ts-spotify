@@ -1,10 +1,9 @@
 import {
   SpotifyParams,
   UserData,
-  UserObjectPublic,
   PlaylistData,
-  ListOfUsersPlaylistsResponse,
-  MultipleArtistsResponse,
+  PlaylistTrackResponse,
+  PlaylistTrackObject,
 } from "./types";
 
 // convert these to try catch
@@ -85,8 +84,9 @@ export const MusicAPI = {
     playlistId: string,
     totalSongs: number
     // an array of song objects
-  ): Promise<any> {
-    // Getting the limits based on length for each call
+    // ): Promise<PlaylistTrackResponse[] | null> {
+  ): Promise<PlaylistTrackObject[] | null> {
+    // Getting the call limits based on length for each call
     let callAmount = totalSongs;
     let calloffets = [0];
     let currentAmount = 0;
@@ -103,22 +103,32 @@ export const MusicAPI = {
       }`;
     });
 
-    // Retrieving the songs for each 100 songs of my playlist and adding each song to an array
-    let allSongs: any = [];
-    for (let i = 0; i < urls.length; i++) {
-      try {
-        const response = await fetch(urls[i], playlistDetailsParam);
-        if (!response.ok) {
-          throw new Error("Network response was not ok");
-        }
-        const data = await response.json();
-        allSongs.push(...data.items);
-      } catch (error) {
-        console.log(error);
-        return null; // or handle the error in some way
-      }
+    console.log(urls);
+    console.log(urls.length);
+
+    const allSongs: PlaylistTrackObject[] = [];
+
+    // make a post about this, did I get it right this time?
+    try {
+      // this works
+      await Promise.all(
+        urls.map((url) =>
+          fetch(url, playlistDetailsParam).then((r) => r.json())
+        )
+      ).then((response) => {
+        console.log(response);
+        response.forEach((songChunk) => {
+          allSongs.push(...songChunk.items);
+        });
+      });
+    } catch (error) {
+      console.log("promise.all error");
+      console.log(error);
+      return null; // or handle the error in some way
     }
 
+    // returning an array of songs (spotify type)
+    console.log(allSongs);
     return allSongs;
   },
 

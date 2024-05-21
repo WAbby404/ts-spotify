@@ -103,7 +103,7 @@ function SelectGenres(props: SelectGenresProps) {
       <div className="flex flex-wrap gap-2">
         {commonGenres.map((genre, index) => {
           return (
-            <div className={generateButtonDisplay(genre)}>
+            <div className={generateButtonDisplay(genre)} key={index}>
               <ThemeProvider theme={disabledGenreTheme}>
                 <Button
                   key={index}

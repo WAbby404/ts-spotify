@@ -111,3 +111,68 @@ type ArtistObjectSimplified = {
   type: string;
   uri: string;
 };
+
+// Typing API fetchPlaylistTracks response
+export type PlaylistTrackResponse = PagingObject<PlaylistTrackObject> & {};
+
+type PagingObject<T> = BasePagingObject<T> & {
+  previous: string;
+  offset: number;
+};
+
+export type PlaylistTrackObject = {
+  added_at: string;
+  added_by: UserObjectPublic;
+  is_local: boolean;
+  track: TrackObjectFull;
+};
+
+type TrackObjectFull = TrackObjectSimplified & {
+  album: AlbumObjectSimplified;
+  external_ids: ExternalIdObject;
+  popularity: number;
+};
+
+type AlbumObjectSimplified = {
+  album_type: string;
+  available_markets?: string[];
+  external_urls: ExternalUrlObject;
+  href: string;
+  id: string;
+  images: ImageObject[];
+  name: string;
+  type: string;
+  uri: string;
+};
+
+type TrackObjectSimplified = {
+  artists: ArtistObjectSimplified[];
+  available_markets?: string[];
+  disc_number: number;
+  duration_ms: number;
+  explicit: boolean;
+  external_urls: ExternalUrlObject;
+  href: string;
+  id: string;
+  is_playable?: boolean;
+  linked_from?: TrackLinkObject;
+  name: string;
+  preview_url: string;
+  track_number: number;
+  type: string;
+  uri: string;
+};
+
+type ExternalIdObject = {
+  isrc?: string;
+  ean?: string;
+  upc?: string;
+};
+
+type TrackLinkObject = {
+  external_urls: ExternalUrlObject;
+  href: string;
+  id: string;
+  type: string;
+  uri: string;
+};
