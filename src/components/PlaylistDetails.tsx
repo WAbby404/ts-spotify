@@ -18,8 +18,7 @@ function PlaylistDetails({
     >
       <img
         src={currentPlaylist.img}
-        // !
-        alt="Album cover INFO (bring this in)"
+        alt={`${currentPlaylist.title} album art`}
         className="h-24"
       />
       <div className="flex flex-col">

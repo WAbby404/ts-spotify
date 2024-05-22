@@ -70,7 +70,7 @@ function EditPlaylist(props: NewPlaylistProps) {
       case false:
         return (
           <div className="text-white bg-[#0B1A0B]/75 rounded-sm p-2 flex flex-col gap-2 md:w-[90%] xl:w-full xl:h-full border-4 border-indigo-500/50">
-            <div className="xl:h-64   xl:w-full">
+            <div className="xl:h-64 xl:w-full">
               <div
                 className="flex gap-2 justify-center items-center"
                 onClick={() => setClosed(!closed)}
@@ -85,15 +85,16 @@ function EditPlaylist(props: NewPlaylistProps) {
                   {closed ? <ExpandLessIcon /> : <ExpandMoreIcon />}
                 </button>
               </div>
-              <div className="w-[90%] m-auto pt-2 flex flex-col gap-2 items-center justify-center">
+              <div className="w-[90%] m-auto pt-2 flex flex-col gap-2 items-center justify-center xl:flex-row xl:justify-start border-solid border-2 border-sky-500">
                 <img
                   src={props.selectedPlaylist.img}
                   alt="Old playlists art"
-                  className="w-[5rem]"
+                  className="w-[7rem]"
                 />
-                <h2>{props.newPlaylistTitle}</h2>
-                <div>
-                  <div className="flex gap-1.5 items-center">
+
+                <div className="flex flex-col items-center justify-center xl:items-start border-solid border-2 border-sky-500">
+                  <h2>{props.newPlaylistTitle}</h2>
+                  <div className="flex gap-1.5 items-center border-solid border-2 border-sky-500">
                     <img
                       src={props.userData.img}
                       className="h-8 rounded-full"
@@ -112,45 +113,56 @@ function EditPlaylist(props: NewPlaylistProps) {
                 <div
                   className={`flex justify-between ${closed ? "hidden" : ""}`}
                 >
-                  {/* <TagIcon className="sm: hidden" /> */}
-                  <h3>TITLE</h3>
-                  <h3 className="sm: hidden">ALBUM</h3>
-                  {/* <AccessTimeFilledIcon className="sm: hidden" /> */}
+                  <div className="hidden xl:block">
+                    <TagIcon />
+                  </div>
+
+                  <h3 className="hidden xl:block">TITLE</h3>
+                  <h3 className="hidden xl:block">ALBUM</h3>
+                  <div className="hidden xl:block">
+                    <AccessTimeFilledIcon />
+                  </div>
                 </div>
                 <ul
                   className={`flex flex-col gap-2 xl:overflow-y-scroll xl:h-32 ${
                     closed ? "hidden" : ""
                   }`}
                 >
-                  {props.newPlaylist.map((song, index) => {
-                    return (
-                      <li key={index} className="flex justify-between">
-                        <h4 className="sm: hidden">{index}</h4>
-                        <div className="flex gap-2 justify-center items-center">
-                          <img
-                            src={song.track.album.images[2].url}
-                            alt={`song.track.album.artists[0].name album cover`}
-                          />
-                          <div>
-                            <h4>{song.track.name}</h4>
-                            <h4 className="font-thin">
-                              {song.track.album.artists[0].name}
-                            </h4>
+                  {props.newPlaylist.length > 0 ? (
+                    props.newPlaylist.map((song, index) => {
+                      return (
+                        <li key={index} className="flex justify-between">
+                          <h4 className="sm: hidden">{index}</h4>
+                          <div className="flex gap-2 justify-center items-center">
+                            <img
+                              src={song.track.album.images[2].url}
+                              alt={`song.track.album.artists[0].name album cover`}
+                            />
+                            <div>
+                              <h4>{song.track.name}</h4>
+                              <h4 className="font-thin">
+                                {song.track.album.artists[0].name}
+                              </h4>
+                            </div>
                           </div>
-                        </div>
-                        <h4 className="sm: hidden">{song.track.album.name}</h4>
-                        <h4 className="sm: hidden">
-                          {convertFromMs(song.track.duration_ms)}
-                        </h4>
-                        <button
-                          className="hover:text-red-500"
-                          onClick={() => props.removeSong(index)}
-                        >
-                          <CloseIcon />
-                        </button>
-                      </li>
-                    );
-                  })}
+                          <h4 className="sm: hidden">
+                            {song.track.album.name}
+                          </h4>
+                          <h4 className="sm: hidden">
+                            {convertFromMs(song.track.duration_ms)}
+                          </h4>
+                          <button
+                            className="hover:text-red-500"
+                            onClick={() => props.removeSong(index)}
+                          >
+                            <CloseIcon />
+                          </button>
+                        </li>
+                      );
+                    })
+                  ) : (
+                    <li>No songs found</li>
+                  )}
                 </ul>
                 <div className="m-auto">
                   <Button
