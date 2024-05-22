@@ -111,7 +111,7 @@ function SelectGenres(props: SelectGenresProps) {
                     if (genre === "+") {
                       setOpenGenrePopup(true);
                     } else {
-                      if (!props.closed) {
+                      if (!props.closed || window.innerWidth >= 1280) {
                         selectGenre(genre);
                       }
                     }
@@ -119,7 +119,7 @@ function SelectGenres(props: SelectGenresProps) {
                   variant={
                     props.genres.includes(genre) ? "contained" : "outlined"
                   }
-                  disabled={props.closed}
+                  disabled={props.closed && window.innerWidth < 1280}
                 >
                   {genre}
                 </Button>

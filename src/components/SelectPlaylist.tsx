@@ -36,12 +36,14 @@ function SelectPlaylist(playlistProps: PlaylistProps) {
         return (
           <div
             className={`flex rounded-md justify-center gap-2 items-center bg-[#A7B6A9] overflow-hidden bg-opacity-25 hover:bg-opacity-50
-            ${closed && index !== highlighted ? "hidden xl:flex " : ""} ${
+            ${closed && index !== highlighted ? "hidden xl:flex" : ""} ${
               highlighted === index ? "bg-opacity-50" : ""
             } md:m-4`}
             key={index}
             onClick={() => {
-              if (!closed) {
+              console.log(window.innerWidth);
+              if (!closed || window.innerWidth >= 1280) {
+                console.log("running");
                 playlistProps.updateCurrentPlaylist(
                   playlist.playlistId,
                   playlist

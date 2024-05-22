@@ -2,13 +2,11 @@ import {
   SpotifyParams,
   UserData,
   PlaylistData,
-  PlaylistTrackResponse,
   PlaylistTrackObject,
 } from "./types";
 
-// convert these to try catch
 export const MusicAPI = {
-  // Get User Data
+  // Get playlist data
   fetchUserData: async function (
     profileParams: SpotifyParams,
     profileId: string
@@ -74,7 +72,7 @@ export const MusicAPI = {
       return dataArray[0].title ? dataArray : null;
     } catch (error) {
       console.log(error);
-      return null; // or handle the error in some way
+      return null;
     }
   },
 
@@ -84,7 +82,6 @@ export const MusicAPI = {
     playlistId: string,
     totalSongs: number
     // an array of song objects
-    // ): Promise<PlaylistTrackResponse[] | null> {
   ): Promise<PlaylistTrackObject[] | null> {
     // Getting the call limits based on length for each call
     let callAmount = totalSongs;
@@ -103,14 +100,9 @@ export const MusicAPI = {
       }`;
     });
 
-    console.log(urls);
-    console.log(urls.length);
-
     const allSongs: PlaylistTrackObject[] = [];
 
-    // make a post about this, did I get it right this time?
     try {
-      // this works
       await Promise.all(
         urls.map((url) =>
           fetch(url, playlistDetailsParam).then((r) => r.json())
@@ -127,8 +119,6 @@ export const MusicAPI = {
       return null; // or handle the error in some way
     }
 
-    // returning an array of songs (spotify type)
-    console.log(allSongs);
     return allSongs;
   },
 

@@ -28,7 +28,7 @@ export type PopupData = {
 
 // Spotify API Types
 
-// Typing API get user reponse
+// Typing fetchUserData API response
 
 type ExternalUrlObject = {
   spotify: string;
@@ -56,7 +56,7 @@ export type UserObjectPublic = {
   uri: string;
 };
 
-// Typing API get users playlists response
+// Typing fetchPlaylistData API response
 
 export type ListOfUsersPlaylistsResponse =
   BasePagingObject<PlaylistObjectSimplified> & {};
@@ -90,29 +90,7 @@ type PlaylistBaseObject = {
   uri: string;
 };
 
-// Typing API get users artists response
-
-export type MultipleArtistsResponse = {
-  artists: ArtistObjectFull[];
-};
-
-export type ArtistObjectFull = ArtistObjectSimplified & {
-  followers: FollowersObject;
-  genres: string[];
-  images: ImageObject[];
-  popularity: number;
-};
-
-type ArtistObjectSimplified = {
-  external_urls: ExternalUrlObject;
-  href: string;
-  id: string;
-  name: string;
-  type: string;
-  uri: string;
-};
-
-// Typing API fetchPlaylistTracks response
+// Typing fetchPlaylistTracks API response
 export type PlaylistTrackResponse = PagingObject<PlaylistTrackObject> & {};
 
 type PagingObject<T> = BasePagingObject<T> & {
@@ -173,6 +151,28 @@ type TrackLinkObject = {
   external_urls: ExternalUrlObject;
   href: string;
   id: string;
+  type: string;
+  uri: string;
+};
+
+// Typing fetchArtistDetails API response
+
+export type MultipleArtistsResponse = {
+  artists: ArtistObjectFull[];
+};
+
+export type ArtistObjectFull = ArtistObjectSimplified & {
+  followers: FollowersObject;
+  genres: string[];
+  images: ImageObject[];
+  popularity: number;
+};
+
+type ArtistObjectSimplified = {
+  external_urls: ExternalUrlObject;
+  href: string;
+  id: string;
+  name: string;
   type: string;
   uri: string;
 };

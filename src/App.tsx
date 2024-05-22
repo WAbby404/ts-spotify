@@ -92,10 +92,7 @@ function App() {
       setToken(token);
       // When this ^ happens, start an hour timer
       // After timer finishes set expired state to true
-      // On API calls, check if res
       window.location.hash = "";
-
-      // 3600000
 
       const hourlyResetToken = async () => {
         const timeoutReference = setTimeout(hourlyResetToken, 3600000);
