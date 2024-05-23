@@ -7,6 +7,7 @@ import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import { useState } from "react";
 import { ThemeProvider, createTheme } from "@mui/material";
+import { green } from "@mui/material/colors";
 
 type TextBoxPopupProps = {
   openGenrePopup: boolean;
@@ -21,12 +22,13 @@ function TextBoxPopup(props: TextBoxPopupProps) {
   const validateGenre = (genre: string) => {
     let errors = [];
     const regex = /^[a-zA-Z]+$/;
-    // console.log(regex.test(genre));
+
     if (props.commonGenres.includes(genre)) {
       errors.push("Genre must be unique");
     } else if (!regex.test(genre)) {
       // tests that it only contains letters
       // must also removes leading and following spaces
+      // does not allow for spaces, maybe its for the best
       errors.push("Genre must contain only letters");
     }
     setErrors(errors);
@@ -37,10 +39,8 @@ function TextBoxPopup(props: TextBoxPopupProps) {
     palette: {
       mode: "light",
       primary: {
-        main: "#m3k45m",
-      },
-      secondary: {
-        main: "#fff",
+        main: green[500],
+        contrastText: "#fff",
       },
     },
   });
@@ -66,10 +66,16 @@ function TextBoxPopup(props: TextBoxPopupProps) {
               }
             },
           }}
+          sx={{
+            "& .MuiPaper-root": {
+              background: "#424242",
+            },
+            color: "#fff",
+          }}
         >
-          <DialogTitle>Add a Genre</DialogTitle>
+          <DialogTitle sx={{ color: "white" }}>Add a Genre</DialogTitle>
           <DialogContent>
-            <DialogContentText>
+            <DialogContentText sx={{ color: "#C7C7C7" }}>
               Add a genre to add to your new playlist
             </DialogContentText>
             <TextField
@@ -95,7 +101,9 @@ function TextBoxPopup(props: TextBoxPopupProps) {
             >
               Cancel
             </Button>
-            <Button type="submit">Add</Button>
+            <Button type="submit" variant="contained">
+              Add
+            </Button>
           </DialogActions>
         </Dialog>
       </div>

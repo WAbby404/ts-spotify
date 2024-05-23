@@ -300,18 +300,6 @@ function App() {
     },
   });
 
-  const playlistBtnTheme = createTheme({
-    palette: {
-      mode: "light",
-      primary: {
-        main: green[500],
-      },
-      secondary: {
-        main: "#B2D1B7",
-      },
-    },
-  });
-
   const removeSong = (index: number) => {
     const updatedPlaylist = newPlaylist;
     updatedPlaylist.splice(index, 1);

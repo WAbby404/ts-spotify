@@ -6,7 +6,7 @@ import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import { PopupData } from "./types";
 import { ThemeProvider, createTheme } from "@mui/material";
-import { green, grey } from "@mui/material/colors";
+import { green } from "@mui/material/colors";
 
 type ErrorPopupProps = {
   handlePopupExit: () => void;
@@ -43,7 +43,7 @@ function ErrorPopup(props: ErrorPopupProps) {
         <DialogContent>
           <DialogContentText
             id="alert-dialog-description"
-            sx={{ color: "white" }}
+            sx={{ color: "#C7C7C7" }}
           >
             {props.popupData.text}
           </DialogContentText>
