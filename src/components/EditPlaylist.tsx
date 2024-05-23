@@ -85,16 +85,16 @@ function EditPlaylist(props: NewPlaylistProps) {
                   {closed ? <ExpandLessIcon /> : <ExpandMoreIcon />}
                 </button>
               </div>
-              <div className="w-[90%] m-auto pt-2 flex flex-col gap-2 items-center justify-center xl:flex-row xl:justify-start border-solid border-2 border-sky-500">
+              <div className="w-[90%] m-auto pt-2 flex flex-col gap-2 items-center justify-center xl:flex-row xl:justify-start">
                 <img
                   src={props.selectedPlaylist.img}
                   alt="Old playlists art"
                   className="w-[7rem]"
                 />
 
-                <div className="flex flex-col items-center justify-center xl:items-start border-solid border-2 border-sky-500">
+                <div className="flex flex-col items-center justify-center xl:items-start">
                   <h2>{props.newPlaylistTitle}</h2>
-                  <div className="flex gap-1.5 items-center border-solid border-2 border-sky-500">
+                  <div className="flex gap-1.5 items-center">
                     <img
                       src={props.userData.img}
                       className="h-8 rounded-full"

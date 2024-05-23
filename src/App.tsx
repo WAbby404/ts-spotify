@@ -13,7 +13,6 @@ import {
   ArtistObjectFull,
 } from "./components/types";
 import { MusicAPI } from "./components/APIWrapper";
-// import { useMusicAPI } from "./components/APIWrapper2";
 import Login from "./components/Login";
 import ErrorPopup from "./components/ErrorPopup";
 import { ThemeProvider, createTheme } from "@mui/material";
