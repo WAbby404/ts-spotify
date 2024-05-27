@@ -34,6 +34,7 @@ function SelectGenres(props: SelectGenresProps) {
   ]);
 
   const [openGenrePopup, setOpenGenrePopup] = useState(false);
+
   const selectGenre = (genre: string) => {
     if (props.genres.includes(genre)) {
       props.genres.splice(props.genres.indexOf(genre), 1);
@@ -128,7 +129,7 @@ function SelectGenres(props: SelectGenresProps) {
           );
         })}
       </div>
-      {!props.closed && (
+      {(!props.closed || window.innerWidth > 1280) && (
         <Button
           onClick={() => {
             props.generateNewPlaylist();

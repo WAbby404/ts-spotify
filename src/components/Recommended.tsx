@@ -5,7 +5,7 @@ type RecommendedProps = {
 function Recommended({ recommendedSongs }: RecommendedProps) {
   // MAYBE can do recommended playlists based on selected genres?
   return (
-    <div className="bg-[#0B1A0B]/75 rounded-sm p-2 md:w-[90%] xl:w-full xl:col-span-6 xl:row-span-1 xl:h-full border-4 border-indigo-500/50">
+    <div className="bg-[#0B1A0B]/75 rounded-sm p-2 md:w-[90%] xl:col-span-6 xl:w-full xl:row-span-2 xl:h-full border-4 border-indigo-500/50">
       <div
         className="flex gap-2 justify-center items-center"
         // onClick={() => setClosed(!closed)}

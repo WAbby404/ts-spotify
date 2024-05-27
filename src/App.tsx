@@ -4,7 +4,7 @@ import SelectPlaylist from "./components/SelectPlaylist";
 import Logout from "./components/Logout";
 import EditGenres from "./components/EditGenres";
 import Recommended from "./components/Recommended";
-import EditPlaylist from "./components/EditPlaylist";
+import EditNewPlaylist from "./components/EditNewPlaylist";
 import {
   PlaylistData,
   UserData,
@@ -16,7 +16,7 @@ import { MusicAPI } from "./components/APIWrapper";
 import Login from "./components/Login";
 import ErrorPopup from "./components/ErrorPopup";
 import { ThemeProvider, createTheme } from "@mui/material";
-import { green, orange } from "@mui/material/colors";
+import { green } from "@mui/material/colors";
 
 function App() {
   const [count, setCount] = useState(0);
@@ -141,11 +141,44 @@ function App() {
 
   const handleLogout = () => {
     // console.log(currentTimeout);
+    // set all other states to their default state for no funkiness if they login, mess about, log out and then back in
+    setCount(0);
     setToken("");
+    setIsLoading(null);
+
     if (currentTimeout !== null) {
       clearTimeout(currentTimeout);
       setCurrentTimeout(null);
     }
+
+    setUserData({
+      name: "",
+      img: "",
+      id: "",
+    });
+
+    setPopupData({
+      popup: false,
+      title: "",
+      text: "",
+    });
+
+    setPlaylistData([{ title: "", img: "", playlistId: "", totalSongs: 0 }]);
+
+    setSelectedPlaylist({
+      title: "",
+      img: "",
+      playlistId: "",
+      totalSongs: 0,
+    });
+
+    setGenres([]);
+
+    setNewPlaylist([]);
+
+    setNewPlaylistTitle("");
+
+    setRepeatID("");
   };
 
   const updateCurrentPlaylist = async (
@@ -313,22 +346,22 @@ function App() {
     <ThemeProvider theme={theme}>
       <div className="max-w-full h-screen justify-center flex bg-gradient-to-b from-[#1b2e19] to-[#0E1C0D]">
         {token ? (
-          <div className="flex flex-col gap-3 w-[96%] p-3 max-h-full grow overflow-y-scroll md:items-center xl:items-stretch xl:grid xl:grid-cols-10 xl:grid-rows-10 xl:gap-4 xl:h-[100vh] xl:p-4 border-4 border-green-500/50">
+          <div className="flex flex-col gap-3 w-[96%] p-3 max-h-full grow overflow-y-scroll md:items-center xl:items-stretch xl:grid xl:grid-cols-10 xl:grid-rows-10 xl:gap-4 xl:h-[100vh] xl:p-4">
             <ErrorPopup
               popupData={popupData}
               handlePopupExit={handlePopupExit}
             />
-            <div className="flex flex-col w-full md:items-center xl:col-span-2 xl:row-span-10 border-4 border-red-500/50">
+            <div className="flex flex-col w-full md:items-center xl:col-span-2 xl:row-span-10 xl:gap-3">
               <SelectPlaylist
                 updateCurrentPlaylist={updateCurrentPlaylist}
                 playlists={playlistData}
               />
-              <div className="hidden xl:block">
+              <div className="hidden xl:block xl:w-full">
                 <Logout handleLogout={handleLogout} userData={userData} />
               </div>
             </div>
 
-            <div className="flex flex-col gap-3 w-full md:items-center xl:col-span-8 xl:row-span-10 xl:order-3 xl:grid border-4 border-indigo-500/50">
+            <div className="flex flex-col gap-3 w-full md:items-center xl:col-span-8 xl:row-span-10 xl:order-3 xl:flex xl:flex-col">
               <EditGenres
                 newPlaylistTitle={newPlaylistTitle}
                 count={count}
@@ -342,7 +375,7 @@ function App() {
                 generateNewPlaylist={generateNewPlaylist}
                 isLoading={isLoading}
               />
-              <EditPlaylist
+              <EditNewPlaylist
                 genres={genres}
                 userData={userData}
                 count={count}
@@ -353,11 +386,8 @@ function App() {
                 newPlaylistTitle={newPlaylistTitle}
                 selectedPlaylist={selectedPlaylist}
               />
-              <Recommended
-                recommendedSongs={["rock jazz song1", "smooth jazz 2"]}
-              />
             </div>
-            <div className="xl:hidden w-full md:flex md:items-center md:w-[90%] border-4 border-indigo-500/50">
+            <div className="xl:hidden w-full md:flex md:items-center md:w-[90%]">
               <Logout handleLogout={handleLogout} userData={userData} />
             </div>
           </div>

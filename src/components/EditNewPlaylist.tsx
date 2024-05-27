@@ -1,12 +1,6 @@
-import {
-  Button,
-  Skeleton,
-  Typography,
-  generateUtilityClasses,
-} from "@mui/material";
+import { Button, Skeleton, Typography } from "@mui/material";
 import TagIcon from "@mui/icons-material/Tag";
 import AccessTimeFilledIcon from "@mui/icons-material/AccessTimeFilled";
-import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
 import CloseIcon from "@mui/icons-material/Close";
 import { PlaylistData, UserData } from "./types";
 import { useState } from "react";
@@ -35,10 +29,11 @@ function EditPlaylist(props: NewPlaylistProps) {
   };
 
   const render = () => {
+    console.log(props.newPlaylist);
     switch (props.isLoading) {
       case true:
         return (
-          <div className="bg-[#0B1A0B]/75 rounded-sm md:w-[90%] xl:w-full xl:h-full border-4 border-indigo-500/50">
+          <div className="bg-[#0B1A0B]/75 rounded-sm md:w-[90%] xl:w-full xl:h-full">
             <div
               className="flex gap-2 justify-center items-center "
               onClick={() => setClosed(!closed)}
@@ -69,7 +64,7 @@ function EditPlaylist(props: NewPlaylistProps) {
 
       case false:
         return (
-          <div className="text-white bg-[#0B1A0B]/75 rounded-sm p-2 flex flex-col gap-2 md:w-[90%] xl:w-full xl:h-full border-4 border-indigo-500/50">
+          <div className="text-white bg-[#0B1A0B]/75 rounded-sm p-2 flex flex-col gap-2 md:w-[90%] xl:w-full xl:h-full xl:grow">
             <div className="xl:h-64 xl:w-full">
               <div
                 className="flex gap-2 justify-center items-center"
@@ -85,33 +80,35 @@ function EditPlaylist(props: NewPlaylistProps) {
                   {closed ? <ExpandLessIcon /> : <ExpandMoreIcon />}
                 </button>
               </div>
-              <div className="w-[90%] m-auto pt-2 flex flex-col gap-2 items-center justify-center xl:flex-row xl:justify-start">
-                <img
-                  src={props.selectedPlaylist.img}
-                  alt="Old playlists art"
-                  className="w-[7rem]"
-                />
-
-                <div className="flex flex-col items-center justify-center xl:items-start">
-                  <h2>{props.newPlaylistTitle}</h2>
-                  <div className="flex gap-1.5 items-center">
-                    <img
-                      src={props.userData.img}
-                      className="h-8 rounded-full"
-                      alt="User"
-                    />
-                    <Typography>{props.userData.name}</Typography>
-                    <div>
+              <div className="w-[90%] m-auto pt-1 flex flex-col gap-2 items-center justify-center xl:flex-row xl:justify-between">
+                <div className="flex flex-col gap-2 xl:flex-row">
+                  <img
+                    src={props.selectedPlaylist.img}
+                    alt="Old playlists art"
+                    className="w-[5rem]"
+                  />
+                  <div className="flex flex-col items-center justify-center xl:items-start ">
+                    <h2>{props.newPlaylistTitle}</h2>
+                    <div className="flex gap-1.5 items-center">
                       <p className="italic font-thin">
                         {props.newPlaylist.length} songs
                       </p>
                     </div>
                   </div>
                 </div>
+
+                <Button
+                  variant="contained"
+                  // onClick={() => props.createPlaylist()}
+                >
+                  Add Playlist to Spotify
+                </Button>
               </div>
               <div className="flex flex-col gap-3 md:p-5">
                 <div
-                  className={`flex justify-between ${closed ? "hidden" : ""}`}
+                  className={`flex justify-between ${
+                    closed && window.innerWidth < 1280 ? "hidden" : ""
+                  }`}
                 >
                   <div className="hidden xl:block">
                     <TagIcon />
@@ -124,31 +121,39 @@ function EditPlaylist(props: NewPlaylistProps) {
                   </div>
                 </div>
                 <ul
-                  className={`flex flex-col gap-2 xl:overflow-y-scroll xl:h-32 ${
-                    closed ? "hidden" : ""
+                  className={`flex flex-col gap-2 xl:overflow-y-scroll 2xl:h-[19rem] xl:h-[12rem] border-2 border-rose-500 ${
+                    closed && window.innerWidth < 1280 ? "hidden" : ""
                   }`}
                 >
                   {props.newPlaylist.length > 0 ? (
                     props.newPlaylist.map((song, index) => {
                       return (
-                        <li key={index} className="flex justify-between">
-                          <h4 className="sm: hidden">{index}</h4>
+                        <li
+                          key={index}
+                          className="flex justify-between xl:items-start xl:gap-4"
+                        >
+                          <h3 className="hidden xl:inline text-[#C7C7C7]">
+                            {index + 1}
+                          </h3>
+
                           <div className="flex gap-2 justify-center items-center">
+                            {/* grid? for each things width */}
                             <img
                               src={song.track.album.images[2].url}
                               alt={`song.track.album.artists[0].name album cover`}
                             />
-                            <div>
+                            <div className="">
                               <h4>{song.track.name}</h4>
-                              <h4 className="font-thin">
+                              <h4 className="font-thin text-[#C7C7C7]">
                                 {song.track.album.artists[0].name}
                               </h4>
                             </div>
                           </div>
-                          <h4 className="sm: hidden">
+
+                          <h4 className="hidden xl:inline xl:grow text-[#C7C7C7]">
                             {song.track.album.name}
                           </h4>
-                          <h4 className="sm: hidden">
+                          <h4 className="hidden xl:inline text-[#C7C7C7]">
                             {convertFromMs(song.track.duration_ms)}
                           </h4>
                           <button
@@ -164,14 +169,6 @@ function EditPlaylist(props: NewPlaylistProps) {
                     <li>No songs found</li>
                   )}
                 </ul>
-                <div className="m-auto">
-                  <Button
-                    variant="contained"
-                    // onClick={() => props.createPlaylist()}
-                  >
-                    Add Playlist to Spotify
-                  </Button>
-                </div>
               </div>
             </div>
           </div>
@@ -179,7 +176,7 @@ function EditPlaylist(props: NewPlaylistProps) {
 
       default:
         return (
-          <div className="bg-[#0B1A0B]/75 rounded-sm p-2 md:w-[90%] xl:w-full xl:h-full border-4 border-indigo-500/50">
+          <div className="bg-[#0B1A0B]/75 rounded-sm p-2 md:w-[90%] xl:w-full xl:h-full">
             <div
               className="flex gap-2 justify-center items-center "
               onClick={() => setClosed(!closed)}
@@ -200,7 +197,7 @@ function EditPlaylist(props: NewPlaylistProps) {
   };
 
   return (
-    <div className="md:w-[100%] md:flex md:justify-center xl:col-span-6 xl:w-full xl:row-span-2 xl:h-full">
+    <div className="md:w-[100%] md:flex md:justify-center xl:w-full xl:max-h-full xl:grow">
       {render()}
     </div>
   );

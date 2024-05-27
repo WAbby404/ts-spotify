@@ -1,7 +1,7 @@
 import { Divider, Skeleton } from "@mui/material";
 import PlaylistDetails from "./PlaylistDetails";
 import SelectGenres from "./SelectGenres";
-import EditPlaylist from "./EditPlaylist";
+import EditPlaylist from "./EditNewPlaylist";
 import { PlaylistData, UserData } from "./types";
 import { useState } from "react";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
@@ -25,8 +25,8 @@ function EditGenres(props: EditPlaylistProps) {
   const [closed, setClosed] = useState<boolean>(false);
 
   return (
-    <div className="bg-[#0B1A0B]/75 rounded-sm p-2 md:w-[90%] xl:col-span-6 xl:w-full xl:row-span-2 xl:max-h-full border-4 border-indigo-500/50">
-      <div className="xl:max-h-[30%] xl:overflow-y-scroll xl:w-full">
+    <div className="bg-[#0B1A0B]/75 rounded-sm p-2 md:w-[90%] xl:w-full xl:max-h-full">
+      <div className="xl:w-full">
         <div
           className="flex gap-2 justify-center items-center"
           onClick={() => setClosed(!closed)}

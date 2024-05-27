@@ -30,6 +30,8 @@ function TextBoxPopup(props: TextBoxPopupProps) {
       // must also removes leading and following spaces
       // does not allow for spaces, maybe its for the best
       errors.push("Genre must contain only letters");
+    } else if (genre.length > 20) {
+      errors.push("Genre must be below 20 characters");
     }
     setErrors(errors);
     return errors;

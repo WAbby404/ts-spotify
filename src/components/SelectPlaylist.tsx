@@ -1,7 +1,5 @@
-import { Avatar, Stack, Typography, Button } from "@mui/material";
 import { PlaylistData } from "./types";
 import { useState } from "react";
-import { createTheme, ThemeProvider } from "@mui/material";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import ExpandLessIcon from "@mui/icons-material/ExpandLess";
 
@@ -16,7 +14,7 @@ function SelectPlaylist(playlistProps: PlaylistProps) {
   const [closed, setClosed] = useState(false);
 
   return (
-    <div className="p-2 flex flex-col gap-2 bg-[#0B1A0B]/75 rounded-sm md:w-[90%] xl:w-full xl:h-full border-4 border-indigo-500/50">
+    <div className="p-2 flex flex-col gap-2 bg-[#0B1A0B]/75 rounded-sm md:w-[90%] xl:w-full xl:h-full">
       <div
         className="flex gap-2 justify-center items-center"
         onClick={() => setClosed(!closed)}
@@ -41,9 +39,7 @@ function SelectPlaylist(playlistProps: PlaylistProps) {
             } md:m-4`}
             key={index}
             onClick={() => {
-              console.log(window.innerWidth);
               if (!closed || window.innerWidth >= 1280) {
-                console.log("running");
                 playlistProps.updateCurrentPlaylist(
                   playlist.playlistId,
                   playlist
