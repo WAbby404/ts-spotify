@@ -61,6 +61,8 @@ function App() {
     fetchPlaylistData,
     fetchPlaylistTracks,
     fetchArtistDetails,
+    createSpotifyPlaylist,
+    addSpotifyPlaylistImage,
   } = MusicAPI;
 
   const handlePopupExit = () => {
@@ -116,7 +118,6 @@ function App() {
 
       let profileId = "";
 
-      // HERE API calls
       fetchUserData(profileParams, profileId).then((data) => {
         if (data !== null) {
           setUserData(data);
@@ -248,9 +249,6 @@ function App() {
         selectedPlaylist.playlistId,
         selectedPlaylist.totalSongs
       );
-      // console.log("fullPlaylist: ");
-      // console.log(fullPlaylist);
-      // keep all songs in a state
 
       // make a set of all artist ids
       let uniqueArtistIDs = new Set();
@@ -340,7 +338,48 @@ function App() {
     setCount(count + 1);
   };
 
-  const createPlaylist = () => {};
+  const createNewPlaylist = async () => {
+    // create playlist
+    const newPlaylistParams = {
+      method: "POST",
+      headers: {
+        Authorization: "Bearer " + token,
+      },
+      body: JSON.stringify({
+        name: `${newPlaylistTitle}`,
+        description: "Made in Spotify Genre Playlist Maker",
+        public: true,
+      }),
+    };
+
+    // a playlist without an image breaks the select a playlist thing
+    let newPlaylistID: string = "";
+    let newPlaylistData = await createSpotifyPlaylist(
+      newPlaylistParams,
+      userData.id
+    );
+    if (newPlaylistData !== null) {
+      newPlaylistID = newPlaylistData.id;
+    }
+
+    // add an image to playlist
+    const img: string =
+      "/9j/2wCEABoZGSccJz4lJT5CLy8vQkc9Ozs9R0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0cBHCcnMyYzPSYmPUc9Mj1HR0dEREdHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR//dAAQAAf/uAA5BZG9iZQBkwAAAAAH/wAARCAABAAEDACIAAREBAhEB/8QASwABAQAAAAAAAAAAAAAAAAAAAAYBAQAAAAAAAAAAAAAAAAAAAAAQAQAAAAAAAAAAAAAAAAAAAAARAQAAAAAAAAAAAAAAAAAAAAD/2gAMAwAAARECEQA/AJgAH//Z";
+
+    const newPlaylistImageParams = {
+      method: "PUT",
+      headers: {
+        Authorization: "Bearer " + token,
+        "Content-Type": "image/jpeg",
+      },
+      body: img,
+    };
+
+    addSpotifyPlaylistImage(newPlaylistImageParams, newPlaylistID);
+
+    // add items to playlist (100 song IDS per call)
+    // newPlaylist.song(forEach).song.track.id
+  };
 
   return (
     <ThemeProvider theme={theme}>
@@ -385,6 +424,7 @@ function App() {
                 newPlaylist={newPlaylist}
                 newPlaylistTitle={newPlaylistTitle}
                 selectedPlaylist={selectedPlaylist}
+                createNewPlaylist={createNewPlaylist}
               />
             </div>
             <div className="xl:hidden w-full md:flex md:items-center md:w-[90%]">

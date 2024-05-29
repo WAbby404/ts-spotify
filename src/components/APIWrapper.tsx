@@ -3,6 +3,7 @@ import {
   UserData,
   PlaylistData,
   PlaylistTrackObject,
+  PlaylistBaseObject,
 } from "./types";
 
 export const MusicAPI = {
@@ -33,7 +34,7 @@ export const MusicAPI = {
           id: data.id,
         };
         profileId = data.id;
-        console.log(data);
+        // console.log(data);
 
         return userObj;
       } else {
@@ -45,22 +46,29 @@ export const MusicAPI = {
     }
   },
 
-  // Get Playlist Info
+  // Get Playlists
   fetchPlaylistData: async function (
     playlistParams: SpotifyParams,
     profileId: string
   ): Promise<PlaylistData[] | null> {
     let dataArray: PlaylistData[] = [];
-
     try {
       const response = await fetch(
         `https://api.spotify.com/v1/users/${profileId}/playlists`,
         playlistParams
       );
       if (!response.ok) {
+        // console.log(response);
+        // console.log("weird response");
         throw new Error("Network response was not ok");
       }
       const data = await response.json();
+      // console.log("data var");
+      // console.log(data);
+      // console.log("data items:");
+      // console.log(dataArray);
+      // console.log(data.items);
+      // console.table(data.items);
       dataArray = data.items.map((playlist: any) => {
         return {
           title: playlist.name,
@@ -69,8 +77,12 @@ export const MusicAPI = {
           totalSongs: playlist.tracks.total,
         };
       });
-      return dataArray[0].title ? dataArray : null;
+      // console.log("dataArray");
+      // console.log(dataArray);
+      // console.table(dataArray);
+      return dataArray[0].playlistId ? dataArray : null;
     } catch (error) {
+      console.log("error");
       console.log(error);
       return null;
     }
@@ -167,5 +179,50 @@ export const MusicAPI = {
       }
     }
     return allArtists;
+  },
+
+  createSpotifyPlaylist: async function (
+    newPlaylistParams: any,
+    profileId: string
+  ): Promise<PlaylistBaseObject | null> {
+    let data;
+    try {
+      const response = await fetch(
+        `https://api.spotify.com/v1/users/${profileId}/playlists`,
+        newPlaylistParams
+      );
+      if (!response.ok) {
+        throw new Error("Network response was not ok");
+      }
+      data = await response.json();
+      // console.log("new playlist added to spotify:");
+      // console.log(data);
+      return data;
+    } catch (error) {
+      console.log(error);
+      return null;
+    }
+  },
+
+  addSpotifyPlaylistImage: async function (
+    newPlaylistImageParams: any,
+    playlistId: string
+  ): Promise<any> {
+    // console.log("playlistId");
+    // console.log(playlistId);
+    try {
+      const response = await fetch(
+        `https://api.spotify.com/v1/playlists/${playlistId}/images`,
+        newPlaylistImageParams
+      );
+      if (!response.ok) {
+        throw new Error("Network response was not ok");
+      }
+      const data = await response.json();
+      console.log(data);
+    } catch (error) {
+      console.log(error);
+      return null;
+    }
   },
 };

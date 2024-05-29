@@ -76,7 +76,7 @@ type PlaylistObjectSimplified = PlaylistBaseObject & {
   };
 };
 
-type PlaylistBaseObject = {
+export type PlaylistBaseObject = {
   collaborative: boolean;
   external_urls: ExternalUrlObject;
   href: string;

@@ -14,7 +14,7 @@ function SelectPlaylist(playlistProps: PlaylistProps) {
   const [closed, setClosed] = useState(false);
 
   return (
-    <div className="p-2 flex flex-col gap-2 bg-[#0B1A0B]/75 rounded-sm md:w-[90%] xl:w-full xl:h-full">
+    <div className="p-2 flex flex-col gap-2 bg-[#0B1A0B]/75 rounded-sm md:w-[90%] xl:w-full xl:h-full xl:overflow-auto">
       <div
         className="flex gap-2 justify-center items-center"
         onClick={() => setClosed(!closed)}
@@ -31,9 +31,10 @@ function SelectPlaylist(playlistProps: PlaylistProps) {
       </div>
 
       {playlistProps.playlists.map((playlist, index) => {
+        // console.log(playlist);
         return (
           <div
-            className={`flex rounded-md justify-center gap-2 items-center bg-[#A7B6A9] overflow-hidden bg-opacity-25 hover:bg-opacity-50
+            className={`flex rounded-md justify-center gap-2 items-center bg-[#A7B6A9] overflow-hidden bg-opacity-25 hover:bg-opacity-50 
             ${closed && index !== highlighted ? "hidden xl:flex" : ""} ${
               highlighted === index ? "bg-opacity-50" : ""
             } md:m-4`}
@@ -50,6 +51,7 @@ function SelectPlaylist(playlistProps: PlaylistProps) {
             }}
           >
             <img
+              //  || require("../images/playlistIcon.png")
               src={playlist.img}
               alt={`${playlist.title}'s album cover`}
               className="h-[4rem]"

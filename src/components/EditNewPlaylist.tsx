@@ -10,6 +10,7 @@ import ExpandLessIcon from "@mui/icons-material/ExpandLess";
 type NewPlaylistProps = {
   selectedPlaylist: PlaylistData;
   removeSong: (index: number) => void;
+  createNewPlaylist: () => void;
   genres: string[];
   count: number;
   newPlaylist: any[];
@@ -29,7 +30,7 @@ function EditPlaylist(props: NewPlaylistProps) {
   };
 
   const render = () => {
-    console.log(props.newPlaylist);
+    // console.log(props.newPlaylist);
     switch (props.isLoading) {
       case true:
         return (
@@ -99,7 +100,7 @@ function EditPlaylist(props: NewPlaylistProps) {
 
                 <Button
                   variant="contained"
-                  // onClick={() => props.createPlaylist()}
+                  onClick={() => props.createNewPlaylist()}
                 >
                   Add Playlist to Spotify
                 </Button>
@@ -121,7 +122,7 @@ function EditPlaylist(props: NewPlaylistProps) {
                   </div>
                 </div>
                 <ul
-                  className={`flex flex-col gap-2 xl:overflow-y-scroll 2xl:h-[19rem] xl:h-[12rem] border-2 border-rose-500 ${
+                  className={`flex flex-col gap-2 xl:overflow-y-scroll 2xl:h-[19rem] xl:h-[12rem] ${
                     closed && window.innerWidth < 1280 ? "hidden" : ""
                   }`}
                 >
