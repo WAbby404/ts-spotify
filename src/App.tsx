@@ -63,6 +63,7 @@ function App() {
     fetchArtistDetails,
     createSpotifyPlaylist,
     addSpotifyPlaylistImage,
+    addSpotifyPlaylistTracks,
   } = MusicAPI;
 
   const handlePopupExit = () => {
@@ -216,7 +217,7 @@ function App() {
         }
       });
     }
-    console.log(title);
+    // console.log(title);
     setNewPlaylistTitle(title);
   };
 
@@ -376,6 +377,31 @@ function App() {
     };
 
     addSpotifyPlaylistImage(newPlaylistImageParams, newPlaylistID);
+
+    let callAmount = newPlaylist.length;
+    let calloffets = [0];
+    let currentAmount = 0;
+    while (callAmount > 100) {
+      callAmount = callAmount - 100;
+      currentAmount = currentAmount + 100;
+      calloffets.push(currentAmount);
+    }
+
+    const newPlaylistTrackURIs = { uris: [], position: 0 };
+
+    const newPlaylistSongsParams = {
+      method: "POST",
+      headers: {
+        Authorization: "Bearer " + token,
+        "Content-Type": "application/json",
+      },
+      body: newPlaylistTrackURIs,
+    };
+
+    addSpotifyPlaylistTracks(
+      newPlaylistSongsParams,
+      selectedPlaylist.playlistId
+    );
 
     // add items to playlist (100 song IDS per call)
     // newPlaylist.song(forEach).song.track.id

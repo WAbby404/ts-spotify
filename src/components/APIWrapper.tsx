@@ -225,4 +225,34 @@ export const MusicAPI = {
       return null;
     }
   },
+
+  addSpotifyPlaylistTracks: async function (
+    newPlaylistSongsParams: any,
+    totalNewSongs: number,
+    playlistId: string
+  ): Promise<any> {
+    let callAmount = totalNewSongs;
+    let calloffets = [0];
+    let currentAmount = 0;
+    while (callAmount > 100) {
+      callAmount = callAmount - 100;
+      currentAmount = currentAmount + 100;
+      calloffets.push(currentAmount);
+    }
+
+    try {
+      const response = await fetch(
+        `https://api.spotify.com/v1/playlists/${playlistId}/tracks`,
+        newPlaylistSongsParams
+      );
+      if (!response.ok) {
+        throw new Error("Network response was not ok");
+      }
+      const data = await response.json();
+      console.log(data);
+    } catch (error) {
+      console.log(error);
+      return null;
+    }
+  },
 };
