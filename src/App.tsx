@@ -62,7 +62,7 @@ function App() {
     fetchPlaylistTracks,
     fetchArtistDetails,
     createSpotifyPlaylist,
-    addSpotifyPlaylistImage,
+    // addSpotifyPlaylistImage,
     addSpotifyPlaylistTracks,
   } = MusicAPI;
 
@@ -277,9 +277,6 @@ function App() {
         uniqueArtistIDsArray
       );
 
-      // console.log("responseArtists: ");
-      // console.log(responseArtists);
-
       let artistsWithGenre: any = [];
 
       responseArtists.forEach((artist: any) => {
@@ -297,8 +294,6 @@ function App() {
 
         // if any selected genre is in the 'genres' list, add any song with that id to the newPlaylist
       });
-      // console.log("artistsWithGenres: ");
-      // console.log(artistsWithGenre);
       // now we have a list of artists with our selected genres. NOW we look thru whole playlist,
 
       let newPlaylistTEMP: any = [];
@@ -309,9 +304,6 @@ function App() {
           }
         });
       }
-
-      // console.log("newPlaylistTEMP: ");
-      // console.log(newPlaylistTEMP);
 
       setNewPlaylist(newPlaylistTEMP);
       setRepeatID(selectedPlaylist.playlistId);
@@ -355,6 +347,7 @@ function App() {
 
     // a playlist without an image breaks the select a playlist thing
     let newPlaylistID: string = "";
+    // adds repeat songs, fix this somewhere?
     let newPlaylistData = await createSpotifyPlaylist(
       newPlaylistParams,
       userData.id
@@ -364,19 +357,19 @@ function App() {
     }
 
     // add an image to playlist
-    const img: string =
-      "/9j/2wCEABoZGSccJz4lJT5CLy8vQkc9Ozs9R0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0cBHCcnMyYzPSYmPUc9Mj1HR0dEREdHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR//dAAQAAf/uAA5BZG9iZQBkwAAAAAH/wAARCAABAAEDACIAAREBAhEB/8QASwABAQAAAAAAAAAAAAAAAAAAAAYBAQAAAAAAAAAAAAAAAAAAAAAQAQAAAAAAAAAAAAAAAAAAAAARAQAAAAAAAAAAAAAAAAAAAAD/2gAMAwAAARECEQA/AJgAH//Z";
+    // const img: string =
+    //   "/9j/2wCEABoZGSccJz4lJT5CLy8vQkc9Ozs9R0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0cBHCcnMyYzPSYmPUc9Mj1HR0dEREdHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR//dAAQAAf/uAA5BZG9iZQBkwAAAAAH/wAARCAABAAEDACIAAREBAhEB/8QASwABAQAAAAAAAAAAAAAAAAAAAAYBAQAAAAAAAAAAAAAAAAAAAAAQAQAAAAAAAAAAAAAAAAAAAAARAQAAAAAAAAAAAAAAAAAAAAD/2gAMAwAAARECEQA/AJgAH//Z";
 
-    const newPlaylistImageParams = {
-      method: "PUT",
-      headers: {
-        Authorization: "Bearer " + token,
-        "Content-Type": "image/jpeg",
-      },
-      body: img,
-    };
+    // const newPlaylistImageParams = {
+    //   method: "PUT",
+    //   headers: {
+    //     Authorization: "Bearer " + token,
+    //     "Content-Type": "image/jpeg",
+    //   },
+    //   body: img,
+    // };
 
-    addSpotifyPlaylistImage(newPlaylistImageParams, newPlaylistID);
+    // addSpotifyPlaylistImage(newPlaylistImageParams, newPlaylistID);
 
     let callAmount = newPlaylist.length;
     let calloffets = [0];
@@ -387,21 +380,39 @@ function App() {
       calloffets.push(currentAmount);
     }
 
-    const newPlaylistTrackURIs = { uris: [], position: 0 };
+    // need to fill the uris now!, need track uris
+    const newPlaylistTrackURIs: any = { uris: [], position: 0 };
 
+    // it said that when position is omitted, songs will be added to the end, so im trying without position
+
+    newPlaylist.forEach((song) => {
+      newPlaylistTrackURIs.uris.push("spotify:track:" + song.track.id);
+    });
+    console.log(newPlaylistTrackURIs);
+
+    // console.log(newPlaylist);
     const newPlaylistSongsParams = {
       method: "POST",
       headers: {
         Authorization: "Bearer " + token,
         "Content-Type": "application/json",
       },
-      body: newPlaylistTrackURIs,
+      body: JSON.stringify(newPlaylistTrackURIs),
     };
 
-    addSpotifyPlaylistTracks(
-      newPlaylistSongsParams,
-      selectedPlaylist.playlistId
-    );
+    // need to get over 100 songs working
+    console.log(newPlaylistSongsParams);
+
+    if (newPlaylistData !== null) {
+      addSpotifyPlaylistTracks(
+        newPlaylistSongsParams,
+        // CRAP need NEW playlist id!
+        newPlaylistData.id
+      );
+    }
+
+    // need to work on positon / call limits
+    // might have another promise.all situation
 
     // add items to playlist (100 song IDS per call)
     // newPlaylist.song(forEach).song.track.id
