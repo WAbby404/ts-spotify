@@ -3,7 +3,7 @@ import LoginPage from "./components/LoginPage";
 import SelectPlaylist from "./components/SelectPlaylist";
 import Logout from "./components/Logout";
 import EditGenres from "./components/EditGenres";
-import Recommended from "./components/Recommended";
+import SuccessPopup from "./components/SuccessPopup";
 import EditNewPlaylist from "./components/EditNewPlaylist";
 import {
   PlaylistData,
@@ -55,6 +55,8 @@ function App() {
   const [newPlaylistTitle, setNewPlaylistTitle] = useState<string>("");
 
   const [repeatID, setRepeatID] = useState("");
+
+  const [openSuccess, setOpenSuccess] = useState<boolean>(false);
 
   const {
     fetchUserData,
@@ -400,15 +402,20 @@ function App() {
       body: JSON.stringify(newPlaylistTrackURIs),
     };
 
-    // need to get over 100 songs working
+    // need to get over 100 songs working, will need to make multiple songParams
     console.log(newPlaylistSongsParams);
 
     if (newPlaylistData !== null) {
-      addSpotifyPlaylistTracks(
-        newPlaylistSongsParams,
-        // CRAP need NEW playlist id!
-        newPlaylistData.id
-      );
+      addSpotifyPlaylistTracks(newPlaylistSongsParams, newPlaylistData.id);
+      // need to put this AFTER to make sure it was successfull
+      // Turn openSuccess to true for a timer & turn off after timer is done
+      // make sure to clear timer?
+      setOpenSuccess(true);
+      // timer for 3 seconds
+      //
+      setTimeout(() => {
+        setOpenSuccess(false);
+      }, 3000);
     }
 
     // need to work on positon / call limits
@@ -427,6 +434,7 @@ function App() {
               popupData={popupData}
               handlePopupExit={handlePopupExit}
             />
+            <SuccessPopup openSuccess={openSuccess} />
             <div className="flex flex-col w-full md:items-center xl:col-span-2 xl:row-span-10 xl:gap-3">
               <SelectPlaylist
                 updateCurrentPlaylist={updateCurrentPlaylist}

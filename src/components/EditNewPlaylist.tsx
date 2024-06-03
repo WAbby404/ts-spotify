@@ -1,4 +1,4 @@
-import { Button, Skeleton, Typography } from "@mui/material";
+import { Button, Skeleton } from "@mui/material";
 import TagIcon from "@mui/icons-material/Tag";
 import AccessTimeFilledIcon from "@mui/icons-material/AccessTimeFilled";
 import CloseIcon from "@mui/icons-material/Close";
