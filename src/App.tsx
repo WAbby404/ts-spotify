@@ -11,6 +11,8 @@ import {
   SpotifyParams,
   PopupData,
   ArtistObjectFull,
+  NewPlaylistURIS,
+  NewPlaylistParams,
 } from "./components/types";
 import { MusicAPI } from "./components/APIWrapper";
 import Login from "./components/Login";
@@ -87,7 +89,6 @@ function App() {
     let token: string | null | undefined = null;
 
     if (!token && hash) {
-      console.log(hash);
       token = hash
         .substring(1)
         .split("&")
@@ -347,82 +348,192 @@ function App() {
       }),
     };
 
-    // a playlist without an image breaks the select a playlist thing
+    // gets the new playlist id
     let newPlaylistID: string = "";
     // adds repeat songs, fix this somewhere?
-    let newPlaylistData = await createSpotifyPlaylist(
-      newPlaylistParams,
-      userData.id
-    );
-    if (newPlaylistData !== null) {
-      newPlaylistID = newPlaylistData.id;
-    }
 
-    // add an image to playlist
-    // const img: string =
-    //   "/9j/2wCEABoZGSccJz4lJT5CLy8vQkc9Ozs9R0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0cBHCcnMyYzPSYmPUc9Mj1HR0dEREdHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR//dAAQAAf/uAA5BZG9iZQBkwAAAAAH/wAARCAABAAEDACIAAREBAhEB/8QASwABAQAAAAAAAAAAAAAAAAAAAAYBAQAAAAAAAAAAAAAAAAAAAAAQAQAAAAAAAAAAAAAAAAAAAAARAQAAAAAAAAAAAAAAAAAAAAD/2gAMAwAAARECEQA/AJgAH//Z";
+    // let newPlaylistData = await createSpotifyPlaylist(
+    //   newPlaylistParams,
+    //   userData.id
+    // );
+    // if (newPlaylistData !== null) {
+    //   newPlaylistID = newPlaylistData.id;
+    // }
 
-    // const newPlaylistImageParams = {
-    //   method: "PUT",
+    //
+    //
+    //
+
+    //
+    //
+    //
+
+    //
+    //
+    //
+
+    //
+    //
+    //
+
+    //
+    //
+    // //
+    //
+    //
+
+    //
+    //
+    //
+
+    //
+    //
+    //
+
+    //
+    //
+    //
+
+    //
+    //
+    //
+
+    // const newPlaylistSongsParams = {
+    //   method: "POST",
     //   headers: {
     //     Authorization: "Bearer " + token,
-    //     "Content-Type": "image/jpeg",
+    //     "Content-Type": "application/json",
     //   },
-    //   body: img,
+    //   body: JSON.stringify(""),
     // };
 
-    // addSpotifyPlaylistImage(newPlaylistImageParams, newPlaylistID);
+    console.log(newPlaylist);
 
-    let callAmount = newPlaylist.length;
-    let calloffets = [0];
-    let currentAmount = 0;
-    while (callAmount > 100) {
-      callAmount = callAmount - 100;
-      currentAmount = currentAmount + 100;
-      calloffets.push(currentAmount);
-    }
+    // array of newPlaylistParams objects for call to map over w/ promise.all
+    let allCallInfo: NewPlaylistParams[] = [];
 
-    // need to fill the uris now!, need track uris
-    const newPlaylistTrackURIs: any = { uris: [], position: 0 };
+    let tempArray: NewPlaylistURIS = { uris: [], position: 0 };
 
-    // it said that when position is omitted, songs will be added to the end, so im trying without position
+    newPlaylist.forEach((song, index) => {
+      // work on if statement (if a whole number then) (mod or division)
+      if (index % 100 === 0) {
+        tempArray.uris.push("spotify:track:" + song.track.id);
+        allCallInfo.push({
+          method: "POST",
+          headers: {
+            Authorization: "Bearer " + token,
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(tempArray),
+        });
+        tempArray = { uris: [], position: 0 };
+      } else {
+        tempArray.uris.push("spotify:track:" + song.track.id);
+      }
 
-    newPlaylist.forEach((song) => {
-      newPlaylistTrackURIs.uris.push("spotify:track:" + song.track.id);
+      if (index === newPlaylist.length) {
+        allCallInfo.push({
+          method: "POST",
+          headers: {
+            Authorization: "Bearer " + token,
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(tempArray),
+        });
+      }
     });
-    console.log(newPlaylistTrackURIs);
 
-    // console.log(newPlaylist);
-    const newPlaylistSongsParams = {
-      method: "POST",
-      headers: {
-        Authorization: "Bearer " + token,
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(newPlaylistTrackURIs),
-    };
+    console.log(allCallInfo);
 
-    // need to get over 100 songs working, will need to make multiple songParams
-    console.log(newPlaylistSongsParams);
+    allCallInfo.forEach((callInfo) => {
+      console.log(callInfo.body);
+    });
 
-    if (newPlaylistData !== null) {
-      addSpotifyPlaylistTracks(newPlaylistSongsParams, newPlaylistData.id);
-      // need to put this AFTER to make sure it was successfull
-      // Turn openSuccess to true for a timer & turn off after timer is done
-      // make sure to clear timer?
-      setOpenSuccess(true);
-      // timer for 3 seconds
-      //
-      setTimeout(() => {
-        setOpenSuccess(false);
-      }, 3000);
-    }
+    //
+    //
+    //
 
-    // need to work on positon / call limits
-    // might have another promise.all situation
+    //
+    //
+    //
 
-    // add items to playlist (100 song IDS per call)
-    // newPlaylist.song(forEach).song.track.id
+    //
+    //
+    //
+
+    //
+    //
+    //
+
+    //
+    //
+    //
+
+    //
+    //
+    //
+
+    //
+    //
+    //
+
+    //
+    //
+    //
+
+    //
+    //
+    //
+
+    //
+    //
+    //
+
+    // // need to fill the uris now!, need track uris
+    // const newPlaylistTrackURIs: NewPlaylistURIS = { uris: [], position: 0 };
+
+    // // it said that when position is omitted, songs will be added to the end, so im trying without position
+    // let innerArray: string[] = [];
+    // let urisArray: string[] = [];
+    // let arrayIndex: number = 0;
+
+    // newPlaylist.forEach((song, index) => {
+    //   // if index is over 100, add songs to next index of urrisArray
+    //   // if (index > 100) {
+    //   //   arrayIndex ++;
+    //   //   urisArray[arrayIndex].push("spotify:track:" + song.track.id);
+    //   // }
+    //   newPlaylistTrackURIs.uris.push("spotify:track:" + song.track.id);
+    // });
+    // console.log(newPlaylistTrackURIs);
+
+    // // console.log(newPlaylist);
+    // // need a new one of these for each 100 songs
+    // const newPlaylistSongsParams = {
+    //   method: "POST",
+    //   headers: {
+    //     Authorization: "Bearer " + token,
+    //     "Content-Type": "application/json",
+    //   },
+    //   body: JSON.stringify(newPlaylistTrackURIs),
+    // };
+
+    // // need to get over 100 songs working, will need to make multiple songParams
+    // console.log(newPlaylistSongsParams);
+
+    // this is the call to spotify!
+    // if (newPlaylistData !== null) {
+    //   addSpotifyPlaylistTracks(newPlaylistSongsParams, newPlaylistData.id);
+    //   // need to put this AFTER to make sure it was successfull
+    //   // Turn openSuccess to true for a timer & turn off after timer is done
+    //   // make sure to clear timer?
+    //   setOpenSuccess(true);
+    //   // timer for 3 seconds
+    //   //
+    //   setTimeout(() => {
+    //     setOpenSuccess(false);
+    //   }, 3000);
+    // }
   };
 
   return (

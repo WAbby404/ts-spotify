@@ -69,7 +69,7 @@ export const MusicAPI = {
       });
       return dataArray[0].playlistId ? dataArray : null;
     } catch (error) {
-      console.log("error");
+      // console.log("error");
       console.log(error);
       return null;
     }

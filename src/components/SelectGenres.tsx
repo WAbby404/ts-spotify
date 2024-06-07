@@ -44,11 +44,11 @@ function SelectGenres(props: SelectGenresProps) {
       props.setGenres(oldState);
     }
     props.setCount(props.count + 1);
-    console.log(props.genres);
+    // console.log(props.genres);
   };
 
   const addGenre = (inputGenre: string) => {
-    console.log(inputGenre);
+    // console.log(inputGenre);
     let oldGenres = commonGenres;
     oldGenres.push(inputGenre);
     setCommonGenres(oldGenres);

@@ -1,5 +1,26 @@
 // ryancavanagh in node_modules for spotify types
 
+export type NewPlaylistURIS = {
+  uris: string[];
+  position: number;
+};
+
+export type SpotifyParams = {
+  method: string;
+  headers: {
+    Authorization: string;
+  };
+};
+
+export type NewPlaylistParams = {
+  method: string;
+  headers: {
+    Authorization: string;
+    "Content-Type": "application/json";
+  };
+  body: string;
+};
+
 export type PlaylistData = {
   title: string;
   img: string;
@@ -11,13 +32,6 @@ export type UserData = {
   name: string;
   img: string;
   id: string;
-};
-
-export type SpotifyParams = {
-  method: string;
-  headers: {
-    Authorization: string;
-  };
 };
 
 export type PopupData = {
