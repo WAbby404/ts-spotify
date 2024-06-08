@@ -416,8 +416,9 @@ function App() {
 
     newPlaylist.forEach((song, index) => {
       // work on if statement (if a whole number then) (mod or division)
-      if (index % 100 === 0) {
+      if ((1 + index) % 100 === 0 || newPlaylist.length === index + 1) {
         tempArray.uris.push("spotify:track:" + song.track.id);
+        console.log(tempArray.uris.length);
         allCallInfo.push({
           method: "POST",
           headers: {
@@ -431,16 +432,16 @@ function App() {
         tempArray.uris.push("spotify:track:" + song.track.id);
       }
 
-      if (index === newPlaylist.length) {
-        allCallInfo.push({
-          method: "POST",
-          headers: {
-            Authorization: "Bearer " + token,
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(tempArray),
-        });
-      }
+      // if (index === newPlaylist.length) {
+      //   allCallInfo.push({
+      //     method: "POST",
+      //     headers: {
+      //       Authorization: "Bearer " + token,
+      //       "Content-Type": "application/json",
+      //     },
+      //     body: JSON.stringify(tempArray),
+      //   });
+      // }
     });
 
     console.log(allCallInfo);
@@ -449,6 +450,19 @@ function App() {
       console.log(callInfo.body);
     });
 
+    // this is the call to spotify!
+    if (newPlaylistData !== null) {
+      addSpotifyPlaylistTracks(newPlaylistSongsParams, newPlaylistData.id);
+      // need to put this AFTER to make sure it was successfull
+      // Turn openSuccess to true for a timer & turn off after timer is done
+      // make sure to clear timer?
+      setOpenSuccess(true);
+      // timer for 3 seconds
+      //
+      setTimeout(() => {
+        setOpenSuccess(false);
+      }, 3000);
+    }
     //
     //
     //
@@ -520,20 +534,6 @@ function App() {
 
     // // need to get over 100 songs working, will need to make multiple songParams
     // console.log(newPlaylistSongsParams);
-
-    // this is the call to spotify!
-    // if (newPlaylistData !== null) {
-    //   addSpotifyPlaylistTracks(newPlaylistSongsParams, newPlaylistData.id);
-    //   // need to put this AFTER to make sure it was successfull
-    //   // Turn openSuccess to true for a timer & turn off after timer is done
-    //   // make sure to clear timer?
-    //   setOpenSuccess(true);
-    //   // timer for 3 seconds
-    //   //
-    //   setTimeout(() => {
-    //     setOpenSuccess(false);
-    //   }, 3000);
-    // }
   };
 
   return (
