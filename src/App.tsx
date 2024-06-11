@@ -348,55 +348,10 @@ function App() {
       }),
     };
 
-    // gets the new playlist id
-    // let newPlaylistID: string = "";
-    // adds repeat songs, fix this somewhere?
-
     let newPlaylistData = await createSpotifyPlaylist(
       newPlaylistParams,
       userData.id
     );
-    // if (newPlaylistData !== null) {
-    //   newPlaylistID = newPlaylistData.id;
-    // }
-
-    //
-    //
-    //
-
-    //
-    //
-    //
-
-    //
-    //
-    //
-
-    //
-    //
-    //
-
-    //
-    //
-    // //
-    //
-    //
-
-    //
-    //
-    //
-
-    //
-    //
-    //
-
-    //
-    //
-    //
-
-    //
-    //
-    //
 
     console.log(newPlaylist);
 
@@ -437,50 +392,6 @@ function App() {
         setOpenSuccess(false);
       }, 3000);
     }
-
-    //
-    //
-    //
-
-    //
-    //
-    //
-
-    //
-    //
-    //
-
-    // // need to fill the uris now!, need track uris
-    // const newPlaylistTrackURIs: NewPlaylistURIS = { uris: [], position: 0 };
-
-    // // it said that when position is omitted, songs will be added to the end, so im trying without position
-    // let innerArray: string[] = [];
-    // let urisArray: string[] = [];
-    // let arrayIndex: number = 0;
-
-    // newPlaylist.forEach((song, index) => {
-    //   // if index is over 100, add songs to next index of urrisArray
-    //   // if (index > 100) {
-    //   //   arrayIndex ++;
-    //   //   urisArray[arrayIndex].push("spotify:track:" + song.track.id);
-    //   // }
-    //   newPlaylistTrackURIs.uris.push("spotify:track:" + song.track.id);
-    // });
-    // console.log(newPlaylistTrackURIs);
-
-    // // console.log(newPlaylist);
-    // // need a new one of these for each 100 songs
-    // const newPlaylistSongsParams = {
-    //   method: "POST",
-    //   headers: {
-    //     Authorization: "Bearer " + token,
-    //     "Content-Type": "application/json",
-    //   },
-    //   body: JSON.stringify(newPlaylistTrackURIs),
-    // };
-
-    // // need to get over 100 songs working, will need to make multiple songParams
-    // console.log(newPlaylistSongsParams);
   };
 
   return (
