@@ -349,13 +349,13 @@ function App() {
     };
 
     // gets the new playlist id
-    let newPlaylistID: string = "";
+    // let newPlaylistID: string = "";
     // adds repeat songs, fix this somewhere?
 
-    // let newPlaylistData = await createSpotifyPlaylist(
-    //   newPlaylistParams,
-    //   userData.id
-    // );
+    let newPlaylistData = await createSpotifyPlaylist(
+      newPlaylistParams,
+      userData.id
+    );
     // if (newPlaylistData !== null) {
     //   newPlaylistID = newPlaylistData.id;
     // }
@@ -398,15 +398,6 @@ function App() {
     //
     //
 
-    // const newPlaylistSongsParams = {
-    //   method: "POST",
-    //   headers: {
-    //     Authorization: "Bearer " + token,
-    //     "Content-Type": "application/json",
-    //   },
-    //   body: JSON.stringify(""),
-    // };
-
     console.log(newPlaylist);
 
     // array of newPlaylistParams objects for call to map over w/ promise.all
@@ -431,65 +422,21 @@ function App() {
       } else {
         tempArray.uris.push("spotify:track:" + song.track.id);
       }
-
-      // if (index === newPlaylist.length) {
-      //   allCallInfo.push({
-      //     method: "POST",
-      //     headers: {
-      //       Authorization: "Bearer " + token,
-      //       "Content-Type": "application/json",
-      //     },
-      //     body: JSON.stringify(tempArray),
-      //   });
-      // }
     });
 
     console.log(allCallInfo);
 
     allCallInfo.forEach((callInfo) => {
-      console.log(callInfo.body);
+      console.log(callInfo);
     });
 
-    // this is the call to spotify!
-    if (newPlaylistData !== null) {
-      addSpotifyPlaylistTracks(newPlaylistSongsParams, newPlaylistData.id);
-      // need to put this AFTER to make sure it was successfull
-      // Turn openSuccess to true for a timer & turn off after timer is done
-      // make sure to clear timer?
+    if (allCallInfo.length > 0 && token !== undefined && newPlaylistData) {
+      addSpotifyPlaylistTracks(allCallInfo, newPlaylistData.id);
       setOpenSuccess(true);
-      // timer for 3 seconds
-      //
       setTimeout(() => {
         setOpenSuccess(false);
       }, 3000);
     }
-    //
-    //
-    //
-
-    //
-    //
-    //
-
-    //
-    //
-    //
-
-    //
-    //
-    //
-
-    //
-    //
-    //
-
-    //
-    //
-    //
-
-    //
-    //
-    //
 
     //
     //

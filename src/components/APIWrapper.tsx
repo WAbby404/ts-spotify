@@ -4,6 +4,7 @@ import {
   PlaylistData,
   PlaylistTrackObject,
   PlaylistBaseObject,
+  NewPlaylistParams,
 } from "./types";
 
 export const MusicAPI = {
@@ -210,23 +211,62 @@ export const MusicAPI = {
   // },
 
   addSpotifyPlaylistTracks: async function (
-    newPlaylistSongsParams: any,
+    allCallInfo: NewPlaylistParams[],
     playlistId: string
   ): Promise<any> {
+    // try {
+    //   const response = await fetch(
+    //     `https://api.spotify.com/v1/playlists/${playlistId}/tracks`,
+    //     newPlaylistSongsParams
+    //   );
+    //   if (!response.ok) {
+    //     throw new Error("Network response was not ok");
+    //   }
+    //   const data = await response.json();
+    //   console.log(data);
+    // } catch (error) {
+    //   console.log(error);
+    //   return null;
+    // }
+
     try {
-      const response = await fetch(
-        `https://api.spotify.com/v1/playlists/${playlistId}/tracks`,
-        // `https://api.spotify.com/v1/playlists/${playlistId}/tracks?uris=${songURIs}`,
-        newPlaylistSongsParams
-      );
-      if (!response.ok) {
-        throw new Error("Network response was not ok");
-      }
-      const data = await response.json();
-      console.log(data);
+      await Promise.all(
+        allCallInfo.map((param) => {
+          fetch(
+            `https://api.spotify.com/v1/playlists/${playlistId}/tracks`,
+            param
+          ).then((r) => r.json());
+        })
+      ).then((response) => {
+        console.log(response);
+      });
     } catch (error) {
+      console.log("promise.all error");
       console.log(error);
-      return null;
+      return null; // or handle the error in some way
     }
+
+    // let urls = calloffets.map((limit, index) => {
+    //   return `https://api.spotify.com/v1/playlists/${playlistId}/tracks${
+    //     index !== 0 ? `?offset=${limit}` : ""
+    //   }`;
+    // });
+    // const allSongs: PlaylistTrackObject[] = [];
+    // try {
+    //   await Promise.all(
+    //     urls.map((url) =>
+    //       fetch(url, playlistDetailsParam).then((r) => r.json())
+    //     )
+    //   ).then((response) => {
+    //     console.log(response);
+    //     response.forEach((songChunk) => {
+    //       allSongs.push(...songChunk.items);
+    //     });
+    //   });
+    // } catch (error) {
+    //   console.log("promise.all error");
+    //   console.log(error);
+    //   return null; // or handle the error in some way
+    // }
   },
 };
