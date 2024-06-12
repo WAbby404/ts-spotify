@@ -10,7 +10,7 @@ import {
   UserData,
   SpotifyParams,
   PopupData,
-  ArtistObjectFull,
+  // ArtistObjectFull,
   NewPlaylistURIS,
   NewPlaylistParams,
 } from "./components/types";
@@ -142,7 +142,7 @@ function App() {
         }
       });
     }
-  }, []);
+  }, []); // eslint-disable-line
 
   const handleLogout = () => {
     // console.log(currentTimeout);

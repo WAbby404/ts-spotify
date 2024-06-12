@@ -1,7 +1,6 @@
 import { Divider, Skeleton } from "@mui/material";
 import PlaylistDetails from "./PlaylistDetails";
 import SelectGenres from "./SelectGenres";
-import EditPlaylist from "./EditNewPlaylist";
 import { PlaylistData, UserData } from "./types";
 import { useState } from "react";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";

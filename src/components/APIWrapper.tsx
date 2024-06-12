@@ -190,38 +190,18 @@ export const MusicAPI = {
     }
   },
 
-  // addSpotifyPlaylistImage: async function (
-  //   newPlaylistImageParams: any,
-  //   playlistId: string
-  // ): Promise<any> {
-  //   try {
-  //     const response = await fetch(
-  //       `https://api.spotify.com/v1/playlists/${playlistId}/images`,
-  //       newPlaylistImageParams
-  //     );
-  //     if (!response.ok) {
-  //       throw new Error("Network response was not ok");
-  //     }
-  //     // const data = await response.json();
-  //     // console.log(data);
-  //   } catch (error) {
-  //     console.log(error);
-  //     return null;
-  //   }
-  // },
-
   addSpotifyPlaylistTracks: async function (
     allCallInfo: NewPlaylistParams[],
     playlistId: string
   ): Promise<any> {
     try {
       await Promise.all(
-        allCallInfo.map((param) => {
+        allCallInfo.map((param) =>
           fetch(
             `https://api.spotify.com/v1/playlists/${playlistId}/tracks`,
             param
-          ).then((r) => r.json());
-        })
+          ).then((r) => r.json())
+        )
       ).then((response) => {
         console.log(response);
         return response;

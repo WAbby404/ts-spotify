@@ -1,4 +1,3 @@
-import { Avatar, Typography } from "@mui/material";
 import { PlaylistData, UserData } from "./types";
 
 type PlaylistDetailsProps = {
@@ -28,7 +27,7 @@ function PlaylistDetails({
         </h3>
         <div className="flex gap-1.5 items-center">
           <img src={userData.img} className="h-8 rounded-full" alt="User" />
-          <Typography>{userData.name}</Typography>
+          <h3>{userData.name}</h3>
           <div>
             <p className="italic font-thin">
               {currentPlaylist.totalSongs} songs

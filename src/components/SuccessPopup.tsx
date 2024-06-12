@@ -1,4 +1,4 @@
-import Snackbar, { SnackbarOrigin } from "@mui/material/Snackbar";
+import Snackbar from "@mui/material/Snackbar";
 
 type SuccessPopupProps = {
   openSuccess: boolean;
