@@ -126,6 +126,11 @@ function EditPlaylist(props: NewPlaylistProps) {
                     closed && window.innerWidth < 1280 ? "hidden" : ""
                   }`}
                 >
+                  {/* need to include metadata for SPOTIFY artists / songs */}
+                  {/* so like links to the song on spotify if clicked */}
+                  {/* https://developer.spotify.com/documentation/design */}
+                  {/* maybe we can include the spotify logo */}
+                  {/* https://developer.spotify.com/documentation/design#using-our-logo */}
                   {props.newPlaylist.length > 0 ? (
                     props.newPlaylist.map((song, index) => {
                       return (

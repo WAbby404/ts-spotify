@@ -89,12 +89,14 @@ function App() {
     let token: string | null | undefined = null;
 
     if (!token && hash) {
+      console.log(hash);
       token = hash
         .substring(1)
         .split("&")
         .find((element) => element.startsWith("access_token"))
         ?.split("=")[1];
       setToken(token);
+      console.log(token);
       // When this ^ happens, start an hour timer
       // After timer finishes set expired state to true
       window.location.hash = "";
@@ -355,16 +357,18 @@ function App() {
 
     console.log(newPlaylist);
 
-    // array of newPlaylistParams objects for call to map over w/ promise.all
+    // Array of newPlaylistParams objects for call to map over w/ promise.all
     let allCallInfo: NewPlaylistParams[] = [];
 
     let tempArray: NewPlaylistURIS = { uris: [], position: 0 };
 
+    // For each 100 songs, or under 100 but reached end of playlist
+    // add current song to list of current 100 songs and push param obj (with list) to array
+    // or add current song to list of current 100 songs
     newPlaylist.forEach((song, index) => {
-      // work on if statement (if a whole number then) (mod or division)
       if ((1 + index) % 100 === 0 || newPlaylist.length === index + 1) {
         tempArray.uris.push("spotify:track:" + song.track.id);
-        console.log(tempArray.uris.length);
+
         allCallInfo.push({
           method: "POST",
           headers: {
@@ -379,12 +383,6 @@ function App() {
       }
     });
 
-    console.log(allCallInfo);
-
-    allCallInfo.forEach((callInfo) => {
-      console.log(callInfo);
-    });
-
     if (allCallInfo.length > 0 && token !== undefined && newPlaylistData) {
       addSpotifyPlaylistTracks(allCallInfo, newPlaylistData.id);
       setOpenSuccess(true);
@@ -392,6 +390,12 @@ function App() {
         setOpenSuccess(false);
       }, 3000);
     }
+
+    // console.log(allCallInfo);
+
+    // allCallInfo.forEach((callInfo) => {
+    //   console.log(callInfo);
+    // });
   };
 
   return (

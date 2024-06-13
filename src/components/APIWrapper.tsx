@@ -207,9 +207,8 @@ export const MusicAPI = {
         return response;
       });
     } catch (error) {
-      console.log("promise.all error");
       console.log(error);
-      return null; // or handle the error in some way
+      return null;
     }
   },
 };
