@@ -122,7 +122,7 @@ function App() {
 
       let profileId = "";
 
-      fetchUserData(profileParams, profileId).then((data) => {
+      fetchUserData(profileParams).then((data) => {
         if (data !== null) {
           setUserData(data);
         }
@@ -136,7 +136,7 @@ function App() {
         },
       };
 
-      fetchPlaylistData(playlistParams, profileId).then((dataArray) => {
+      fetchPlaylistData(playlistParams, userData.id).then((dataArray) => {
         if (dataArray != null) {
           setPlaylistData(dataArray);
         }
