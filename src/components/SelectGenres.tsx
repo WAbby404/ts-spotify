@@ -13,9 +13,7 @@ type SelectGenresProps = {
   generateNewPlaylist: () => void;
 };
 
-// what file is it called in?
 function SelectGenres(props: SelectGenresProps) {
-  // I should just have an array of common genres here & map to buttons and return its text back to App
   const [commonGenres, setCommonGenres] = useState<string[]>([
     "+",
     "pop",
@@ -33,7 +31,7 @@ function SelectGenres(props: SelectGenresProps) {
     "alternative",
   ]);
 
-  const [openGenrePopup, setOpenGenrePopup] = useState(false);
+  const [openGenrePopup, setOpenGenrePopup] = useState<boolean>(false);
 
   const selectGenre = (genre: string) => {
     if (props.genres.includes(genre)) {
@@ -44,18 +42,14 @@ function SelectGenres(props: SelectGenresProps) {
       props.setGenres(oldState);
     }
     props.setCount(props.count + 1);
-    // console.log(props.genres);
   };
 
   const addGenre = (inputGenre: string) => {
-    // console.log(inputGenre);
     let oldGenres = commonGenres;
     oldGenres.push(inputGenre);
     setCommonGenres(oldGenres);
   };
 
-  // if closed and not highlighted, hide | if closed and highlighted, show | if open, show
-  // if window.innerwidth is bigger than 1280 return block
   const generateButtonDisplay = (genre: string) => {
     switch (props.closed) {
       case window.innerWidth >= 1280:

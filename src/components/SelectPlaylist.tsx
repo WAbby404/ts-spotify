@@ -8,7 +8,6 @@ type PlaylistProps = {
   playlists: PlaylistData[];
 };
 
-// on hover, change background color
 function SelectPlaylist(playlistProps: PlaylistProps) {
   const [highlighted, setHighlighted] = useState(-1);
   const [closed, setClosed] = useState(false);
@@ -31,7 +30,6 @@ function SelectPlaylist(playlistProps: PlaylistProps) {
       </div>
 
       {playlistProps.playlists.map((playlist, index) => {
-        // console.log(playlist);
         return (
           <div
             className={`flex rounded-md justify-center gap-2 items-center bg-[#A7B6A9] overflow-hidden bg-opacity-25 hover:bg-opacity-50 
@@ -51,7 +49,6 @@ function SelectPlaylist(playlistProps: PlaylistProps) {
             }}
           >
             <img
-              //  || require("../images/playlistIcon.png")
               src={playlist.img}
               alt={`${playlist.title}'s album cover`}
               className="h-[4rem]"

@@ -10,7 +10,6 @@ import {
   UserData,
   SpotifyParams,
   PopupData,
-  // ArtistObjectFull,
   NewPlaylistURIS,
   NewPlaylistParams,
 } from "./components/types";
@@ -66,7 +65,6 @@ function App() {
     fetchPlaylistTracks,
     fetchArtistDetails,
     createSpotifyPlaylist,
-    // addSpotifyPlaylistImage,
     addSpotifyPlaylistTracks,
   } = MusicAPI;
 
@@ -147,7 +145,6 @@ function App() {
   }, []); // eslint-disable-line
 
   const handleLogout = () => {
-    // console.log(currentTimeout);
     // set all other states to their default state for no funkiness if they login, mess about, log out and then back in
     setCount(0);
     setToken("");
@@ -222,7 +219,7 @@ function App() {
         }
       });
     }
-    // console.log(title);
+
     setNewPlaylistTitle(title);
   };
 
@@ -239,11 +236,8 @@ function App() {
         );
         // run with current artists
       }
-      //! if same playlist as last time, use same artists and songs, so no more calls
-      // playlist id
-      // repeatID state?
+      //! if same playlist as last time, use same artists and songs, so less expensive calls to the API are made
 
-      // need to get back an array of songs
       const playlistDetailsParam = {
         method: "GET",
         headers: {
@@ -261,8 +255,6 @@ function App() {
       if (fullPlaylist !== null) {
         fullPlaylist.forEach((song: any) => {
           song.track.artists.forEach((artist: any) => {
-            // each id add it to set
-            // artist.track.artists[0].id
             uniqueArtistIDs.add(artist.id);
           });
         });
@@ -390,12 +382,6 @@ function App() {
         setOpenSuccess(false);
       }, 3000);
     }
-
-    // console.log(allCallInfo);
-
-    // allCallInfo.forEach((callInfo) => {
-    //   console.log(callInfo);
-    // });
   };
 
   return (

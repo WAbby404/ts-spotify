@@ -26,9 +26,6 @@ function TextBoxPopup(props: TextBoxPopupProps) {
     if (props.commonGenres.includes(genre)) {
       errors.push("Genre must be unique");
     } else if (!regex.test(genre)) {
-      // tests that it only contains letters
-      // must also removes leading and following spaces
-      // does not allow for spaces, maybe its for the best
       errors.push("Genre must contain only letters");
     } else if (genre.length > 20) {
       errors.push("Genre must be below 20 characters");
@@ -59,7 +56,6 @@ function TextBoxPopup(props: TextBoxPopupProps) {
               const formData = new FormData(event.currentTarget);
               const formJson = Object.fromEntries((formData as any).entries());
               const genre: string = formJson.genre;
-              // if no errors, add it
               if (validateGenre(genre).length === 0) {
                 props.addGenre(genre.toLowerCase());
                 props.selectGenre(genre);

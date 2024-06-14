@@ -30,7 +30,6 @@ function EditPlaylist(props: NewPlaylistProps) {
   };
 
   const render = () => {
-    // console.log(props.newPlaylist);
     switch (props.isLoading) {
       case true:
         return (

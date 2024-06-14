@@ -10,8 +10,7 @@ import {
 export const MusicAPI = {
   // Get playlist data
   fetchUserData: async function (
-    profileParams: SpotifyParams,
-    profileId: string
+    profileParams: SpotifyParams
   ): Promise<UserData | null> {
     let userObj: UserData = {
       name: "",
@@ -34,7 +33,6 @@ export const MusicAPI = {
           img: data.images[0].url,
           id: data.id,
         };
-        profileId = data.id;
         return userObj;
       } else {
         return null;
