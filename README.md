@@ -9,7 +9,7 @@ Create playlists of your dreams with these features:
 
 - Extends Spotifys Playlist capabilities
 - Safely and securely Login with Spotifys API
-- Select any private or public playlist in your library
+- Choose any private or public playlist in your library
 - Add custom Genres
 - Select multiple genres for a fun twist
 - Remove unwanted songs from your newly generated playlist
@@ -23,7 +23,7 @@ Create playlists of your dreams with these features:
 Built to extend Spotifys playlist capability, at no cost to you!
 Login, select a playlist, select a genre, and create the playlist of your dreams!
 
-<img src="public/ReadmeBanner.png" alt="Playlists and Genres Main Screen" width="800">
+<img src="public/ReadmeScreenshot.png" alt="Playlists and Genres Main Screen" width="800">
 <br/>
 
 ## About Me
