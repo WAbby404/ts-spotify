@@ -158,6 +158,8 @@ function EditPlaylist(props: NewPlaylistProps) {
                           </h4>
                           <a
                             className="text-[#C7C7C7]"
+                            target="_blank"
+                            rel="noopener noreferrer"
                             href={`${song.track.external_urls.spotify}`}
                           >
                             with logo? Play on Spotify
