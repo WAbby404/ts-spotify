@@ -120,7 +120,7 @@ function App() {
         },
       };
 
-      let profileId = "";
+      // let profileId = "";
 
       fetchUserData(profileParams).then((data) => {
         if (data !== null) {
