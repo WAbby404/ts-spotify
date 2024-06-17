@@ -143,7 +143,7 @@ function EditPlaylist(props: NewPlaylistProps) {
                           <div className="flex gap-2 justify-center items-center">
                             <img
                               src={song.track.album.images[2].url}
-                              alt={`song.track.album.artists[0].name album cover`}
+                              alt={`${song.track.album.artists[0].name} album cover`}
                             />
                             <div className="">
                               <h4>{song.track.name}</h4>
@@ -156,14 +156,22 @@ function EditPlaylist(props: NewPlaylistProps) {
                           <h4 className="hidden xl:inline xl:grow text-[#C7C7C7]">
                             {song.track.album.name}
                           </h4>
-                          <a
-                            className="text-[#C7C7C7]"
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            href={`${song.track.external_urls.spotify}`}
-                          >
-                            with logo? Play on Spotify
-                          </a>
+                          <h4>
+                            <a
+                              className="text-[#C7C7C7]"
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              href={`${song.track.external_urls.spotify}`}
+                            >
+                              <img
+                                src={require("../images/Spotify_White.png")}
+                                alt="Spotify logo"
+                                className="w-4"
+                              />
+                              Play on Spotify
+                            </a>
+                          </h4>
+
                           <h4 className="hidden xl:inline text-[#C7C7C7]">
                             {convertFromMs(song.track.duration_ms)}
                           </h4>
