@@ -153,7 +153,7 @@ function EditPlaylist(props: NewPlaylistProps) {
                           </h4>
                           <h4>
                             <a
-                              className="text-[#C7C7C7] flex gap items-center"
+                              className="text-[#C7C7C7] flex gap-2 items-center"
                               target="_blank"
                               rel="noopener noreferrer"
                               href={`${song.track.external_urls.spotify}`}
@@ -161,7 +161,7 @@ function EditPlaylist(props: NewPlaylistProps) {
                               <img
                                 src={require("../images/Spotify_White.png")}
                                 alt="Spotify logo"
-                                className="w-[10px] h-[10px]"
+                                className="w-[20px] h-[20px]"
                               />
                               Play on Spotify
                             </a>
