@@ -106,13 +106,13 @@ export const MusicAPI = {
           fetch(url, playlistDetailsParam).then((r) => r.json())
         )
       ).then((response) => {
-        console.log(response);
+        // console.log(response);
         response.forEach((songChunk) => {
           allSongs.push(...songChunk.items);
         });
       });
     } catch (error) {
-      console.log("promise.all error");
+      // console.log("promise.all error");
       console.log(error);
       return null; // or handle the error in some way
     }

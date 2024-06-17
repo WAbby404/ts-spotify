@@ -140,9 +140,7 @@ function EditPlaylist(props: NewPlaylistProps) {
                           <h3 className="hidden xl:inline text-[#C7C7C7]">
                             {index + 1}
                           </h3>
-
                           <div className="flex gap-2 justify-center items-center">
-                            {/* grid? for each things width */}
                             <img
                               src={song.track.album.images[2].url}
                               alt={`song.track.album.artists[0].name album cover`}
@@ -158,6 +156,12 @@ function EditPlaylist(props: NewPlaylistProps) {
                           <h4 className="hidden xl:inline xl:grow text-[#C7C7C7]">
                             {song.track.album.name}
                           </h4>
+                          <a
+                            className="text-[#C7C7C7]"
+                            href={`${song.track.external_urls.spotify}`}
+                          >
+                            with logo? Play on Spotify
+                          </a>
                           <h4 className="hidden xl:inline text-[#C7C7C7]">
                             {convertFromMs(song.track.duration_ms)}
                           </h4>

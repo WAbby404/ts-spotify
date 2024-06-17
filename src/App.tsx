@@ -191,7 +191,7 @@ function App() {
   ) => {
     // updates state to current playlists details
     // and grabs that playlists details for later on
-    console.log(playlist);
+    // console.log(playlist);
     setSelectedPlaylist(playlist);
     setGenres([]);
     setNewPlaylist([]);
@@ -305,6 +305,7 @@ function App() {
       setNewPlaylist(newPlaylistTEMP);
       setRepeatID(selectedPlaylist.playlistId);
       setIsLoading(false);
+      console.log(newPlaylistTEMP);
     }
     waitForPlaylists();
   };
