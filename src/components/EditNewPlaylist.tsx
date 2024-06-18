@@ -132,10 +132,10 @@ function EditPlaylist(props: NewPlaylistProps) {
                           key={index}
                           className="flex xl:items-center xl:gap-4"
                         >
-                          <h3 className="hidden xl:inline text-[#C7C7C7]">
-                            {index + 1}
-                          </h3>
                           <div className="flex gap-2 justify-center items-center">
+                            <h3 className="hidden xl:inline text-[#C7C7C7]">
+                              {index + 1}
+                            </h3>
                             <img
                               src={song.track.album.images[2].url}
                               alt={`${song.track.album.artists[0].name} album cover`}
@@ -148,10 +148,10 @@ function EditPlaylist(props: NewPlaylistProps) {
                             </div>
                           </div>
 
-                          <h4 className="hidden xl:inline xl:grow text-[#C7C7C7]">
+                          <h4 className="hidden text-center xl:inline xl:grow text-[#C7C7C7]">
                             {song.track.album.name}
                           </h4>
-                          <h4 className="hidden xl:inline xl:grow text-[#C7C7C7]">
+                          <h4 className="hidden text-center xl:inline xl:grow text-[#C7C7C7]">
                             <a
                               className="text-[#C7C7C7] flex gap-4 items-center"
                               target="_blank"
@@ -167,7 +167,7 @@ function EditPlaylist(props: NewPlaylistProps) {
                             </a>
                           </h4>
 
-                          <h4 className="hidden xl:inline xl:grow text-[#C7C7C7]">
+                          <h4 className="hidden text-center xl:inline xl:grow text-[#C7C7C7]">
                             {convertFromMs(song.track.duration_ms)}
                           </h4>
                           <button
