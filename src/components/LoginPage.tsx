@@ -11,8 +11,7 @@ function LoginPage() {
       />
       <h1 className="text-white font-extrabold">Playlists and Genres</h1>
       <p className="text-white font-light xl:pb-5">
-        a playlist generator, build a playlist from a playlist and a genre -
-        powered by Spotify
+        a playlist generator - powered by Spotify
       </p>
 
       <Button onClick={() => Login()} variant="contained">

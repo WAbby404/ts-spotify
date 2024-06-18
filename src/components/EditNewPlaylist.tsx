@@ -110,11 +110,10 @@ function EditPlaylist(props: NewPlaylistProps) {
                     closed && window.innerWidth < 1280 ? "hidden" : ""
                   }`}
                 >
-                  <div className="hidden xl:block">
+                  <div className="hidden xl:flex xl:gap-3">
                     <TagIcon />
+                    <h3>TITLE</h3>
                   </div>
-
-                  <h3 className="hidden xl:block">TITLE</h3>
                   <h3 className="hidden xl:block">ALBUM</h3>
                   <div className="hidden xl:block">
                     <AccessTimeFilledIcon />
