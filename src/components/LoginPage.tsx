@@ -9,11 +9,9 @@ function LoginPage() {
         alt="tsSpotify logo"
         className="w-1/3 m-auto"
       />
-      <h1 className="text-white font-extrabold">
-        Spotify Genre Playlist Maker
-      </h1>
+      <h1 className="text-white font-extrabold">Playlists and Genres</h1>
       <p className="text-white font-light xl:pb-5">
-        Build playlists of genres from other playlists
+        a playlist generator - powered by Spotify
       </p>
       <Button onClick={() => Login()} variant="contained">
         Login

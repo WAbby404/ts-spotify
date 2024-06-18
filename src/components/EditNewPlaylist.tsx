@@ -130,7 +130,7 @@ function EditPlaylist(props: NewPlaylistProps) {
                       return (
                         <li
                           key={index}
-                          className="flex justify-between xl:items-start xl:gap-4"
+                          className="flex xl:items-center xl:gap-4"
                         >
                           <h3 className="hidden xl:inline text-[#C7C7C7]">
                             {index + 1}
@@ -151,9 +151,9 @@ function EditPlaylist(props: NewPlaylistProps) {
                           <h4 className="hidden xl:inline xl:grow text-[#C7C7C7]">
                             {song.track.album.name}
                           </h4>
-                          <h4>
+                          <h4 className="hidden xl:inline xl:grow text-[#C7C7C7]">
                             <a
-                              className="text-[#C7C7C7] flex gap-2 items-center"
+                              className="text-[#C7C7C7] flex gap-4 items-center"
                               target="_blank"
                               rel="noopener noreferrer"
                               href={`${song.track.external_urls.spotify}`}
@@ -167,7 +167,7 @@ function EditPlaylist(props: NewPlaylistProps) {
                             </a>
                           </h4>
 
-                          <h4 className="hidden xl:inline text-[#C7C7C7]">
+                          <h4 className="hidden xl:inline xl:grow text-[#C7C7C7]">
                             {convertFromMs(song.track.duration_ms)}
                           </h4>
                           <button
