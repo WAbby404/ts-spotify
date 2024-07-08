@@ -110,12 +110,12 @@ function EditPlaylist(props: NewPlaylistProps) {
                     closed && window.innerWidth < 1280 ? "hidden" : ""
                   }`}
                 >
-                  <div className="hidden xl:flex xl:gap-3">
+                  <div className="hidden xl:flex xl:gap-2">
                     <TagIcon />
                     <h3>TITLE</h3>
                   </div>
                   <h3 className="hidden xl:block">ALBUM</h3>
-                  <div className="hidden xl:block">
+                  <div className="hidden xl:block xl:mr-4">
                     <AccessTimeFilledIcon />
                   </div>
                 </div>
@@ -152,7 +152,7 @@ function EditPlaylist(props: NewPlaylistProps) {
                           </h4>
                           <h4 className="hidden text-center xl:inline xl:grow text-[#C7C7C7]">
                             <a
-                              className="text-[#C7C7C7] flex gap-4 items-center"
+                              className="text-[#C7C7C7] flex gap-3 items-center"
                               target="_blank"
                               rel="noopener noreferrer"
                               href={`${song.track.external_urls.spotify}`}
@@ -170,7 +170,7 @@ function EditPlaylist(props: NewPlaylistProps) {
                             {convertFromMs(song.track.duration_ms)}
                           </h4>
                           <button
-                            className="hover:text-red-500"
+                            className="hover:text-red-500 xl:mr-2"
                             onClick={() => props.removeSong(index)}
                           >
                             <CloseIcon />
