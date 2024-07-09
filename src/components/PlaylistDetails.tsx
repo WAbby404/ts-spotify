@@ -1,16 +1,14 @@
-import { PlaylistData, UserData } from "./types";
+import { PlaylistData } from "./types";
+import { useContext } from "react";
+import { UserDataContext } from "../App";
 
 type PlaylistDetailsProps = {
   currentPlaylist: PlaylistData;
-  userData: UserData;
   closed: boolean;
 };
 
-function PlaylistDetails({
-  currentPlaylist,
-  userData,
-  closed,
-}: PlaylistDetailsProps) {
+function PlaylistDetails({ currentPlaylist, closed }: PlaylistDetailsProps) {
+  const userData = useContext(UserDataContext);
   return (
     <div
       className={`flex text-white gap-2 pt-2 ${closed ? "hidden xl:flex" : ""}`}

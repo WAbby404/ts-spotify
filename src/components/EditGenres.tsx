@@ -44,7 +44,6 @@ function EditGenres(props: EditPlaylistProps) {
           <div className="flex flex-col gap-2 md:p-5">
             <PlaylistDetails
               closed={closed}
-              userData={props.userData}
               currentPlaylist={props.selectedPlaylist}
             />
             <Divider />

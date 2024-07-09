@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, createContext } from "react";
 import LoginPage from "./components/LoginPage";
 import SelectPlaylist from "./components/SelectPlaylist";
 import Logout from "./components/Logout";
@@ -19,6 +19,12 @@ import ErrorPopup from "./components/ErrorPopup";
 import { ThemeProvider, createTheme } from "@mui/material";
 import { green } from "@mui/material/colors";
 
+export const UserDataContext = createContext<UserData>({
+  name: "",
+  img: "",
+  id: "",
+});
+
 function App() {
   const [count, setCount] = useState(0);
   const [token, setToken] = useState<string | undefined>("");
@@ -26,6 +32,7 @@ function App() {
   const [currentTimeout, setCurrentTimeout] = useState<null | NodeJS.Timeout>(
     null
   );
+
   const [userData, setUserData] = useState<UserData>({
     name: "",
     img: "",
@@ -387,59 +394,61 @@ function App() {
 
   return (
     <ThemeProvider theme={theme}>
-      <div className="max-w-full h-screen justify-center flex bg-gradient-to-b from-[#1b2e19] to-[#0E1C0D]">
-        {token ? (
-          <div className="flex flex-col gap-3 w-[96%] p-3 max-h-full grow overflow-y-scroll md:items-center xl:items-stretch xl:grid xl:grid-cols-10 xl:grid-rows-10 xl:gap-4 xl:h-[100vh] xl:p-4">
-            <ErrorPopup
-              popupData={popupData}
-              handlePopupExit={handlePopupExit}
-            />
-            <SuccessPopup openSuccess={openSuccess} />
-            <div className="flex flex-col w-full md:items-center xl:col-span-2 xl:row-span-10 xl:gap-3">
-              <SelectPlaylist
-                updateCurrentPlaylist={updateCurrentPlaylist}
-                playlists={playlistData}
+      <UserDataContext.Provider value={userData}>
+        <div className="max-w-full h-screen justify-center flex bg-gradient-to-b from-[#1b2e19] to-[#0E1C0D]">
+          {token ? (
+            <div className="flex flex-col gap-3 w-[96%] p-3 max-h-full grow overflow-y-scroll md:items-center xl:items-stretch xl:grid xl:grid-cols-10 xl:grid-rows-10 xl:gap-4 xl:h-[100vh] xl:p-4">
+              <ErrorPopup
+                popupData={popupData}
+                handlePopupExit={handlePopupExit}
               />
-              <div className="hidden xl:block xl:w-full">
+              <SuccessPopup openSuccess={openSuccess} />
+              <div className="flex flex-col w-full md:items-center xl:col-span-2 xl:row-span-10 xl:gap-3">
+                <SelectPlaylist
+                  updateCurrentPlaylist={updateCurrentPlaylist}
+                  playlists={playlistData}
+                />
+                <div className="hidden xl:block xl:w-full">
+                  <Logout handleLogout={handleLogout} userData={userData} />
+                </div>
+              </div>
+
+              <div className="flex flex-col gap-3 w-full md:items-center xl:col-span-8 xl:row-span-10 xl:order-3 xl:flex xl:flex-col">
+                <EditGenres
+                  newPlaylistTitle={newPlaylistTitle}
+                  count={count}
+                  setCount={setCount}
+                  userData={userData}
+                  selectedPlaylist={selectedPlaylist}
+                  newPlaylist={newPlaylist}
+                  genres={genres}
+                  setGenres={setGenres}
+                  removeSong={removeSong}
+                  generateNewPlaylist={generateNewPlaylist}
+                  isLoading={isLoading}
+                />
+                <EditNewPlaylist
+                  genres={genres}
+                  userData={userData}
+                  count={count}
+                  removeSong={removeSong}
+                  isLoading={isLoading}
+                  setCount={setCount}
+                  newPlaylist={newPlaylist}
+                  newPlaylistTitle={newPlaylistTitle}
+                  selectedPlaylist={selectedPlaylist}
+                  createNewPlaylist={createNewPlaylist}
+                />
+              </div>
+              <div className="xl:hidden w-full md:flex md:items-center md:w-[90%]">
                 <Logout handleLogout={handleLogout} userData={userData} />
               </div>
             </div>
-
-            <div className="flex flex-col gap-3 w-full md:items-center xl:col-span-8 xl:row-span-10 xl:order-3 xl:flex xl:flex-col">
-              <EditGenres
-                newPlaylistTitle={newPlaylistTitle}
-                count={count}
-                setCount={setCount}
-                userData={userData}
-                selectedPlaylist={selectedPlaylist}
-                newPlaylist={newPlaylist}
-                genres={genres}
-                setGenres={setGenres}
-                removeSong={removeSong}
-                generateNewPlaylist={generateNewPlaylist}
-                isLoading={isLoading}
-              />
-              <EditNewPlaylist
-                genres={genres}
-                userData={userData}
-                count={count}
-                removeSong={removeSong}
-                isLoading={isLoading}
-                setCount={setCount}
-                newPlaylist={newPlaylist}
-                newPlaylistTitle={newPlaylistTitle}
-                selectedPlaylist={selectedPlaylist}
-                createNewPlaylist={createNewPlaylist}
-              />
-            </div>
-            <div className="xl:hidden w-full md:flex md:items-center md:w-[90%]">
-              <Logout handleLogout={handleLogout} userData={userData} />
-            </div>
-          </div>
-        ) : (
-          <LoginPage />
-        )}
-      </div>
+          ) : (
+            <LoginPage />
+          )}
+        </div>
+      </UserDataContext.Provider>
     </ThemeProvider>
   );
 }
