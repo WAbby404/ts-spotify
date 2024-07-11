@@ -25,6 +25,13 @@ export const UserDataContext = createContext<UserData>({
   id: "",
 });
 
+export const SelectedPlaylistContext = createContext<PlaylistData>({
+  title: "",
+  img: "",
+  playlistId: "",
+  totalSongs: 0,
+});
+
 function App() {
   const [count, setCount] = useState(0);
   const [token, setToken] = useState<string | undefined>("");
@@ -49,6 +56,7 @@ function App() {
     { title: "", img: "", playlistId: "", totalSongs: 0 },
   ]);
 
+  // this one for useContext in PlaylistDetails!
   const [selectedPlaylist, setSelectedPlaylist] = useState<PlaylistData>({
     title: "",
     img: "",
@@ -395,59 +403,61 @@ function App() {
   return (
     <ThemeProvider theme={theme}>
       <UserDataContext.Provider value={userData}>
-        <div className="max-w-full h-screen justify-center flex bg-gradient-to-b from-[#1b2e19] to-[#0E1C0D]">
-          {token ? (
-            <div className="flex flex-col gap-3 w-[96%] p-3 max-h-full grow overflow-y-scroll md:items-center xl:items-stretch xl:grid xl:grid-cols-10 xl:grid-rows-10 xl:gap-4 xl:h-[100vh] xl:p-4">
-              <ErrorPopup
-                popupData={popupData}
-                handlePopupExit={handlePopupExit}
-              />
-              <SuccessPopup openSuccess={openSuccess} />
-              <div className="flex flex-col w-full md:items-center xl:col-span-2 xl:row-span-10 xl:gap-3">
-                <SelectPlaylist
-                  updateCurrentPlaylist={updateCurrentPlaylist}
-                  playlists={playlistData}
+        <SelectedPlaylistContext.Provider value={selectedPlaylist}>
+          <div className="max-w-full h-screen justify-center flex bg-gradient-to-b from-[#1b2e19] to-[#0E1C0D]">
+            {token ? (
+              <div className="flex flex-col gap-3 w-[96%] p-3 max-h-full grow overflow-y-scroll md:items-center xl:items-stretch xl:grid xl:grid-cols-10 xl:grid-rows-10 xl:gap-4 xl:h-[100vh] xl:p-4">
+                <ErrorPopup
+                  popupData={popupData}
+                  handlePopupExit={handlePopupExit}
                 />
-                <div className="hidden xl:block xl:w-full">
+                <SuccessPopup openSuccess={openSuccess} />
+                <div className="flex flex-col w-full md:items-center xl:col-span-2 xl:row-span-10 xl:gap-3">
+                  <SelectPlaylist
+                    updateCurrentPlaylist={updateCurrentPlaylist}
+                    playlists={playlistData}
+                  />
+                  <div className="hidden xl:block xl:w-full">
+                    <Logout handleLogout={handleLogout} userData={userData} />
+                  </div>
+                </div>
+
+                <div className="flex flex-col gap-3 w-full md:items-center xl:col-span-8 xl:row-span-10 xl:order-3 xl:flex xl:flex-col">
+                  <EditGenres
+                    newPlaylistTitle={newPlaylistTitle}
+                    count={count}
+                    setCount={setCount}
+                    userData={userData}
+                    selectedPlaylist={selectedPlaylist}
+                    newPlaylist={newPlaylist}
+                    genres={genres}
+                    setGenres={setGenres}
+                    removeSong={removeSong}
+                    generateNewPlaylist={generateNewPlaylist}
+                    isLoading={isLoading}
+                  />
+                  <EditNewPlaylist
+                    genres={genres}
+                    userData={userData}
+                    count={count}
+                    removeSong={removeSong}
+                    isLoading={isLoading}
+                    setCount={setCount}
+                    newPlaylist={newPlaylist}
+                    newPlaylistTitle={newPlaylistTitle}
+                    selectedPlaylist={selectedPlaylist}
+                    createNewPlaylist={createNewPlaylist}
+                  />
+                </div>
+                <div className="xl:hidden w-full md:flex md:items-center md:w-[90%]">
                   <Logout handleLogout={handleLogout} userData={userData} />
                 </div>
               </div>
-
-              <div className="flex flex-col gap-3 w-full md:items-center xl:col-span-8 xl:row-span-10 xl:order-3 xl:flex xl:flex-col">
-                <EditGenres
-                  newPlaylistTitle={newPlaylistTitle}
-                  count={count}
-                  setCount={setCount}
-                  userData={userData}
-                  selectedPlaylist={selectedPlaylist}
-                  newPlaylist={newPlaylist}
-                  genres={genres}
-                  setGenres={setGenres}
-                  removeSong={removeSong}
-                  generateNewPlaylist={generateNewPlaylist}
-                  isLoading={isLoading}
-                />
-                <EditNewPlaylist
-                  genres={genres}
-                  userData={userData}
-                  count={count}
-                  removeSong={removeSong}
-                  isLoading={isLoading}
-                  setCount={setCount}
-                  newPlaylist={newPlaylist}
-                  newPlaylistTitle={newPlaylistTitle}
-                  selectedPlaylist={selectedPlaylist}
-                  createNewPlaylist={createNewPlaylist}
-                />
-              </div>
-              <div className="xl:hidden w-full md:flex md:items-center md:w-[90%]">
-                <Logout handleLogout={handleLogout} userData={userData} />
-              </div>
-            </div>
-          ) : (
-            <LoginPage />
-          )}
-        </div>
+            ) : (
+              <LoginPage />
+            )}
+          </div>
+        </SelectedPlaylistContext.Provider>
       </UserDataContext.Provider>
     </ThemeProvider>
   );
